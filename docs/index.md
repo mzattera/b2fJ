@@ -1,4 +1,4 @@
-# What is b2fJ?
+﻿# What is b2fJ?
 
 Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
@@ -12,7 +12,7 @@ In this current state, it is basically a straight porting of leJOS RCX to the po
 * Exceptions
 * Float, long, String types (custom implementation)
 
-�and all of its limitations, most noticeably it lacks garbage collection.
+…and all of its limitations, most noticeably it lacks garbage collection.
 
 In addition, being a straight porting, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
 
