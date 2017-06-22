@@ -1,0 +1,66 @@
+# This file contains a list of special signatures for
+# methods used by the VM.
+
+# The VM will index these special signatures based on their
+# order here. Rebuild the VM if this file changes.
+
+# Indices start at 0.
+
+#--------------------------------------
+# Methods invoked by the VM
+#--------------------------------------
+
+main([Ljava/lang/String;)V
+run()V
+<init>()V
+<clinit>()V
+
+#--------------------------------------
+# Native methods
+#--------------------------------------
+
+# java.lang.Object
+notify()V
+notifyAll()V
+wait()V
+wait(J)V
+
+# java.lang.Thread
+start()V
+yield()V
+sleep(J)V
+currentThread()Ljava/lang/Thread;
+getPriority()I
+setPriority(I)V
+interrupt()V
+interrupted()Z
+isInterrupted()Z
+setDaemon(Z)V
+isDaemon()Z
+join()V
+join(J)V
+
+# java.lang.System
+#arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+currentTimeMillis()J
+exit(I)V
+
+# java.lang.Runtime
+freeMemory()J
+totalMemory()J
+
+# java.lang.Throwable
+getMessage()Ljava/lang/String;
+
+# java.lang.Float
+floatToIntBits(F)I
+intBitsToFloat(I)F
+
+# b2fj.io.ConsoleOutputStream
+putCharToStdout0(I)V
+putStringToStdout0(Ljava/lang/String;)V
+
+# b2fj.memory.Memory
+peek(I)I
+poke(II)V
+

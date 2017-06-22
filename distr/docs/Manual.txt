@@ -1,0 +1,119 @@
+*** Installation and Set Up
+
+In order to compile and run your Java programs, you need first of all to have a JDK installed.
+
+Make sure that the JDK folder is in your path or that you set JAVA_HOME to the JDK folder.
+
+Download and unzip the b2fJ distribution. It easier to work if you add the "bin" filder in the distribution to your PATH,
+the below instructions assume you did so; if not, you obviusly must specify the full path for each command in the different compilation steps.
+
+*** Compilation steps
+
+The below steps explain how to compile and run a simple Java program on your C64.
+
+Unfortunately, in order to overcome the limitation of our target platform, several additional steps are required compared to standard Java development.
+
+For our examples we will use a simple HelloWorld.java file.
+
+0. The program
+
+Copy the code below into a file named HelloWorld.java.
+
+
+public class HelloWorld {
+
+	public static void main(String[] args) throws InterruptedException {
+		while (true) {            
+            System.out.print("Hello World! ");
+            Thread.sleep(500);
+        }
+	}
+}
+
+1. from .java to .class
+
+This step will compile HelloWorld.java into corresponding .class file. 
+
+    b2fJc HelloWorld.java
+    
+The above command will invoke the JDK compiler and compile your classes using the b2fJ libraries, insted of the standard ones.
+
+Notice that:
+    * more than one .java file can be passed for compilation (***VERIFY*****)
+    * you can provide a classpath to your  classes and libraries by setting CLASSPATH variable properly.
+
+2. from .class to C
+
+This step squeezes all .class files into a binary format compact enought to be loaded in the target platform.
+
+Starting from the class containing the main() method, all methods invoked by the program are retrieved and corresponding java bytecode is added to the resulting .o file.
+
+This produces a binary that can be thought as a tiny .jar that contains the minimal code required to run your program and that can be executed by the JVM.
+
+However, in order to make the JVM more compact, instead of providing features to load and execute any java bytecode, 
+we translate the .o file into a C header that is then compiled into the JVM. The JVM will then be a single C64 executble containing the actual Java interpreter AND
+the java code.
+
+The below command transforms the .class file into a C header (java_code.h) which is then moved into folder "src\jvm\platform\c64" where the JVM source code resides,
+for later compilation.
+
+    b2fJl HelloWorld
+
+3. Buildig the JVM
+
+Finally, we must re-build the Java Virtual Machine that, as explained above, will embed our program which will be executed when the JVM is launched.
+
+The below command is a batch fie that uses cc65, a 6502 cross-assembler (re)distributed with btfJ, to compile the JVM for the C64.
+
+    buildJVM
+    
+Do not be worried at the many "Warnings" you will see printed; the build will stop only on errors (that will be displayed).
+If the process is successful, a file called "b2fJ.prg" should have been created; this is your JVM.
+
+4. Running the program
+
+Finally, you can now run your Java program on your C64.
+
+To be honest, at the moment I've only ran it on an emulator (let me know if you run b2fJ on an actual C64).
+
+The WinVICE emulator is distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then 
+under "File > Autostard Disk/Tape image" choose the "b2fJ.prg" file you created above.
+
+It will take some time to load, be patient ;-)
+
+*** Putting all together
+
+In most cases, you want to just write some Java and test it right away on the emulator.
+
+All the above steps can be performed with the single command below (which will also launch VICE).
+
+    b2fJGO HelloWorld.java
+    
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+Please download the leJOS documentation from the same location you downloaded this distribution from and consult the "First Steps" section of the Tutorial contained there.
+
+    Set your environment variable LEJOS_HOME to the directory you installed this distribution into
+    Set your environment variable RCXTTY to usb (for USB towers) or COM1 (for serial towers); on Linux, for USB towers RCXTTY might be required to be set to /dev/usb/legousbtower0
+    On Linux, depending on the privilege settings you might need to adjust the execution permissions in the bin folder
+
+On Linux, you will have to build the distribution first. To do so, switch to the build folder and run ant.
+Note that depending on the privilege settings you might need to adjust the the execution permissions in the release folder.
+
+Download the firmware to the RCX with firmdl.
+
+Check the installation by switching to the "check" folder of the leJOS distribution and run checkDistribution.bat resp. checkDistributionCheck.sh.
+A very simple test program will be downloaded to the RCX. After the download has finished, press the RCX's 'RUN' button. The RCX's LCD should print the strings "SMOKE" and "TEST". 
