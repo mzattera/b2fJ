@@ -11,7 +11,7 @@ At present, btfJ shares most of its code with leJOX RCX JVM, its standard class 
 
 leJOS is a tiny Java Virtual Machine targeting different Lego Mindstorms (RCX, NXJ & EV3); the project has many contributors, among them, Brian Bagnall, Jürgen Stuber and Paul Andrews.
 
-leJOS was originally based on TinyVM by Jose H. Solorzano (http://tinyvm.sourceforge.net/).
+leJOS was originally based on TinyVM by Jose H. Solorzano.(http://tinyvm.sourceforge.net/).
 
 === Dependencies
 
@@ -19,7 +19,7 @@ Please note that files in ".\redistr" folder are NEITHER developed NOR modified 
 
 cc65 is a C cross-assembler for various 6502-based target systems, including the Commodore 64; it is  used to compile the JVM for the target platform. Initially developed by Ullrich von Bassewitz (http://www.cc65.org/), it is now maintained by Oliver Schmidt (https://sourceforge.net/projects/cc65/).
 
-VICE (vice-emu.sourceforge.net) it is arguabely the best Commodore 64 emulator for Windows; it used here to run the Java programs compiled with b2fJ. It is distributed under the GNU General Public License (version 2 or later). 
+VICE (http://vice-emu.sourceforge.net) it is arguabely the best Commodore 64 emulator for Windows; it used here to run the Java programs compiled with b2fJ. It is distributed under the GNU General Public License (version 2 or later). 
 
 Apache Commons BCEL (http://commons.apache.org/bcel/) and Apache Commons CLI (https://commons.apache.org/cli/) libraries (.jar) are distributed under the Apache license (http://www.apache.org/licenses/).
 

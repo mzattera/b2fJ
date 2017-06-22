@@ -1,6 +1,6 @@
 # What is b2fJ?
 
-Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on 8-bit home computers from the 80s.
+Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
 It is based on the leJOS (http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
@@ -14,20 +14,20 @@ In this current state, it is basically a straight porting of leJOS RCX to the po
 
 …and all of its limitations, most noticeably it lacks garbage collection.
 
-In addition, being a straight porting, b2fJ is basically an interpreted machine with a 32 bit architecture running on top of an 8 bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on a 8 bit machine is possible.
+In addition, being a straight porting, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
 
 
 # Installation and Set Up
 
 ## Java SDK
 
-In order to compile and run your Java programs, you need first of all to have a Java Software Development Kit installed (https://www.google.ch/search?q=JDK+1.7+download). I was using version 1.7.0 but version 1.5 or higher should work.
+In order to compile and run your Java programs, you need first of all to have a Java Development Kit installed (https://www.google.ch/search?q=JDK+1.7+download). I am using version 1.7.0 but any version from 1.5 up should work.
 
 Make sure that the JDK folder is in your path or that you have set JAVA_HOME properly (https://www.google.ch/search?q=set+JAVA_HOME+Windows).
 
 ## b2fJ
 
-Download and unzip the b2fJ distribution. It easier to work if you add the "bin" folder in the distribution to your PATH variable (https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
+Download and unzip the b2fJ distribution. It's easier to work if you add the "bin" folder in the distribution to your PATH variable (https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
 
 # Compile and run Java Programs
 
@@ -52,9 +52,11 @@ public class HelloWorld {
 
 Unfortunately, in order to overcome the limitations of our target platform, several additional steps are required compared to standard Java development when compiling our Java programs.
 
-The good news is that you can forget all of the details and just invoke the below command to compile and run your Java program inside the VICE emulator (http://vice-emu.sourceforge.net/) provided with b2fJ:
+The good news is that you can forget all of the details and just invoke the below command to compile your Java program and run it inside the VICE emulator (http://vice-emu.sourceforge.net/) provided with b2fJ:
 
     b2fJGO HelloWorld.java
+
+It will take some time to load, be patient ;-)
 
 ## The boring details
 
@@ -89,21 +91,20 @@ The below command transforms the .class file into a C header (java_code.h) which
 
 ### Building the JVM
 
-Finally, we must re-build the b2fJ Virtual Machine that, as explained above, will embed our program which will be executed when the JVM is launched.
+Finally, we must re-build the b2fJ Virtual Machine that, as explained above, will embed your program which will be executed when the JVM is launched.
 
-The below command is a batch fie that uses cc65, a 6502 cross-assembler (re)distributed with b2fJ, to compile the JVM for the C64.
+The below command is a batch file that uses cc65, a 6502 cross-assembler (re)distributed with b2fJ, to compile the JVM for the C64.
 
     buildJVM
     
 Do not be scared by the many "Warnings" you will see printed; the build will only stop on errors (that will be displayed).
+
 If the process is successful, a file called "b2fJ.prg" should have been created; this is your JVM.
 
 ### Running the program
 
 At last! You can now run your Java program on your C64.
 
-If you don-t have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE emulator that is distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then under "File > Autostard Disk/Tape image" choose the "b2fJ.prg" file you created above.
-
-It will take some time to load, be patient ;-)
+If you don't have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE emulator that is (re)distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then under "File > Autostart Disk/Tape image" choose the "b2fJ.prg" file you created above.
 
 
