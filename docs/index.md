@@ -63,7 +63,7 @@ Below, you can find a step-by-step explanation of the build process, which also 
     
 ### From .java to .class
 
-The below command will compile HelloWorld.java into corresponding .class file. 
+The below command will compile HelloWorld.java into corresponding `.class` file. 
 
     b2fJc HelloWorld.java
     
