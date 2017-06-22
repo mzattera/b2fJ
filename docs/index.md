@@ -4,7 +4,7 @@ Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on the 
 
 It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
-In this current state, it is basically a straight porting of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS:
+In this current state, it is basically a straight port of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS:
 
 * Lets you develop using Java (fully-featured OO language)
 * Preemptive threads with synchronization
@@ -14,7 +14,7 @@ In this current state, it is basically a straight porting of leJOS RCX to the po
 
 …and all of its limitations, most noticeably it lacks garbage collection.
 
-In addition, being a straight porting, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
+In addition, being a straight port, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
 
 
 # Installation and Set Up
