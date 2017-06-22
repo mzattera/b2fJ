@@ -19,7 +19,7 @@ In addition, being a straight porting, b2fJ is basically an interpreted machine 
 
 # Installation and Set Up
 
-## Java SDK
+## JDK
 
 In order to compile and run your Java programs, you need first of all to have a [Java Development Kit](https://www.google.ch/search?q=JDK+1.7+download) installed. I am using version 1.7.0 but any version from 1.5 up should work.
 
