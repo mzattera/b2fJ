@@ -84,7 +84,7 @@ This produces a binary that can be thought as a tiny `.jar` that contains the mi
 
 However, in order to make the JVM even more compact, we translate the `.o` file into a C header that is then compiled directly into (or together with) the JVM. The JVM will then be a single C64 executable containing both the actual Java interpreter and your java code.
 
-The below command transforms the .class file into a C header (`java_code.h`) which is then moved into folder "src\jvm\platform\c64" where the JVM source code resides, for later compilation.
+The below command transforms the .class file into a C header (`java_code.h`) which is then moved into folder "src\platform\c64" where the JVM source code resides, for later compilation.
 
     b2fJl HelloWorld
 
