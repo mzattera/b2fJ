@@ -2,6 +2,8 @@
 
 Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
+It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest).
+
 It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
 In this current state, it is basically a straight port of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS:
@@ -27,7 +29,7 @@ Make sure that the JDK folder is in your path or that you have set [JAVA_HOME](h
 
 ## b2fJ
 
-Download and unzip [latest b2fJ distribution]( https://github.com/mzattera/b2fJ/releases/latest). It's easier to work if you add the "bin" folder in the distribution to your [PATH variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
+Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest). It's easier to work if you add the "bin" folder in the distribution to your [PATH variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
 
 # Compile and run Java Programs
 
