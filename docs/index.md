@@ -26,7 +26,11 @@ Below a small demo showing b2fJ at work inside the [VICE emulator](http://vice-e
 
 The Java source for the demo, can be downloaded from [here](./Sprite.java). See below for instructions about how to compile and run it.
 
-<iframe width="960" height="540" src="./2017-06-23 07-05-09.flv" frameborder="0" allowfullscreen></iframe>
+<object width="960" height="540">
+<param name="movie" value=./2017-06-23 07-05-09.flv">
+<embed src="./2017-06-23 07-05-09.flv"  width="960" height="540">
+</embed>
+</object>
 
 # Installation and Set Up
 
