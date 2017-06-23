@@ -1,12 +1,12 @@
 # What is b2fJ?
 
-*Back to the Future Java (b2fJ)* is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
+**Back to the Future Java (b2fJ)** is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
 It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest).
 
 It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
-In this current state, it is basically a straight port of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS:
+In its current state, it is basically a straight port of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS...
 
 * Lets you develop using Java (fully-featured OO language)
 * Preemptive threads with synchronization
@@ -20,11 +20,9 @@ In addition, being a straight port, b2fJ is basically an interpreted machine wit
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 
-## Small demo
+## A small demo
 
-Here a small demo showing how multi-thread programming can be used to move C64 sprites.
-
-The Java source for the demo, can be downloaded from [here](./Sprite.java). See below for instructions about how to compile and run it.
+[Here](./Sprite.java) you can find a small demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
 
 # Installation and Set Up
 
@@ -41,7 +39,6 @@ Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/r
 # Compile and run Java Programs
 
 The below steps explain how to compile and run a simple Java program on your C64.
-
 
 For our example, we will use a simple HelloWorld.java file. You can paste the code below into a file named HelloWorld.java, or create the file with your favorite Java editor.
 
