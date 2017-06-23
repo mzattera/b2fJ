@@ -1,6 +1,6 @@
 # What is b2fJ?
 
-Back to the Future Java (b2fJ) is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
+*Back to the Future Java (b2fJ)* is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
 It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest).
 
