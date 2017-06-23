@@ -20,6 +20,14 @@ In addition, being a straight port, b2fJ is basically an interpreted machine wit
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 
+## Small demo
+
+Below a small demo showing b2fJ at work inside the [VICE emulator](http://vice-emu.sourceforge.net/).
+
+The Java source for the demo, can be downloaded from [here](./Sprite.java). See below for instructions how to compile and run it.
+
+<iframe width="960" height="540" src="./2017-06-23 07-05-09.flv" frameborder="0" allowfullscreen></iframe>
+
 # Installation and Set Up
 
 ## JDK
