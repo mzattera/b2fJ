@@ -26,10 +26,15 @@ Below a small demo showing b2fJ at work inside the [VICE emulator](http://vice-e
 
 The Java source for the demo, can be downloaded from [here](./Sprite.java). See below for instructions about how to compile and run it.
 
-<object width="960" height="540">
-<param name="movie" value=./2017-06-23 07-05-09.flv">
-<embed src="./2017-06-23 07-05-09.flv"  width="960" height="540">
-</embed>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+       codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
+       width="960" height="540">
+<param name="flashvars" value="Y./2017-06-23 07-05-09.flv" />
+<param name="movie" value="./2017-06-23 07-05-09.flv" />
+<embed src="./2017-06-23 07-05-09.flv" width="960" height="540"
+       type="application/x-shockwave-flash"
+       pluginspage="http://www.macromedia.com/go/getflashplayer"
+       flashvars="./2017-06-23 07-05-09.flv" />
 </object>
 
 # Installation and Set Up
