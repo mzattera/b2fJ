@@ -22,7 +22,7 @@ In addition, being a straight port, b2fJ is basically an interpreted machine wit
 
 ## Small demo
 
-Here a small demo showing b2fJ at work inside the [VICE emulator](http://vice-emu.sourceforge.net/). This shows how multi-thread programming can be used to move C64 sprites.
+Here a small demo showing how multi-thread programming can be used to move C64 sprites.
 
 The Java source for the demo, can be downloaded from [here](./Sprite.java). See below for instructions about how to compile and run it.
 
