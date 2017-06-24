@@ -22,7 +22,11 @@ In addition, being a straight port, b2fJ is basically an interpreted machine wit
 
 ## A small demo
 
-[Here](./Sprite.java) you can find a small demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
+[Here](./Sprite.java) you can doenload the code for a tiny demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
+
+The result should be this:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7iwj2B4PHE4" frameborder="0" allowfullscreen></iframe>
 
 # Installation and Set Up
 
