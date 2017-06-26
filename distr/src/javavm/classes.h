@@ -1,6 +1,6 @@
 /**
  * classes.h
- * Contains conterparts of special classes as C structs.
+ * Contains conterparts of special classes as C  structs.
  */
  
 #ifndef _CLASSES_H
