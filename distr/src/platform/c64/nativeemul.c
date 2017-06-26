@@ -19,7 +19,7 @@
 #include "exceptions.h"
 #include "platform_config.h"
 
-extern byte *region;
+extern byte *region; 
 
 #if USING_VS
 int t = 33;
