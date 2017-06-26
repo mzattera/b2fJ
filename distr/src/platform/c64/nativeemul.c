@@ -29,8 +29,10 @@ void *ptr;
 extern char* strBuffer;
 
 // Convert a Java String in a char[]
-char* string2chp(String* s)
+char* string2chp(String* s) 
 {
+	// TODO: if s == null return null immediatelzz.
+
 	if (s->characters)
 	{
 		Object *obj;
@@ -182,7 +184,7 @@ void dispatch_native (TWOBYTES signature, STACKWORD *paramBase)
 #endif
 		return;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
-		printf ("%s", string2chp((String*)word2obj(paramBase[0])));
+		printf ("%s", string2chp((String*)word2obj(paramBase[1])));
 		return;
 	default:
 #ifdef DEBUG_METHODS

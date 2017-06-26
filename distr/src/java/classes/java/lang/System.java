@@ -8,8 +8,8 @@ import java.io.PrintStream;
  */
 public final class System
 {
-  public static final PrintStream out = new PrintStream(new ConsoleOutputStream());
-//  public static final ConsoleOutputStream out = new ConsoleOutputStream();
+//  public static final PrintStream out = new PrintStream(new ConsoleOutputStream());
+  public static final ConsoleOutputStream out = new ConsoleOutputStream();
 
   private System() {}
 
