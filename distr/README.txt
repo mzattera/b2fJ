@@ -1,3 +1,5 @@
+For details see project website: https://mzattera.github.io/b2fJ/
+
 bin
   Here there are all batch files and executables needed to compile and run Java code.
 

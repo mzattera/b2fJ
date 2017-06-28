@@ -14,5 +14,6 @@ dev/VS/ClassToC/bin/*
 dev/VS/ClassToC/obj/*
 dev/VS/util/Debug/*
 dev/VS/util/Release/*
+distr/build/*
 distr/src/*.o
 
