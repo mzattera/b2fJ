@@ -1,3 +1,18 @@
-dev/*
-distr/lib/classes - Copy.jar
-distr/lib/jtools - Copy.jar
+*.class
+
+
+dev/test/*.o
+dev/test/b2fJ.prg
+
+dev/test/Sprite - Orchestrator.java
+
+dev/VS/Debug/*
+dev/VS/Release/*
+dev/VS/b2fJ-c64/Debug/*
+dev/VS/b2fJ-c64/Release/*
+dev/VS/ClassToC/bin/*
+dev/VS/ClassToC/obj/*
+dev/VS/util/Debug/*
+dev/VS/util/Release/*
+distr/src/*.o
+
