@@ -5,7 +5,7 @@ build
   Temporary folder for builds.
 
 lib
-  Libraries; these are built from java sources in src folder
+  Libraries; these are built from java sources in src folder.
 
 redistr
   Software used by this project (see COPRIGHT.txt)
