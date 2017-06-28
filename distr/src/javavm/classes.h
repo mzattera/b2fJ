@@ -1,6 +1,5 @@
 /**
  * classes.h
- *
  * Contains conterparts of special classes as C structs.
  */
  
