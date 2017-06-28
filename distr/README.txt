@@ -2,7 +2,7 @@ bin
   Here there are all batch files and executables needed to compile and run Java code.
 
 build
-  Temporary folder for builds
+  Temporary folder for builds.
 
 lib
   Libraries; these are built from java sources in src folder
