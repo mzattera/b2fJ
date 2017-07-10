@@ -14,7 +14,9 @@ public class RecordTable extends WritableDataWithOffset
 {
    /**
     * Descriptive name of this record table.
+    * Used only when debugging.
     */
+   @SuppressWarnings("unused")
    private String _name;
 
    /**
@@ -30,7 +32,7 @@ public class RecordTable extends WritableDataWithOffset
    /**
     * List of all writable element.
     */
-   private ArrayList _list;
+   private ArrayList<WritableData> _list;
 
    /**
     * Length of output.
@@ -51,7 +53,7 @@ public class RecordTable extends WritableDataWithOffset
       _name = name;
       _duplicates = allowDuplicates;
       _align = align;
-      _list = new ArrayList();
+      _list = new ArrayList<WritableData>();
       _length = -1;
    }
 
@@ -83,7 +85,7 @@ public class RecordTable extends WritableDataWithOffset
    {
       assert index >= 0 && index < size(): "Precondition: index >= 0 && index < size()";
 
-      WritableData result = (WritableData) _list.get(index);
+      WritableData result = _list.get(index);
 
       assert result != null: "Postconditon: result != null";
       return result;
@@ -105,9 +107,9 @@ public class RecordTable extends WritableDataWithOffset
    /**
     * Iterator.
     */
-   public Iterator iterator ()
+   public Iterator<WritableData> iterator ()
    {
-      Iterator result = _list.iterator();
+      Iterator<WritableData> result = _list.iterator();
 
       assert result != null: "Postconditon: result != null";
       return result;
@@ -135,9 +137,9 @@ public class RecordTable extends WritableDataWithOffset
       try
       {
          boolean pDoVerify = TinyVMConstants.VERIFY_LEVEL > 0;
-         for (Iterator iter = _list.iterator(); iter.hasNext();)
+         for (Iterator<WritableData> iter = _list.iterator(); iter.hasNext();)
          {
-            WritableData pData = (WritableData) iter.next();
+            WritableData pData = iter.next();
 
             int pLength = pData.getLength();
             int pPrevSize = writer.offset();
@@ -178,9 +180,9 @@ public class RecordTable extends WritableDataWithOffset
       if (_length == -1)
       {
          _length = 0;
-         for (Iterator iter = _list.iterator(); iter.hasNext();)
+         for (Iterator<WritableData> iter = _list.iterator(); iter.hasNext();)
          {
-            _length += ((WritableData) iter.next()).getLength();
+            _length += iter.next().getLength();
          }
 
          // _logger.log(Level.INFO, "length of " + _name + ": " + _length);
@@ -204,9 +206,9 @@ public class RecordTable extends WritableDataWithOffset
 
       super.initOffset(startOffset);
 
-      for (Iterator iter = _list.iterator(); iter.hasNext();)
+      for (Iterator<WritableData> iter = _list.iterator(); iter.hasNext();)
       {
-         WritableData element = (WritableData) iter.next();
+         WritableData element = iter.next();
          if (element instanceof WritableDataWithOffset)
          {
             ((WritableDataWithOffset) element).initOffset(startOffset);

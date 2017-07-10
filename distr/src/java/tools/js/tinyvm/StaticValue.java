@@ -30,7 +30,7 @@ public class StaticValue extends WritableDataWithOffset
          switch (iType.type())
          {
             case TinyVMType.T_BOOLEAN_TYPE:
-               writer.writeBoolean(false);
+                writer.writeBoolean(false);
                break;
             case TinyVMType.T_BYTE_TYPE:
                writer.writeByte(0);

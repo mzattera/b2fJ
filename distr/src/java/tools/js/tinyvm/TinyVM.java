@@ -4,20 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
+import org.apache.commons.cli.CommandLine;
 
 import js.common.CLIToolProgressMonitor;
 import js.common.ToolProgressMonitor;
 import js.tinyvm.util.TinyVMCommandLineParser;
-import js.tools.LejosdlException;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 /**
  * Tiny VM.

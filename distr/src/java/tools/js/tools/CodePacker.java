@@ -11,7 +11,7 @@ import java.util.TreeSet;
 /**
  * A comparable ArrayList.
  */
-class Packing implements Comparable
+class Packing implements Comparable<Packing>
 {
    Size array[];
    int thisSize;
@@ -88,9 +88,9 @@ class Packing implements Comparable
       }
    }
 
-   public int compareTo (Object other)
+   public int compareTo (Packing other)
    {
-      return thisSize - ((Packing) other).thisSize;
+      return thisSize - other.thisSize;
    }
 }
 
@@ -108,7 +108,7 @@ class Size
 
 public class CodePacker
 {
-   static ArrayList list;
+   static ArrayList<Object> list;
    static int maxSize;
 
    /**
@@ -158,7 +158,7 @@ public class CodePacker
       }
 
       // Generate an initial random set of packings of size indices.length
-      TreeSet populations = new TreeSet();
+      TreeSet<Packing> populations = new TreeSet<Packing>();
       for (int i = 0; i < indices.length; i++)
       {
          Packing packing = select(indices);
@@ -176,7 +176,7 @@ public class CodePacker
       for (int i = 0; i < indices.length * 2; i++)
       {
          // Select two elements at random to breed
-         Packing array[] = (Packing[]) populations
+         Packing array[] = populations
             .toArray(new Packing[populations.size()]);
          Packing offspring = array[i % array.length].breed(array[(int) (Math
             .random() * array.length)]);
@@ -188,19 +188,19 @@ public class CodePacker
             populations.remove(populations.first());
       }
 
-      return (Packing) populations.last();
+      return populations.last();
    }
 
    public static void main (String[] args) throws Exception
    {
-      int extraStart = 0;
+      // int extraStart = 0;
       String ldsFile = args[0];
       String mapFile = args[1];
       String outputFile = args[2];
       StringBuffer prologue = new StringBuffer();
       StringBuffer epilogue = new StringBuffer();
       StringBuffer current = prologue;
-      list = new ArrayList();
+      list = new ArrayList<Object>();
 
       // Locate 'extra1'
       BufferedReader br = new BufferedReader(new FileReader(ldsFile));
@@ -219,7 +219,7 @@ public class CodePacker
                st.nextToken(); // o
                st.nextToken(); // =
                token = st.nextToken();
-               extraStart = Integer.decode(token).intValue();
+               // extraStart = Integer.decode(token).intValue();
                st.nextToken(); // ,
                st.nextToken(); // l
                st.nextToken(); // =

@@ -6,8 +6,8 @@ import java.util.Vector;
 
 public class HashVector
 {
-   private Hashtable iHashtable;
-   private Vector iVector;
+   private Hashtable<Object, Object> iHashtable;
+   private Vector<Object> iVector;
 
    private class IntWrap
    {
@@ -22,8 +22,8 @@ public class HashVector
    public HashVector ()
    {
       super();
-      iHashtable = new Hashtable();
-      iVector = new Vector();
+      iHashtable = new Hashtable<Object, Object>();
+      iVector = new Vector<Object>();
    }
 
    public void insertElementAt (Object aElement, int aIndex)
@@ -77,7 +77,7 @@ public class HashVector
       }
    }
 
-   public Enumeration elements ()
+   public Enumeration<Object> elements ()
    {
       return iVector.elements();
    }

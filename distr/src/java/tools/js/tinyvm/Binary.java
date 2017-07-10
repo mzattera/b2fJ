@@ -3,8 +3,6 @@ package js.tinyvm;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import javax.swing.ProgressMonitor;
-
 import js.common.ToolProgressMonitor;
 import js.tinyvm.io.IByteWriter;
 import js.tinyvm.util.HashVector;
@@ -36,8 +34,8 @@ public class Binary
       "entry class indices", true, false);
 
    // Other state:
-   final Hashtable iSpecialSignatures = new Hashtable();
-   final Hashtable iClasses = new Hashtable();
+   final Hashtable<Signature, String> iSpecialSignatures = new Hashtable<Signature, String>();
+   final Hashtable<String, ClassRecord> iClasses = new Hashtable<String, ClassRecord>();
    final HashVector iSignatures = new HashVector();
 
    /**
@@ -112,7 +110,7 @@ public class Binary
       assert className != null: "Precondition: className != null";
       assert className.indexOf('.') == -1: "Precondition: className is in correct form";
 
-      return (ClassRecord) iClasses.get(className);
+      return iClasses.get(className);
    }
 
    /**
@@ -217,7 +215,7 @@ public class Binary
       assert entryClassNames != null: "Precondition: entryClassNames != null";
       assert classPath != null: "Precondition: classPath != null";
 
-      Vector pInterfaceMethods = new Vector();
+      Vector<String> pInterfaceMethods = new Vector<String>();
 
       // Add special all classes first
       String[] specialClasses = SpecialClassConstants.CLASSES;
@@ -264,7 +262,7 @@ public class Binary
          ClassRecord classRecord = (ClassRecord) iClassTable.get(pIndex);
          for (int i = 0; i < pInterfaceMethods.size(); i++)
          {
-            classRecord.addUsedMethod((String) pInterfaceMethods.elementAt(i));
+            classRecord.addUsedMethod(pInterfaceMethods.elementAt(i));
          }
          classRecord.iIndex = pIndex;
          classRecord.initFlags();

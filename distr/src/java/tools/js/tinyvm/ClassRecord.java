@@ -44,10 +44,10 @@ public class ClassRecord implements WritableData
    final RecordTable iMethodTable = new RecordTable("methods", false, false);
    final RecordTable iInstanceFields = new RecordTable("instance fields", true,
       false);
-   final Hashtable iStaticValues = new Hashtable();
-   final Hashtable iStaticFields = new Hashtable();
-   final Hashtable iMethods = new Hashtable();
-   final Vector iUsedMethods = new Vector();
+   final Hashtable<String, StaticValue> iStaticValues = new Hashtable<String, StaticValue>();
+   final Hashtable<String, StaticFieldRecord> iStaticFields = new Hashtable<String, StaticFieldRecord>();
+   final Hashtable<Signature, MethodRecord> iMethods = new Hashtable<Signature, MethodRecord>();
+   final Vector<String> iUsedMethods = new Vector<String>();
    int iParentClassIndex;
    int iArrayElementType;
    int iFlags;
@@ -139,7 +139,7 @@ public class ClassRecord implements WritableData
     */
    public boolean hasMethod (Signature aSignature, boolean aStatic)
    {
-      MethodRecord pRec = (MethodRecord) iMethods.get(aSignature);
+      MethodRecord pRec = iMethods.get(aSignature);
       if (pRec == null)
          return false;
       return ((pRec.getFlags() & TinyVMConstants.M_STATIC) == 0) ^ aStatic;
@@ -185,7 +185,7 @@ public class ClassRecord implements WritableData
    public int computeClassSize () throws TinyVMException
    {
       int pSize = hasParent()? getParent().getClassSize() : 0;
-      for (Iterator iter = iInstanceFields.iterator(); iter.hasNext();)
+      for (Iterator<WritableData> iter = iInstanceFields.iterator(); iter.hasNext();)
       {
          InstanceFieldRecord pRec = (InstanceFieldRecord) iter.next();
          pSize += pRec.getFieldSize();
@@ -229,8 +229,8 @@ public class ClassRecord implements WritableData
       }
    }
 
-   public void storeReferredClasses (Hashtable aClasses,
-      RecordTable aClassRecords, ClassPath aClassPath, Vector aInterfaceMethods)
+   public void storeReferredClasses (Hashtable<String, ClassRecord> aClasses,
+      RecordTable aClassRecords, ClassPath aClassPath, Vector<String> aInterfaceMethods)
       throws TinyVMException
    {
       // _logger.log(Level.INFO, "Processing CONSTANT_Class entries in " +
@@ -261,7 +261,7 @@ public class ClassRecord implements WritableData
          {
             String className = ((ConstantMethodref) pEntry).getClass(pPool)
                .replace('.', '/');
-            ClassRecord pClassRec = (ClassRecord) aClasses.get(className);
+            ClassRecord pClassRec = aClasses.get(className);
             if (pClassRec == null)
             {
                pClassRec = ClassRecord.getClassRecord(className, aClassPath,
@@ -316,7 +316,7 @@ public class ClassRecord implements WritableData
 
    MethodRecord getMethodRecord (Signature aSig)
    {
-      return (MethodRecord) iMethods.get(aSig);
+      return iMethods.get(aSig);
    }
 
    MethodRecord getVirtualMethodRecord (Signature aSig)
@@ -339,7 +339,7 @@ public class ClassRecord implements WritableData
    int getApparentInstanceFieldOffset (String aName) throws TinyVMException
    {
       int pOffset = hasParent()? getParent().getClassSize() : 0;
-      for (Iterator iter = iInstanceFields.iterator(); iter.hasNext();)
+      for (Iterator<WritableData> iter = iInstanceFields.iterator(); iter.hasNext();)
       {
          InstanceFieldRecord pRec = (InstanceFieldRecord) iter.next();
          if (pRec.getName().equals(aName))
@@ -360,7 +360,7 @@ public class ClassRecord implements WritableData
     */
    public int getStaticFieldOffset (String aName) throws TinyVMException
    {
-      StaticValue pValue = (StaticValue) iStaticValues.get(aName);
+      StaticValue pValue = iStaticValues.get(aName);
       if (pValue == null)
          return -1;
       return pValue.getOffset() - iBinary.iStaticState.getOffset();
@@ -368,7 +368,7 @@ public class ClassRecord implements WritableData
 
    public int getStaticFieldIndex (String aName)
    {
-      StaticFieldRecord pRecord = (StaticFieldRecord) iStaticFields.get(aName);
+      StaticFieldRecord pRecord = iStaticFields.get(aName);
       if (pRecord == null)
          return -1;
       // TBD: This indexOf call is slow
@@ -465,7 +465,7 @@ public class ClassRecord implements WritableData
    public void storeCode (RecordTable aCodeSequences, boolean aPostProcess)
       throws TinyVMException
    {
-      for (Iterator iter = iMethodTable.iterator(); iter.hasNext();)
+      for (Iterator<WritableData> iter = iMethodTable.iterator(); iter.hasNext();)
       {
          MethodRecord pRec = (MethodRecord) iter.next();
          if (aPostProcess)
