@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "b2fJ-c64", "b2fJ-c64\b2fJ-c64.vcxproj", "{3521F9EA-C667-4044-B816-8D484BA3E3C3}"
 EndProject
@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8DF87B3F-E
 		..\test\TestExceptions.java = ..\test\TestExceptions.java
 		..\test\TS.java = ..\test\TS.java
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ascii", "ascii\ascii.vcxproj", "{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,16 @@ Global
 		{A283F4C3-BB0F-43E3-81E2-A8139A3C7960}.Release|x64.Build.0 = Release|x64
 		{A283F4C3-BB0F-43E3-81E2-A8139A3C7960}.Release|x86.ActiveCfg = Release|Win32
 		{A283F4C3-BB0F-43E3-81E2-A8139A3C7960}.Release|x86.Build.0 = Release|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Debug|x64.ActiveCfg = Debug|x64
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Debug|x64.Build.0 = Debug|x64
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Debug|x86.ActiveCfg = Debug|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Debug|x86.Build.0 = Debug|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Release|x64.ActiveCfg = Release|x64
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Release|x64.Build.0 = Release|x64
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Release|x86.ActiveCfg = Release|Win32
+		{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

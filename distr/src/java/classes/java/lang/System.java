@@ -1,7 +1,7 @@
 package java.lang;
 
 import b2fj.io.ConsoleOutputStream;
-import java.io.PrintStream;
+// import java.io.PrintStream;
 
 /**
  * System utilities.

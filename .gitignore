@@ -1,13 +1,16 @@
 *.class
 
 
+dev/Eclipse/*
 dev/test/*.o
 dev/test/b2fJ.prg
 
 dev/test/Sprite - Orchestrator.java
 
+dev/VS/.vs/*
 dev/VS/Debug/*
 dev/VS/Release/*
+dev/VS/ascii/Debug/*
 dev/VS/b2fJ-c64/Debug/*
 dev/VS/b2fJ-c64/Release/*
 dev/VS/ClassToC/bin/*
