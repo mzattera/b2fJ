@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * Writes to C code file.
+ * 
  * Writes lo-byte first, hi-byte last. In longs, hi-word goes first, but each
  * word is written as though with writeU4.
+ * 
+ * @author maxi
  */
-public class LEByteWriter extends ByteWriter
+public class LECCodeWriter extends CCodeWriter
 {
-   public LEByteWriter (OutputStream stream)
+   public LECCodeWriter (OutputStream stream)
    {
       super(stream);
    }
@@ -17,11 +21,6 @@ public class LEByteWriter extends ByteWriter
    //
    // specific write order
    //
-
-   public void writeU1 (int aByte) throws IOException
-   {
-      write(aByte);
-   }
 
    public void writeU2 (int aShort) throws IOException
    {

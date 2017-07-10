@@ -5,7 +5,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Basic byte writer implementation (write order independant part)
+ * Basic byte writer implementation (write order independant part).
+ * 
+ * This writes bytecode out to a binary file.
+ * It is the original implementation from TinyVM; in b2fJ this is 
+ * replaces by CCodeWriter that generates C code directly.
+ * 
+ * Left here together with BEByteWriter & LEByteWriter in case it is needed again.
  */
 public abstract class ByteWriter implements IByteWriter
 {
@@ -30,65 +36,55 @@ public abstract class ByteWriter implements IByteWriter
 
    public void writeBoolean (boolean aBoolean) throws IOException
    {
-      // debug(1, aBoolean? 1 : 0);
       _out.writeBoolean(aBoolean);
    }
 
    public void writeByte (int aByte) throws IOException
    {
-      // debug(1, aByte);
       _out.writeByte(aByte);
    }
 
    public void writeChar (int aChar) throws IOException
    {
-      // debug(2, aChar);
       _out.writeChar(aChar);
    }
 
    public void writeShort (int aShort) throws IOException
    {
-      // debug(2, aShort);
       _out.writeShort(aShort);
    }
 
    public void writeInt (int aInt) throws IOException
    {
-      // debug(4, aInt);
       _out.writeInt(aInt);
    }
 
    public void writeLong (long aLong) throws IOException
    {
-      // debug(8, aLong);
       _out.writeLong(aLong);
    }
 
    public void writeFloat (float aFloat) throws IOException
    {
-      // debug(4, Float.floatToIntBits(aFloat));
       _out.writeFloat(aFloat);
    }
 
    public void writeDouble (double aDouble) throws IOException
    {
-      // debug(8, Double.doubleToLongBits(aDouble));
       _out.writeDouble(aDouble);
    }
-
+   
    //
    // Direct byte writing interface
    //
 
    public void write (byte[] aBytes) throws IOException
    {
-      // debug(aBytes);
       _out.write(aBytes, 0, aBytes.length);
    }
 
    public void write (int aByte) throws IOException
    {
-      // debug(1, aByte);
       _out.write(aByte);
    }
 
@@ -99,26 +95,4 @@ public abstract class ByteWriter implements IByteWriter
    {
       return _out.size();
    }
-
-   //
-   // debug
-   //
-
- /*  protected void debug (byte[] bytes)
-   {
-      String offset = "00000000" + Integer.toHexString(offset());
-      offset = offset.substring(offset.length() - 4);
-      System.out.println(offset + ": " + bytes.length + " bytes");
-      System.out.flush();
-   }
-
-   protected void debug (int width, long aValue)
-   {
-      String offset = "00000000" + Integer.toHexString(offset());
-      offset = offset.substring(offset.length() - 4);
-      String value = "0000000000000000" + Long.toHexString(aValue);
-      value = value.substring(value.length() - width * 2);
-      System.out.println(offset + ": " + value);
-      System.out.flush();
-   }*/
 }
