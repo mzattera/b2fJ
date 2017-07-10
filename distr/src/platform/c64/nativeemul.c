@@ -188,7 +188,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		int c = (int)paramBase[1];
 #if !USING_VS
 		if (c < 128)
-			c = charMap[(int)pA[i]];
+			c = charMap[c];
 #endif
 		putc(c, stdout);
 		return;
