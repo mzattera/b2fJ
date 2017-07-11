@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 /**
- * A byte writer implementation (write order independant part) that writes
+ * A byte writer implementation (write order independent part) that writes
  * directly into a c byte[].
  * 
  * This is new in b2fJ
@@ -44,7 +44,6 @@ public abstract class CCodeWriter implements IByteWriter {
 	public CCodeWriter(OutputStream stream) {
 		_out = new PrintStream(stream);
 		_out.println("/*");
-		_out.println(" *");
 		_out.println(" * This is a machine-generated file; do not modify.");
 		_out.println(" * This contains the Java code to be executed as an array of bytes,");
 		_out.println(" * so it can be linked directly in the JVM code, instead of loading it.");
@@ -207,11 +206,12 @@ public abstract class CCodeWriter implements IByteWriter {
 
 	public void close() throws IOException {
 		if (_out != null) {
-			_out.println("\n};");
-			_out.println("#endif");
 			try {
+				_out.println();
+				_out.println("};");
+				_out.println();
+				_out.println("#endif // _JAVA_CODE_H_");
 				_out.close();
-			} catch (Exception e) {
 			} finally {
 				_out = null;
 			}

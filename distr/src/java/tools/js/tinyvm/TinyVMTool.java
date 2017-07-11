@@ -8,11 +8,7 @@ import java.util.logging.Logger;
 
 import js.common.AbstractTool;
 import js.common.ToolProgressMonitor;
-import js.tinyvm.io.BEByteWriter;
-import js.tinyvm.io.BECCodeWriter;
-import js.tinyvm.io.IByteWriter;
-import js.tinyvm.io.LEByteWriter;
-import js.tinyvm.io.LECCodeWriter;
+import js.tinyvm.io.*;
 
 /**
  * Tiny VM.

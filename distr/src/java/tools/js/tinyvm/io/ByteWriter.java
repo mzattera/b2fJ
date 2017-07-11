@@ -86,7 +86,13 @@ public abstract class ByteWriter implements IByteWriter {
 	}
 
 	public void close() throws IOException {
-		_out.close();
+		if (_out != null) {
+			try {
+				_out.close();
+			} finally {
+				_out = null;
+			}
+		}
 	}
 
 	protected void finalize() {
