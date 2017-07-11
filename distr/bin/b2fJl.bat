@@ -23,20 +23,14 @@ set "LINK_CLASSPATH=.;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOME%\redistr\l
 set "OBJ_FILE=%~n1.o"
 
 @echo.
-@echo Linking classes:
+@echo Linking classes - creating C bytecode array:
 @echo.
 @echo on
 
-%JC% -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o %OBJ_FILE% %~n1
+%JC% -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o java_code.h %~n1
 @echo off
 if ERRORLEVEL 1 goto end
 
-@echo.
-@echo Creating C bytecode array:
-@echo.
-@echo on
-
-"%B2FJ_HOME%\bin\ClassToC" "%OBJ_FILE%"
 MOVE /Y java_code.h "%B2FJ_HOME%"\src\platform\c64
 
 :end

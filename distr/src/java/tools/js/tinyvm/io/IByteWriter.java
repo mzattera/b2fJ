@@ -45,5 +45,7 @@ public interface IByteWriter
    public void write (int aByte) throws IOException;
    
    public int offset ();
+
+   public void close () throws IOException;
 }
 

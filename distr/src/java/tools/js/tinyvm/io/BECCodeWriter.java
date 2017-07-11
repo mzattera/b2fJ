@@ -33,15 +33,14 @@ public class BECCodeWriter extends CCodeWriter {
 	}
 
 	public void writeU8(long aLong) throws IOException {
-		write((int) (aLong >>> 24) & 0xFF);
-		write((int) (aLong >>> 16) & 0xFF);
-		write((int) (aLong >>> 8) & 0xFF);
-		write((int) (aLong >>> 0) & 0xFF);
-
 		write((int) ((aLong >>> 56) & 0xFF));
 		write((int) ((aLong >>> 48) & 0xFF));
 		write((int) ((aLong >>> 40) & 0xFF));
 		write((int) ((aLong >>> 32) & 0xFF));
-
+		
+		write((int) (aLong >>> 24) & 0xFF);
+		write((int) (aLong >>> 16) & 0xFF);
+		write((int) (aLong >>> 8) & 0xFF);
+		write((int) (aLong >>> 0) & 0xFF);
 	}
 }

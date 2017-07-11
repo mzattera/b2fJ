@@ -43,33 +43,19 @@ public abstract class CCodeWriter implements IByteWriter {
 	 */
 	public CCodeWriter(OutputStream stream) {
 		_out = new PrintStream(stream);
-        _out.println("/*");
-        _out.println(" *");
-        _out.println(" * This is a machine-generated file; do not modify.");
-        _out.println(" * This contains the Java code to be executed as an array of bytes,");
-        _out.println(" * so it can be linked directly in the JVM code, instead of loading it.");
-        _out.println(" */");
-        _out.println();
-        _out.println("#ifndef _JAVA_CODE_H_");
-        _out.println("#define _JAVA_CODE_H_");
-        _out.println();
-        _out.println("#include \"platform_config.h\"");
-        _out.println();
-        _out.println("byte javaClassFileContent[] = {");
-	}
-
-	/**
-	 * Closes the output stream.
-	 */
-	public void finalize() {
-		if (_out != null) {
-			try {
-				_out.println("\n};");
-				_out.println("#endif");
-				_out.close();
-			} catch (Exception e) {
-			}
-		}
+		_out.println("/*");
+		_out.println(" *");
+		_out.println(" * This is a machine-generated file; do not modify.");
+		_out.println(" * This contains the Java code to be executed as an array of bytes,");
+		_out.println(" * so it can be linked directly in the JVM code, instead of loading it.");
+		_out.println(" */");
+		_out.println();
+		_out.println("#ifndef _JAVA_CODE_H_");
+		_out.println("#define _JAVA_CODE_H_");
+		_out.println();
+		_out.println("#include \"platform_config.h\"");
+		_out.println();
+		_out.println("byte javaClassFileContent[] = {");
 	}
 
 	//
@@ -151,8 +137,8 @@ public abstract class CCodeWriter implements IByteWriter {
 	 */
 	@Override
 	public void writeLong(long aLong) throws IOException {
-		writeInt((int) ((aLong >>> 32) & 0xFFFF));
-		writeInt((int) ((aLong >>> 0) & 0xFFFF));
+		writeInt((int) ((aLong >>> 32) & 0xFFFFFFFF));
+		writeInt((int) ((aLong >>> 0) & 0xFFFFFFFF));
 	}
 
 	/*
@@ -203,7 +189,7 @@ public abstract class CCodeWriter implements IByteWriter {
 		}
 		if (_rowPos == 0)
 			_out.print('\t');
-		_out.print(aByte);
+		_out.print(String.format("0x%02x", aByte));
 		_needComma = true;
 		_rowPos++;
 		_offset++;
@@ -217,5 +203,25 @@ public abstract class CCodeWriter implements IByteWriter {
 	@Override
 	public int offset() {
 		return _offset;
+	}
+
+	public void close() throws IOException {
+		if (_out != null) {
+			_out.println("\n};");
+			_out.println("#endif");
+			try {
+				_out.close();
+			} catch (Exception e) {
+			} finally {
+				_out = null;
+			}
+		}
+	}
+
+	protected void finalize() {
+		try {
+			close();
+		} catch (Exception e) {
+		}
 	}
 }
