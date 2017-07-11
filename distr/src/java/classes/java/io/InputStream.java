@@ -30,12 +30,6 @@ package java.io;
  */
 public abstract class InputStream {
 
-    // SKIP_BUFFER_SIZE is used to determine the size of skipBuffer
-//    private static final int SKIP_BUFFER_SIZE = 2048;
-    private static final int SKIP_BUFFER_SIZE = 32;
-    // skipBuffer is initialized in skip(long), if needed.
-    private static byte[] skipBuffer;
-
     /**
      * Reads the next byte of data from the input stream. The value byte is
      * returned as an <code>int</code> in the range <code>0</code> to

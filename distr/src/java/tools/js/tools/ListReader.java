@@ -8,9 +8,9 @@ import java.util.Vector;
 
 public class ListReader
 {
-   public static Vector loadStrings (File aFile)
+   public static Vector<String> loadStrings (File aFile)
    {
-      Vector pVec = new Vector();
+      Vector<String> pVec = new Vector<String>();
       if (!aFile.exists())
          return pVec;
       try
