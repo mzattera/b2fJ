@@ -1,7 +1,5 @@
 *.class
 
-
-dev/Eclipse/*
 dev/test/*.o
 dev/test/b2fJ.prg
 
