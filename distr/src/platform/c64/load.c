@@ -12,7 +12,7 @@
 //#include <unistd.h>
 #include <sys/types.h>
 //#include <sys/stat.h>
-#include "magic.h"
+#include "version.h"
 #include "java_code.h"
 
 #ifndef O_BINARY
@@ -71,7 +71,7 @@ void readBinary (char *fileName)
   #if DEBUG_STARTUP
   printf ("Checking validity of magic number ^^^^\n");
   #endif
-  if (get_master_record()->magicNumber != MAGIC)
+  if (get_master_record()->magicNumber != MAGIC_MASK)
   {
     printf ("Fatal: bad magic number: 0x%X.\n", get_master_record()->magicNumber);
     exit(1); 

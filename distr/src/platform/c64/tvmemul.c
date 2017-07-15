@@ -23,6 +23,7 @@
 #include "trace.h"
 #include "platform_hooks.h"
 #include "mydebug.h"
+#include "version.h"
 
 // Max memory size (in WORDS) to allocate for Java Heap.
 #define MEMORY_SIZE 26623
@@ -149,7 +150,7 @@ int main (int argc, char *argv[])
 #endif
 
 	printf("\n");
-	printf("    ****   b2fJ JAVA VER.0.1   ****\n\n");
+	printf("    ****   b2fJ JAVA VER.%s   ****\n\n", VERSION);
 
 	if (argc == 2) {
 		file = argv[1];

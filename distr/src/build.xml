@@ -5,59 +5,68 @@
 -->
 <project name="b2fJ" default="build" basedir=".">
 
-	<!-- Setting up the global properties for the build -->
-  	<property file="build.properties"/>
-	<property environment="env"/>
-	<property name="b2fJ.root" value=".."/>
-	<property name="3rdparty.libs" value="${b2fJ.root}/redistr/lib" />
-	<property name="lib" value="${b2fJ.root}/lib"/>
-	<property name="src" value="${b2fJ.root}/src"/>
-	<property name="javasrc" value="${src}/java"/>
-	<property name="build.tmp" value="${b2fJ.root}/build"/>
+  <!-- Setting up the global properties for the build -->
+  <property environment="env"/>
+  <property name="b2fJ.root" value=".."/>
+  <property name="3rdparty.libs" value="${b2fJ.root}/redistr/lib" />
+  <property name="lib" value="${b2fJ.root}/lib"/>
+  <property name="src" value="${b2fJ.root}/src"/>
+  <property name="javasrc" value="${src}/java"/>
+  <property name="jvmsrc" value="${src}/javavm"/>
+  <property name="build.tmp" value="${b2fJ.root}/build"/>
 
-	<target name="build" depends ="clean,jtools.jar,classes.jar" description="builds minimal things to have Java for c64" />
+  <target name="build" depends ="clean,jtools.jar,classes.jar" description="builds minimal things to have Java for c64" />
 
-	<!-- cleans the distribution -->
-	<target name="clean" description="clean up all generated files">
-	    <!-- delete generated files -->
-	  	<delete file="${javasrc}/tools/js/tinyvm/SpecialClassConstants.java"/>
-	  	<delete file="${javasrc}/tools/js/tinyvm/SpecialSignatureConstants.java"/>
-		<!-- delete compiled and generated artifacts -->
-		<delete>
-			<fileset dir="${src}">
-				<include name="**/*.o"/>
-				<include name="**/*.class"/>
-			</fileset>
-			<fileset dir="${lib}">
-				<include name="**/*.jar"/>
-			</fileset>
-		</delete>
-	</target>
+  <!-- cleans the distribution -->
+  <target name="clean" description="clean up all generated files">
+    <!-- delete generated files -->
+    <delete file="${javasrc}/tools/js/tinyvm/SpecialClassConstants.java"/>
+    <delete file="${javasrc}/tools/js/tinyvm/SpecialSignatureConstants.java"/>
+    <delete file="${javasrc}/tools/js/tinyvm/TinyVMMagicNumber.java"/>
+    <delete file="${jvmsrc}/specialclasses.h"/>
+    <delete file="${jvmsrc}/specialsignatures.h"/>
+    <delete file="${jvmsrc}/version.h"/>
+    <!-- delete compiled and generated artifacts -->
+    <delete>
+      <fileset dir="${build.tmp}" includes="**/*"/>
+      <fileset dir="${src}">
+        <include name="**/*.o"/>
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${lib}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </delete>
+    <!-- delete temporary build folder -->
+    <delete includeemptydirs="true">
+      <fileset dir="${build.tmp}" includes="**/*"/>
+    </delete>
+  </target>
 
-  	<!-- creates the classes jar (RCX: JDK 1.1) -->
-  	<target name="classes.jar" description="generate classes jar">
-    	<mkdir dir="${build.tmp}/classes"/>
-    	<javac includeantruntime="false" srcdir="${javasrc}/classes" destdir="${build.tmp}/classes" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"/>
-    	<jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>
-  	</target>
+  <!-- creates the classes jar (RCX: JDK 1.1) -->
+  <target name="classes.jar" description="generate classes jar">
+    <mkdir dir="${build.tmp}/classes"/>
+    <javac includeantruntime="false" srcdir="${javasrc}/classes" destdir="${build.tmp}/classes" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"/>
+    <jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>
+  </target>
 
-  	<!-- creates the jtools jar (PC: JDK 1.4) -->
-  	<!-- target name="jtools.jar" depends="pcrcxcomm.jar" description="generate jtools jar"-->
-  	<target name="jtools.jar" description="generate jtools jar">
-    	<mkdir dir="${build.tmp}/tools"/>
-    	<!-- generate constants first -->
-    	<javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"
-    		includes="**/GenerateConstants.java">
-    	</javac>
-   		<java classpath="${build.tmp}/tools" classname="js.tinyvm.GenerateConstants">
-      		<sysproperty key="tinyvm.home" value="${src}"/>
-    	</java>
-    	<!-- generate tools -->
-    	<javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8">
-      		<classpath location="${3rdparty.libs}/commons-cli-1.0.jar"/>
-      		<classpath location="${3rdparty.libs}/bcel-5.1.jar"/>
-    	</javac>
-    	<jar destfile="${lib}/jtools.jar" basedir="${build.tmp}/tools" update="false">
-    	</jar>
-  	</target>
+  <!-- creates the jtools jar (PC: JDK 1.4) -->
+  <!-- target name="jtools.jar" depends="pcrcxcomm.jar" description="generate jtools jar"-->
+  <target name="jtools.jar" description="generate jtools jar">
+    <mkdir dir="${build.tmp}/tools"/>
+    <!-- generate constants first -->
+    <javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"
+      includes="**/GenerateConstants.java">
+    </javac>
+    <java classpath="${build.tmp}/tools" classname="js.tinyvm.GenerateConstants">
+      <sysproperty key="tinyvm.home" value="${src}"/>
+    </java>
+    <!-- generate tools -->
+    <javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8">
+      <classpath location="${3rdparty.libs}/commons-cli-1.0.jar"/>
+      <classpath location="${3rdparty.libs}/bcel-5.1.jar"/>
+    </javac>
+    <jar destfile="${lib}/jtools.jar" basedir="${build.tmp}/tools" update="false">
+    </jar>
+  </target>
 </project>

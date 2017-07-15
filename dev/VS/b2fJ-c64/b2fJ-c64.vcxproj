@@ -170,7 +170,6 @@
     <ClInclude Include="..\..\..\distr\src\javavm\interpreter.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\language.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\limits.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\magic.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\memory.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\mydebug.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\opcodes.h" />
@@ -180,6 +179,7 @@
     <ClInclude Include="..\..\..\distr\src\javavm\threads.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\trace.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\types.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\version.h" />
     <ClInclude Include="..\..\..\distr\src\platform\c64\compiler_config.h" />
     <ClInclude Include="..\..\..\distr\src\platform\c64\java_code.h" />
     <ClInclude Include="..\..\..\distr\src\platform\c64\load.h" />
