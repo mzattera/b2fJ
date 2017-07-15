@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F6061B03-D731-4C63-B5A0-D831A7C03D8C}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\distr\src\build.xml = ..\..\distr\src\build.xml
+		..\..\docs\index_new.md = ..\..\docs\index_new.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notes", "notes", "{761D72D2-791B-4BFB-AF7F-2A5FF7B1CD82}"
