@@ -86,11 +86,9 @@ Notice that:
 
 ### From `.class` to C (linking)
 
-This step squeezes all `.class` files into a binary format compact enough to be loaded in the b2fJ virtual machine.
-
 In order to make the JVM more compact, we will squeeze all `.class` files needed by our program 
 into a C header that is then compiled directly together with the JVM.
-The JVM will then be a single C64 executable containing both the actual Java interpreter and your java code.
+This will then result in a single C64 executable containing both the actual Java interpreter and your java code.
 
 Starting from the class that contains the `main()` method, all methods invoked by the program are retrieved and corresponding java 
 bytecode is stored as a 'byte[]' inside  a C header (`java_code.h`) which is then moved into folder 'src\platform\c64''
