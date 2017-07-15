@@ -1,6 +1,9 @@
 package java.util;
 /*
-* $Log$
+* $Log: Queue.java,v $
+* Revision 1.2  2005/11/23 17:46:45  mpscholz
+* minor javadoc related changes
+*
 * Revision 1.1  2003/08/17 14:59:42  mpscholz
 * enhanced Vector
 * added Stack and Queue and associated exception classes
@@ -11,7 +14,9 @@ package java.util;
 /**
  * A FIFO Queue of objects. 
  */
-public class Queue extends Vector {
+public class Queue<E> extends Vector<E> {
+	
+	//TODO in JDK, java.util.Queue is an interface
 
 	////////////////////////////////////////////
 	// constants
@@ -39,7 +44,7 @@ public class Queue extends Vector {
 	 * @param anObject the object
 	 * @return Object the object pushed onto the Queue
 	 */
-    public Object push(Object anObject) {
+    public E push(E anObject) {
     	// add the object to base vector
 		addElement(anObject);
 		return anObject;

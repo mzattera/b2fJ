@@ -1,147 +1,218 @@
-/*
- * @(#)DataInputStream.java   1.00 01/12/14
- *
- * Adapted from the original Sun Microsystems code for leJOS.
- * @author Brian Bagnall
- */
-
 package java.io;
 
-public class DataInputStream extends InputStream {
-    
-   protected InputStream  in;
-    
-   public DataInputStream(InputStream in) {
-      this.in = in;
-   }
-   
-   /**
-   * Reads the next byte of data from this input stream. The value 
-   * byte is returned as an <code>int</code> in the range 
-   * <code>0</code> to <code>255</code>. If no byte is available 
-   * because the end of the stream has been reached, the value 
-   * <code>-1</code> is returned. This method blocks until input data 
-   * is available, the end of the stream is detected, or an exception 
-   * is thrown. 
-   * <p>
-   * This method
-   * simply performs <code>in.read()</code> and returns the result.
-   *
-   * @return     the next byte of data, or <code>-1</code> if the end of the
-   *             stream is reached.
-   * @exception  IOException  if an I/O error occurs.
-   * @see        java.io.FilterInputStream#in
-   */
-   public int read() throws IOException {
-      return in.read();
-   }
-    
-   public final int read(byte b[]) throws IOException {
-      return in.read(b, 0, b.length);
-   }
 
-   public final int read(byte b[], int off, int len) throws IOException {
-      return in.read(b, off, len);
-   }
-/*
-   public final void readFully(byte b[]) throws IOException {
-      readFully(b, 0, b.length);
-   }
-*/
-/*   public final void readFully(byte b[], int off, int len) throws IOException {
-	  if (len < 0)
-	     throw new IOException();
+/**
+ * Reads java data types transmitted as bytes over an InputStream.
+ * 
+ * @author Sven Köhler
+ */
+public class DataInputStream extends FilterInputStream implements DataInput
+{
+	public DataInputStream(InputStream in)
+	{
+		super(in); 
+	}
+	
+	private int readByte0() throws IOException
+	{
+		int ch = in.read();
+		if (ch < 0)
+			throw new EOFException();
+		//actually, InputStream.read() should always return values from 0 to 255
+		return ch & 0xFF;
+	}
 
-    	int n = 0;
-    	while (n < len) {
-         int count = in.read(b, off + n, len - n);
-    	   if (count < 0)
-    		   throw new IOException();
-    	   n += count;
-      }
-   }
-*/
-/*   public final int skipBytes(int n) throws IOException {
+	public final boolean readBoolean() throws IOException
+	{
+		return (readByte0() != 0);
+	}
+	
+	public final byte readByte() throws IOException
+	{
+		return (byte)readByte0();
+	}
+	
+	public final char readChar() throws IOException
+	{
+		int x = readByte0();
+		x = (x << 8) | readByte0();
+		return (char)x;
+	}
+	
+	public final float readFloat() throws IOException
+	{
+		int x = this.readInt();
+		return Float.intBitsToFloat(x);
+	}
 
-      int total = 0;
-      int cur = 0;
-      
-      while ((total<n) && ((cur = (int) in.skip(n-total)) > 0)) {
-         total += cur;
-      }
-      return total;
-   }
-*/
-   public final boolean readBoolean() throws IOException {
-      int ch = in.read();
-      if (ch < 0)
-         throw new IOException();
-      return (ch != 0);
-   }
+	public final void readFully(byte b[]) throws IOException
+	{
+		readFully(b, 0, b.length);
+	}
+	
+	public final void readFully(byte b[], int off, int len) throws IOException
+	{
+		if (len < 0)
+			//TODO is this correct?
+			throw new IOException();
 
-   public final byte readByte() throws IOException {
-      int ch = in.read();
-      if (ch < 0)
-         throw new IOException();
-      return (byte)(ch);
-   }
-/*
-   public final int readUnsignedByte() throws IOException {
-	   int ch = in.read();
-	   if (ch < 0)
-	      throw new IOException();
-	   return ch;
-   }
-*/
-   public final short readShort() throws IOException {
-      int ch1 = in.read();
-      int ch2 = in.read();
-      if ((ch1 | ch2) < 0)
-         throw new IOException();
-      return (short)((ch1 << 8) + (ch2 << 0));
-   }
-   /*
-   public final int readUnsignedShort() throws IOException {
-      InputStream in = this.in;
-      int ch1 = in.read();
-      int ch2 = in.read();
-      if ((ch1 | ch2) < 0)
-         throw new IOException();
-      return (ch1 << 8) + (ch2 << 0);
-   }
-   */
-   
-   public final char readChar() throws IOException {
-      InputStream in = this.in;
-      int ch1 = in.read();
-      int ch2 = in.read();
-      if ((ch1 | ch2) < 0)
-         throw new IOException();
-      return (char)((ch1 << 8) + (ch2 << 0));
-   }
-
-   public final int readInt() throws IOException {
-      int ch1 = in.read();
-      int ch2 = in.read();
-      int ch3 = in.read();
-      int ch4 = in.read();
-      if ((ch1 | ch2 | ch3 | ch4) < 0)
-         throw new IOException();
-      return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
-   }
-/*
-   public final long readLong() throws IOException {
-      InputStream in = this.in;
-      return ((long)(readInt()) << 32) + (readInt() & 0xFFFFFFFFL);
-   }
-   */
-
-   public final float readFloat() throws IOException {
-      return Float.intBitsToFloat(readInt());
-   }
-
-/*
-   public final double readDouble() throws IOException {
-      return Double.longBitsToDouble(readLong());
-   }*/
+		while (len > 0)
+		{
+			int count = in.read(b, off, len);
+			if (count < 0)
+				throw new EOFException();
+			
+			off += count;
+			len -= count;
+		}
+	}
+	
+	public final int readInt() throws IOException 
+	{
+		int x = readByte0();
+		x = (x << 8) | readByte0();
+		x = (x << 8) | readByte0();
+		x = (x << 8) | readByte0();
+		return x;
+	}
+	
+	public final long readLong() throws IOException 
+	{
+		long x = readByte0();
+		x = (x << 8) | readByte0();
+		x = (x << 8) | readByte0();
+		x = (x << 8) | readByte0();		
+		x = (x << 8) | readByte0();		
+		x = (x << 8) | readByte0();		
+		x = (x << 8) | readByte0();		
+		x = (x << 8) | readByte0();		
+		return x;
+	}
+	
+	public final short readShort() throws IOException 
+	{
+		int x = readByte0();
+		x = (x << 8) | readByte0();
+		return (short)x;
+	}
+	
+	public final int readUnsignedByte() throws IOException 
+	{
+		int x = readByte0();
+		return x;
+	}
+	
+	public final int readUnsignedShort() throws IOException
+	{
+		int x = readByte0();
+		x = (x << 8) | readByte0();
+		return x;
+	}
+	
+	public final String readUTF() throws IOException
+	{
+		return readUTF(this);
+	}
+	
+	public static final String readUTF(DataInput in) throws IOException
+	{
+		int utflen = in.readUnsignedShort();
+		StringBuilder sb = new StringBuilder(utflen / 3);
+		
+		int count = 0;
+		while (count < utflen)
+		{
+			int c1 = in.readUnsignedByte();
+		
+			if (c1 < 0x80)
+			{
+				// ASCII character
+				count++;
+				sb.append((char) c1);
+			}
+			else switch (c1 >> 4)
+			{
+				case 0x0C:
+				case 0x0D:
+				{
+					// 110x xxxx  10xx xxxx
+					count += 2;
+					if (count > utflen)
+						throw new IOException("malformed input: partial character at end");
+					
+					int c2 = in.readUnsignedByte();
+					if ((c2 & 0xC0) != 0x80)
+						throw new IOException("malformed input"); 
+					
+					sb.append((char)(((c1 & 0x1F) << 6) | (c2 & 0x3F)));
+					break;
+				}
+				case 0x0E:
+				{
+					// 1110 xxxx  10xx xxxx  10xx xxxx
+					count += 3;
+					if (count > utflen)
+						throw new IOException("malformed input: partial character at end");
+					
+					int c2 = in.readUnsignedByte();
+					int c3 = in.readUnsignedByte();
+					
+					if (((c2 & 0xC0) != 0x80) || ((c3 & 0xC0) != 0x80))
+						throw new IOException("malformed input");
+					
+					sb.append((char)(((c1 & 0x0F) << 12) | ((c2 & 0x3F) << 6) | (c3 & 0x3F)));
+					break;
+				}
+				default:
+					throw new IOException("malformed input");
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	public final int skipBytes(int n) throws IOException
+	{
+		return (int)this.in.skip(n);
+	}
+	
+	/**
+	 * Deprecated. This method assumes ISO-8859-1 encoding and does only recognize \n and \r\n line-endings. 
+	 * 
+	 * @deprecated broken in various ways, use BufferedReader.readLine instead
+	 */
+	@Deprecated
+	public final String readLine() throws IOException
+	{
+		StringBuilder strb = new StringBuilder();
+		
+		//MISSING readLine() does not recognize \r line endings
+		
+		while(true)
+		{
+			int c = this.read();
+			
+			// catch EOF
+			if (c < 0)
+			{ 
+				if (strb.length() == 0)
+					return null;
+				
+				break;
+			}
+			
+			if (c == '\n')
+			{
+				int p = strb.length() - 1;
+				if (p >= 0 && strb.charAt(p) == '\r')
+					return strb.substring(0, p);
+				
+				break;
+			}
+			
+			strb.append((char)c);
+		}
+				
+		return strb.toString();
+	}
 }

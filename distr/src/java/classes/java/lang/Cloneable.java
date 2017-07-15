@@ -6,5 +6,5 @@ package java.lang;
  */
 public interface Cloneable
 {
-
+	//just an indicator interface
 }

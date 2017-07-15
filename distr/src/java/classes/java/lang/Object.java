@@ -10,6 +10,8 @@ public class Object
     return this == aOther;
   }
 
+  private native static int getDataAddress (Object obj);
+
   public int hashCode()
   {
     return getDataAddress (this);
@@ -64,8 +66,6 @@ public class Object
   {
     return null;
   }
-
-  private native static int getDataAddress (Object obj);
 }
 
 

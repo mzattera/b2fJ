@@ -10,15 +10,13 @@ package java.io;
  *
  */
 public class PrintStream extends OutputStream {	
-    
-    private static final char NEW_LINE = '\n';
-    
 	private OutputStream os;
 	
     public PrintStream(OutputStream os) {
     	this.os = os;  	
     }
     
+    @Override
 	public void write (int c) {
     	try {
             synchronized (this)
@@ -31,6 +29,7 @@ public class PrintStream extends OutputStream {
     /**
      * Flush any pending output in the stream
      */
+    @Override
 	public void flush()
     {
     	try {
@@ -53,10 +52,8 @@ public class PrintStream extends OutputStream {
      * @param s the string to print
      */
     private synchronized void println0(String s) {
-        for(int i=0;i<s.length();i++) {
-            write(s.charAt(i));
-        }
-        write(NEW_LINE);
+        print0(s);
+        write('\n');
         //TODO make flush optional
         flush();
     }
@@ -66,26 +63,106 @@ public class PrintStream extends OutputStream {
      * to the underlying output stream.
      */
     public synchronized void println() {
-   		write(NEW_LINE);
+   		write('\n');
    		//TODO make flush optional
    		flush();
     }    
-        
+    
+    /*** print() Delegates ***/
+    
+    public void print(boolean v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(char v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(char[] v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(double v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(float v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(int v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(long v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
+    public void print(Object v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
     /**
      * Writes a string to the underlying output stream.
      * 
      * @param s the string to print
      */
     public void print(String s) {
-    	print0(s);
-    }    
-        
-    /**
-     * Writes a string to the underlying output stream.
-     * 
-     * @param s the string to print
-     */
-    public void println(String s) {
-    	println0(s);
-    }    
+    	print0(String.valueOf(s));
+    }
+    
+    /*** println() Delegates ***/
+    
+    public void println(boolean v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(char v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(char[] v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(double v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(float v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(int v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(long v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(Object v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    public void println(String s)
+    {
+    	println0(String.valueOf(s));
+    }
 }

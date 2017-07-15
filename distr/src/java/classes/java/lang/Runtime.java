@@ -38,4 +38,9 @@ public class Runtime {
    * @return the free memory in bytes
    */
   public native long totalMemory();
+  
+  /**
+   * Terminate the application.
+   */
+  public native void exit(int code);
 }

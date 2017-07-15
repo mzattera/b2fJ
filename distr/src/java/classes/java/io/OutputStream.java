@@ -29,7 +29,7 @@ package java.io;
  * @see     java.io.OutputStream#write(int)
  * @since   JDK1.0
  */
-public abstract class OutputStream {
+public abstract class OutputStream implements Flushable, Closeable {
     /**
      * Writes the specified byte to this output stream. The general 
      * contract for <code>write</code> is that one byte is written 
@@ -116,6 +116,7 @@ public abstract class OutputStream {
      * @exception  IOException  if an I/O error occurs.
      */
     public void flush() throws IOException {
+    	// does nothing by default
     }
 
     /**
@@ -129,6 +130,7 @@ public abstract class OutputStream {
      * @exception  IOException  if an I/O error occurs.
      */
     public void close() throws IOException {
+    	// does nothing by default
     }
 
 }

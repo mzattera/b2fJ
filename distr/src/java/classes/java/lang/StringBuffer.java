@@ -7,241 +7,301 @@ package java.lang;
  * number.
  *<P>
  * @author <a href="mailto:martin@egholm-nielsen.dk">Martin E. Nielsen</a>
+ * @author Sven Köhler
  */
-public final class StringBuffer
+public final class StringBuffer implements CharSequence
 {
-  char[] characters;
-  int curPos = 0;
+	private static final int INITIAL_CAPACITY = 10;
+	private static final int CAPACITY_INCREMENT_NUM = 3;	//numerator of the increment factor
+	private static final int CAPACITY_INCREMENT_DEN = 2;	//denominator of the increment factor
+	
+	//MISSING codePointAt(int)
+	//MISSING codePointBefore(int)
+	//MISSING codePointCount(int, int)
+	//MISSING insert*
+	//MISSING offsetByCodePoints(int, int)
+	//MISSING replace(int, int, String)
+	//MISSING reverse()
+	
+	private char[] characters;
+	private int curLen = 0;
+	
+	public void ensureCapacity(int minCapacity)
+	{
+		int cl = characters.length;
+		if (cl < minCapacity)
+		{
+			cl = cl * CAPACITY_INCREMENT_NUM / CAPACITY_INCREMENT_DEN + 1;
+			while (cl < minCapacity)
+				cl = cl * CAPACITY_INCREMENT_NUM / CAPACITY_INCREMENT_DEN + 1;
+			
+			char[] newData = new char[cl];
+			System.arraycopy(characters, 0, newData, 0, curLen);
+			characters = newData;
+		}
+	}
 
-  /**
-   * Conversion between integers from 0 to 9 and their respective
-   * chars.
-   **/
-  private static final char[] numbers = { '0', '1', '2', '3', '4',
-					    '5', '6', '7', '8', '9' };
-
-  /**
-   * The value of <i>log(10)</i> used for converting from base
-   * <i>e</i> to base 10.
-   **/
-  private static final float log10 = 2.30258509f;
-
-  public StringBuffer () {
-  	characters = new char[0];
+  public StringBuffer ()
+  {
+    characters = new char[INITIAL_CAPACITY];
   }
   
-  public StringBuffer (String aString)
+  public StringBuffer (CharSequence seq)
   {
-    characters = aString.toCharArray();
+	  int len = seq.length();
+	  curLen = len;
+	  characters = new char[len];
+	  for (int i=0; i<len; i++)
+		  characters[i] = seq.charAt(i);
   }
 
   public StringBuffer (int length)
   {
+    if (length < 0)
+    	throw new NegativeArraySizeException("length is negative");
+    
     characters = new char[length];
   }
 
-  public StringBuffer delete(int start, int end)
+  public StringBuffer (String aString)
   {
-        if (start >= 0 && start < end && start < curPos)
-        {
-                if (end >= curPos)
-                        end = curPos;
-                else
-                        System.arraycopy(characters, end, characters, start, curPos-end);
-                        
-                curPos -= end-start;
-        }
-        
-        return this;
+    characters = aString.toCharArray();
+    curLen = characters.length;
+  }
+
+  public synchronized StringBuffer delete(int start, int end)
+  {
+	  if (start < 0 || start > curLen)
+		  throw new StringIndexOutOfBoundsException(start);
+	  if (end < start)
+		  throw new StringIndexOutOfBoundsException();
+	  if (end > curLen)
+		  end = curLen;
+	  
+      System.arraycopy(characters, end, characters, start, curLen - end);
+      curLen -= end - start;
+      
+      return this;
+  }
+
+  public StringBuffer deleteCharAt(int index)
+  {
+      return this.delete(index, index+1);
   }
 
   public StringBuffer append (String s)
   {
-    // Reminder: compact code more important than speed
-    char[] sc = s.toCharArray();
-    int cl = characters.length;
-    int sl = sc.length;
-    char [] nc = characters;
-    if (sl + curPos > cl)
-    {
-        nc = new char[sl + curPos];
-        System.arraycopy (characters, 0, nc, 0, curPos);
-    }
-    System.arraycopy (sc, 0, nc, curPos, sl);
-    characters = nc;
-    curPos += sl;
-    return this;
+	  return this.appendInternal(s);
   }
 
-  public StringBuffer append (java.lang.Object aObject)
+  public StringBuffer append (Object aObject)
   {
-    return append (aObject.toString());
+	  return this.appendInternal(String.valueOf(aObject));
   }
 
   public StringBuffer append (boolean aBoolean)
   {
-    return append (aBoolean ? "true" : "false");
+    return this.appendInternal(String.valueOf(aBoolean));
   }
   
-  public StringBuffer append (char aChar)
+  public synchronized StringBuffer append (char aChar)
   {
-    return append (new String (new char[] { aChar }, 0, 1));
+	  int newLen = curLen +1;
+	  ensureCapacity(newLen);
+	  
+	  characters[curLen] = aChar;
+	  curLen = newLen;
+	  
+	  return this;
   }
 
-  public StringBuffer append (int aInt)
-  {
-	if ( aInt < 0 ) {
-	    characters[ curPos++ ] = '-';
-	    aInt = -aInt;
-	} // if
-
-	int pow = ( int )Math.floor( Math.log( aInt ) / log10 );
-
-	int div = 0;
-	while ( pow >= 0 ) {
-	    div = ( int ) ( aInt / (int)Math.pow( 10, pow ) );
-	    
-	    characters[ curPos++ ] = numbers[ div ];
-	    aInt -= div * (int)Math.pow( 10, pow );
-	    pow--;
-	} // while
+	public StringBuffer append(char[] c)
+	{
+		return this.append(c, 0, c.length);
+	}
 	
-	return this;
+	public synchronized StringBuffer append(char[] c, int off, int len)
+	{
+		int newLen = curLen + len;
+		ensureCapacity(newLen);
+	  
+		for (int i=0; i<len; i++)
+			characters[curLen + i] = c[off + i];		
+		curLen = newLen;	  
+		
+		return this;
+	}
+
+	public StringBuffer append(CharSequence cs)
+	{
+		return this.append(cs, 0, cs.length());
+	}
+	
+	public synchronized StringBuffer append(StringBuffer sb)
+	{
+		int len = sb.length();
+		this.ensureCapacity(curLen + len);
+		sb.getChars(0, len, characters, curLen);
+		return this;
+	}
+	
+	public synchronized StringBuffer append(CharSequence cs, int start, int end)
+	{
+		int len = end - start;
+		int newLen = curLen + len;
+		ensureCapacity(newLen);
+	  
+		for (int i=0; i<len; i++)
+			characters[curLen + i] = cs.charAt(start + i);		
+		curLen = newLen;	  
+		
+		return this;
+	}
+
+  public synchronized StringBuffer append (int i)
+  {
+	  int intLen = StringUtils.exactStringLength(i, 10);
+	  int newLen = curLen + intLen;
+	  ensureCapacity(newLen);
+
+	  StringUtils.getIntChars(characters, newLen, i, 10);	  
+	  curLen = newLen;
+	  
+	  return this;
   }
 
-  public StringBuffer append (long aLong)
-  {
-        return append("<longs not supported>");
-  }
-
-  public StringBuffer append (float aFloat)
-  {
-    try {
-        append (aFloat, 8);
-    } catch (ArrayIndexOutOfBoundsException e) {
-        curPos = Math.min(characters.length, curPos);
-    }
+	public synchronized StringBuffer append (float aFloat)
+	{
+		ensureCapacity(curLen + StringUtils.MAX_FLOAT_CHARS);
+		curLen = StringUtils.getFloatChars(aFloat, characters, curLen);
+    	return this;
+	}
+	
+	public synchronized StringBuffer appendCodePoint(int cp)
+	{
+		ensureCapacity(curLen + 2);
+		curLen += Character.toChars(cp, characters, curLen);
+		return this;
+	}
+  
+  /**
+   * Appends a string with no null checking
+   */
+  private StringBuffer appendInternal(String s) {
+	  if (s == null)
+		  s = "null";
+	  
+    // Reminder: compact code more important than speed
+    char[] sc = s.characters;
+    int sl = sc.length;
     
-    return this;
-  }
-
-  public StringBuffer append (double aDouble)
-  {
-    try {
-        append ((float)aDouble, 8);
-    } catch (ArrayIndexOutOfBoundsException e) {
-        curPos = Math.min(characters.length, curPos);
-    }
+    int newlen = curLen + sl;
+    this.ensureCapacity(newlen);
+    
+    System.arraycopy (sc, 0, characters, curLen, sl);    
+    curLen = newlen;
     
     return this;
   }
   
-  public String toString()
-  {
-    return new String (characters, 0, curPos);
+  public int capacity() {
+	  return characters.length;
+  }
+  
+  public int indexOf(String str) {
+      return indexOf(str, 0);
   }
 
-  public char charAt(int i)
+  public synchronized int indexOf(String str, int fromIndex) {
+      return String.indexOf(characters, 0, curLen,
+                            str.characters, 0, str.characters.length, fromIndex);
+  }
+
+  public synchronized int lastIndexOf(String str) {
+      // Note, synchronization achieved via other invocations
+      return lastIndexOf(str, curLen);
+  }
+
+  public synchronized int lastIndexOf(String str, int fromIndex) {
+      return String.lastIndexOf(characters, 0, curLen,
+                            str.characters, 0, str.characters.length, fromIndex);
+  }
+  
+  @Override
+  public synchronized String toString()
   {
+    return new String (characters, 0, curLen);
+  }
+
+  public synchronized char charAt(int i)
+  {
+	  if (i < 0 || i >= curLen)
+		  throw new StringIndexOutOfBoundsException(i);
+	  
         return characters[i];
   }
   
-  public int length()
+  public synchronized void setCharAt(int i, char ch)
   {
-        return curPos;
+	  if (i < 0 || i >= curLen)
+		  throw new StringIndexOutOfBoundsException(i);
+	  
+        characters[i] = ch;
+  }
+  
+  public synchronized void setLength(int newLen)
+  {
+	  if (newLen < 0)
+		  throw new IndexOutOfBoundsException();
+	  
+	  ensureCapacity(newLen);
+	  for (int i=curLen; i<newLen; i++)
+		  characters[i] = 0;
+	  curLen = newLen;
+  }
+  
+  public synchronized int length()
+  {
+        return curLen;
   }
 
   /**
-  * Retrieves the contents of the StringBuffer in the form of an array of characters.
-  */
-  public char [] getChars()
+   * Retrieves the contents of the StringBuilder in the form of an array of characters.
+   */
+  public synchronized void getChars(int start, int end, char[] dst, int dstStart)
   {
-    return characters;
+	  if (end > curLen)
+		  throw new StringIndexOutOfBoundsException(end);
+	  System.arraycopy(characters, start, dst, dstStart, end-start);
   }
   
-    /**
-     * Helper method for converting floats and doubles.
-     *
-     * @author Martin E. Nielsen
-     **/
-    private StringBuffer append( float number, int significantDigits ) {
+  public String substring(int start) {
+      return substring(start, curLen);
+  }
+  
+  public synchronized String substring(int start, int end) {
+	  if (start < 0 || start > curLen)
+		  throw new StringIndexOutOfBoundsException(start);
+	  if (end > curLen)
+		  throw new StringIndexOutOfBoundsException(end);
+	  if (end < start)
+		  throw new StringIndexOutOfBoundsException(end - start);
+	  
+	  int len = end - start;
+	  return new String(characters, start, len);
+  }
 
-	if ( number == 0 ) {
-	    characters[ curPos++ ] = '0';
-	    return this;
-	} // if
-	    
-	if ( number < 0 ) {
-	    characters[ curPos++ ] = '-';
-	    number = -number;
-	} // if
-
-	// calc. the power (base 10) for the given number:
-	int pow = ( int )Math.floor( Math.log( number ) / log10 );
-	int exponent = 0;
-
-	// use exponential formatting if number too big or too small
-	if ( pow < -3 || pow > 6 ) {
-	    exponent = pow;
-	    number /= Math.exp( Math.ln10 * exponent );
-	} // if
-
-	// Recalc. the pow if exponent removed and d has changed
-	pow = ( int )Math.floor( Math.log( number ) / log10 );
-
-	// Decide how many insignificant zeros there will be in the
-	// lead of the number.
-	int insignificantDigits = -Math.min( 0, pow );
-
-	// Force it to start with at least "0." if necessarry
-	pow = Math.max( 0, pow );
-        double divisor = Math.pow(10, pow);
-        
-	// Loop over the significant digits (17 for double, 8 for float)
-	for ( int i = 0, end = significantDigits+insignificantDigits, div; i < end; i++  ) {
-
-	    // Add the '.' when passing from 10^0 to 10^-1
-	    if ( pow == -1 ) {
-		characters[ curPos++ ] = '.';
-	    } // if
-	    
-	    // Find the divisor
-	    div = ( int ) ( number / divisor );
-	    // This might happen with 1e6: pow = 5 ( instead of 6 )
-	    if ( div == 10 ) {
-		characters[ curPos++ ] = '1';
-		characters[ curPos++ ] = '0';
-	    } // if
-	    else {
-//		characters[ curPos ] = numbers[ div ];
-		characters[ curPos ] = (char)(div + '0');
-		curPos++;
-	    } // else
-
-	    number -= div * divisor;
-	    divisor /= 10.0;
-	    pow--;
-
-	    // Break the loop if we have passed the '.'
-	    if ( number == 0 && divisor < 0.1 ) break;
-	} // for
-
-	// Remove trailing zeros
-  	while ( characters[ curPos-1 ] == '0' )
-  	    curPos--;
-
-	// Avoid "4." instead of "4.0"
-	if ( characters[ curPos-1 ] == '.' )
-	    curPos++;
-
-	// Restore the exponential format
-	if ( exponent != 0 ) {
-	    characters[ curPos++ ] = 'E';
-	    append( exponent );
-	} // if
-	
-	return this;
-    }
+  public CharSequence subSequence(int start, int end)
+  {
+	  return substring(start, end);
+  }
+  
+  public void trimToSize()
+  {
+	  char[] tmp = new char[curLen];
+	  System.arraycopy(characters, 0, tmp, 0, curLen);
+	  characters = tmp;
+  }
 }
 
 

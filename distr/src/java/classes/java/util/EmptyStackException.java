@@ -1,6 +1,10 @@
 package java.util;
 /*
-* $Log$
+* $Log: EmptyStackException.java,v $
+* Revision 1.1  2003/08/17 14:59:42  mpscholz
+* enhanced Vector
+* added Stack and Queue and associated exception classes
+*
 */
 
 /////////////////////////////////////////////////////////

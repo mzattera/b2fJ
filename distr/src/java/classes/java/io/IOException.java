@@ -28,7 +28,7 @@ class IOException extends Exception {
      * as its error detail message.
      */
     public IOException() {
-	super();
+        super();
     }
 
     /**
@@ -41,6 +41,6 @@ class IOException extends Exception {
      */
 
     public IOException(String s) {
-	super();
+        super(s);
   }
 }
