@@ -38,7 +38,7 @@ Make sure that the JDK folder is in your path or that you have set [JAVA_HOME](h
 
 ## b2fJ
 
-Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest). It's easier to work if you add the "bin" folder in the distribution to your [PATH variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
+Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest). It`s easier to work if you add the "bin" folder in the distribution to your [PATH variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
 
 # Compile and run Java Programs
 
@@ -91,14 +91,14 @@ into a C header that is then compiled directly together with the JVM.
 This will then result in a single C64 executable containing both the actual Java interpreter and your java code.
 
 Starting from the class that contains the `main()` method, all methods invoked by the program are retrieved and corresponding java 
-bytecode is stored as a 'byte[]' inside  a C header (`java_code.h`) which is then moved into folder 'src\platform\c64''
+bytecode is stored as a `byte[]` inside  a C header (`java_code.h`) which is then moved into folder `src\platform\c64`
 where the JVM source code resides, for later compilation.
 
 The commnad to perform this "linking" operation is as follows:
 
     b2fJl HelloWorld
 
-The "linker" is a Java application ('lib\jtools.jar'); its source code can be found under 'src\java\tools' folder.
+The "linker" is a Java application (`lib\jtools.jar`); its source code can be found under `src\java\tools` folder.
 
 ### Building the JVM
 
@@ -116,19 +116,19 @@ If the process is successful, a file called "b2fJ.prg" should have been created;
 
 At last! You can now run your Java program on your C64.
 
-If you don't have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE emulator that is (re)distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then under "File > Autostart Disk/Tape image" choose the "b2fJ.prg" file you created above.
+If you don`t have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE emulator that is (re)distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then under "File > Autostart Disk/Tape image" choose the "b2fJ.prg" file you created above.
 
-# Extend b2fJ
+# Expanding b2fJ
 
-Under 'src/java/classes' you can find the source code for the class library distributed with b2fJ; this is made up of several classes that replace
-the default Java library (under 'java' folder) and some custom classes to support features of the target platform (e.g. C64 sprites).
+Under `src/java/classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes that replace
+the default Java library (under `java` folder) and some custom classes to support features of the target platform (e.g. C64 sprites).
 
 ## Building the library
 
-You can expand the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
-'classes.jar' under 'lib' folder. The file 'build.xml' that you can find in the 'src' folder is an ANT script that serves this purpose.
+You can improve the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
+`classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an ANT script that serves this purpose.
 
-I suggest to [install Apace Ant](http://ant.apache.org/) and use it to run the build.
+Install [Apace Ant](http://ant.apache.org/) and use it to run the build.
 
 ## Adding native methods
 
@@ -138,22 +138,22 @@ In the process of extending the class library, it might be necessary to add nati
 
 * The "linker" needs to know that a method is native.
 
-	* Add the [signature](http://www.rgagnon.com/javadetails/java-0286.html) of the native method to file 'src\javavm\signatures.db'.
+	* Add the [signature](http://www.rgagnon.com/javadetails/java-0286.html) of the native method to file `src\javavm\signatures.db`.
 
-	* Mark the linker with a new 'MAGIC_MASK'; this is a numeric constant defined inside 'src\jave\tools\js\tinyvm\TinyVMConstants.java'.
+	* Mark the linker with a new `MAGIC_MASK`; this is a numeric constant defined inside `src\java\tools\js\tinyvm\TinyVMConstants.java`.
 	The linker stores this constant in `java_code.h`, so the JVM can check that it is aligned with current version of the linker.
 
-	* Rebuild the class library using the provided Ant script; the script will also rebuild the linker, processing 'signatures.db' file
-	and making the linker aware of the new methods. In addition, it will update the file 'src\javavm\version.h' with the new 'MAGIC_MASK'
-	value and update 'src\javavm\specialsignatures.h' with C constants matching each native method signature found.
+	* Rebuild the class library using the provided Ant script; the script will also rebuild the linker, processing `signatures.db` file
+	and making the linker aware of the new methods. In addition, it will update the file `src\javavm\version.h` with the new `MAGIC_MASK`
+	value and update `src\javavm\specialsignatures.h` with C constants matching each native method signature found.
 
-* In 'src\platform\c64\nativeemul.c' there is a function 'dispatch_native()'; there there is a 'switch' statement for each of the
-constants corresponding to native methods. Add a 'case:' statement for you new native method and implement it here.
+* In `src\platform\c64\nativeemul.c` there is a function `dispatch_native()`; there you can find a `switch` statement for each of the
+constants corresponding to native methods. Add a `case:` statement for you new native method and implement it here.
 
-  * In case the method is declared as 'static', 'paramBase[0...n]' will contain the method parameters (as 'STACKWORD's; see the different 
-  macros availabe to conver this into useful Java objects).
+  * In case the method is declared as `static`, `paramBase[0...n]` will contain the method parameters (as `STACKWORD`s; see the different 
+  macros availabe to convert this into useful Java objects).
 
-  * If case the method is an instance method, 'paramBase[0]' will contain a reference to the calling object ('this') while the
-  method parameters are stored in 'paramBase[1...n]'.
+  * If the method is an instance method, `paramBase[0]` will contain a reference to the calling object (`this`) while the
+  method parameters are stored in `paramBase[1...n]`.
   
 
