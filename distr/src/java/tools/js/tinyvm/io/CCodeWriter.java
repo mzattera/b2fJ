@@ -202,7 +202,7 @@ public abstract class CCodeWriter implements IByteWriter {
 		}
 		if (_rowPos == 0)
 			_out.print('\t');
-		_out.print(String.format("0x%02x", aByte));
+		_out.print(String.format("0x%02x", (aByte & 0xFF)));
 		_needComma = true;
 		_rowPos++;
 		_offset++;
