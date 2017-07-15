@@ -165,6 +165,20 @@ public abstract class CCodeWriter implements IByteWriter {
 	//
 
 	/*
+	 * For ByteWriter, this does nothing.
+	 */
+	public void writeComment (String aComment) throws IOException {		
+		if (_needComma) {
+			_out.print(",");
+			_needComma = false;
+		}				
+		_out.println();
+		_out.print('\t');
+		_out.println(aComment);
+		_rowPos = 0;
+	}
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see js.tinyvm.io.IByteWriter#write(byte[])

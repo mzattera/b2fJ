@@ -14,7 +14,7 @@ In its current state, it is basically a straight port of leJOS RCX to the popula
 * Exceptions
 * Float, long, String types (custom implementation)
 
-…and all of its limitations, most noticeably it lacks garbage collection.
+...and all of its limitations, most noticeably it lacks garbage collection.
 
 In addition, being a straight port, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
 
@@ -32,7 +32,7 @@ The result should be this:
 
 ## JDK
 
-In order to compile and run your Java programs, you need first of all to have a [Java Development Kit](https://www.google.ch/search?q=JDK+1.7+download) installed. I am using version 1.7.0 but any version from 1.5 up should work.
+In order to compile and run your Java programs, you need first of all to have a [Java Development Kit 1.8](https://www.google.ch/search?q=JDK+1.8+download) installed.
 
 Make sure that the JDK folder is in your path or that you have set [JAVA_HOME](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
 

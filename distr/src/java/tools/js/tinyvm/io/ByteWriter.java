@@ -70,6 +70,12 @@ public abstract class ByteWriter implements IByteWriter {
 	// Direct byte writing interface
 	//
 
+	/*
+	 * For ByteWriter, this does nothing.
+	 */
+	public void writeComment (String aComment) throws IOException {		
+	}
+
 	public void write(byte[] aBytes) throws IOException {
 		_out.write(aBytes, 0, aBytes.length);
 	}

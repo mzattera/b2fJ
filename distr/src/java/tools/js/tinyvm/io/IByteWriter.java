@@ -40,6 +40,8 @@ public interface IByteWriter
    // Direct byte writing interface
    //
    
+   public void writeComment (String aComment) throws IOException;
+   
    public void write (byte[] aBytes) throws IOException;
 
    public void write (int aByte) throws IOException;
