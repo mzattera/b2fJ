@@ -4,7 +4,7 @@ package js.tinyvm;
 public class TinyVMConstants
 {
    public static final String VERSION = "0.0.2";
-   public static final int MAGIC_MASK = 0x0020;
+   public static final int MAGIC_MASK = 0x0021;
 
    public static final int VERIFY_LEVEL = 2;
 

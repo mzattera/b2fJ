@@ -24,6 +24,7 @@ notify()V
 notifyAll()V
 wait()V
 wait(J)V
+getDataAddress(Ljava/lang/Object;)I
 
 # java.lang.Thread
 start()V
@@ -35,25 +36,25 @@ setPriority(I)V
 interrupt()V
 interrupted()Z
 isInterrupted()Z
-setDaemon(Z)V
+setDaemon(Z)
 isDaemon()Z
 join()V
 join(J)V
 
 # java.lang.System
-#arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+# arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 currentTimeMillis()J
-exit(I)V
 
 # java.lang.Runtime
 freeMemory()J
 totalMemory()J
+exit(I)V
 
 # java.lang.Throwable
 getMessage()Ljava/lang/String;
 
 # java.lang.Float
-floatToIntBits(F)I
+floatToRawIntBits(F)I
 intBitsToFloat(I)F
 
 # b2fj.io.ConsoleOutputStream

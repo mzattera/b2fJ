@@ -60,15 +60,12 @@ char charMap[] = {
 // Convert a Java String in a char[]
 char* string2chp(String* s)
 {
-	// TODO: if s == null return null immediately.
-
-	if (s->characters)
+	if ((s != null) && (s->characters))
 	{
 		Object *obj;
 		JCHAR *pA;
 		int i;
 		int length;
-		char c;
 
 		obj = word2obj(get_word((byte*)(&(s->characters)), 4));
 		pA = jchar_array(obj);
@@ -91,6 +88,7 @@ char* string2chp(String* s)
 
 	return ("null");
 }
+
 
 /**
  * NOTE: The technique is not the same as that used in TinyVM.
@@ -152,7 +150,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		push_word(((Thread*)word2ptr(paramBase[0]))->interruptState
 			!= INTERRUPT_CLEARED);
 		return;
-	case setDaemon_4Z_5V:
+	case setDaemon_4Z_5:
 		((Thread*)word2ptr(paramBase[0]))->daemon = (JBYTE)paramBase[1];
 		return;
 	case isDaemon_4_5Z:
@@ -179,8 +177,8 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		push_word(0);
 		push_word(getHeapSize());
 		return;
-	case floatToIntBits_4F_5I: // Fall through
-	case intBitsToFloat_4I_5F:
+	case floatToRawIntBits_4F_5I: // Fall through
+	case intBitsToFloat_4I_5F: // TODO: I don-t thik it works properly
 		push_word(paramBase[0]);
 		return;
 	case putCharToStdout0_4I_5V:
