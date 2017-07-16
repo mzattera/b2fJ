@@ -46,7 +46,7 @@ public class FilterInputStream extends InputStream
 	}
 	
 	@Override
-	public long skip(long n) throws IOException
+	public int skip(int n) throws IOException
 	{
 		return this.in.skip(n);
 	}

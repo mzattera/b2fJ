@@ -37,8 +37,6 @@ extern void printMethodRecord(MethodRecord *m);
 #define ptr2word(PTR_) ptr2wordImpl((PTR_),1)
 #define word2ptr(WRD_) word2ptrImpl((WRD_),1)
 
-#define jfloat2word(FLOAT_) (((AuxConvUnion1) (FLOAT_)).sword)
-#define word2jfloat(WORD_)  (((AuxConvUnion1) (WORD_)).fnum)
 #define byte2jint(BYTE_)    ((JINT) (signed char) (BYTE_))
 #define word2jint(WORD_)    ((JINT) (WORD_))
 #define word2jshort(WORD_)  ((JSHORT) (WORD_))
@@ -47,11 +45,15 @@ extern void printMethodRecord(MethodRecord *m);
 #define obj2ref(OBJ_)       ptr2ref(OBJ_)
 
 /** DEBUG: moved into functions that do conversion checks
+#define jfloat2word(FLOAT_) (((AuxConvUnion1) (FLOAT_)).sword)
+#define word2jfloat(WORD_)  (((AuxConvUnion1) (WORD_)).fnum)
 #define obj2ptr(OBJ_)       ((void *) (OBJ_))
 #define ptr2ref(PTR_)       ((REFERENCE) ptr2word(PTR_))
 #define ref2ptr(REF_)       word2ptr((STACKWORD) (REF_))
 #define ref2obj(REF_)       ((Object *) ref2ptr(REF_))
 */
+#define jfloat2word(FLOAT_) jfloat2wordImpl(FLOAT_,1)
+#define word2jfloat(WORD_)  word2jfloatImpl(WORD_,1)
 #define obj2ptr(OBJ_)   obj2ptrImpl((OBJ_),1)
 #define ptr2ref(PTR_)   ptr2refImpl((PTR_),1)
 #define ref2ptr(REF_)   ref2ptrImpl((REF_),1)
@@ -59,6 +61,8 @@ extern void printMethodRecord(MethodRecord *m);
 
 extern STACKWORD ptr2wordImpl(void *ptr, boolean check);
 extern void *word2ptrImpl(STACKWORD wrd, boolean check);
+extern STACKWORD jfloat2wordImpl(JFLOAT f, boolean check);
+extern JFLOAT word2jfloatImpl(STACKWORD wrd, boolean check);
 extern void *obj2ptrImpl(Object *obj, boolean check);
 extern REFERENCE ptr2refImpl(void *ptr, boolean check);
 extern void *ref2ptrImpl(REFERENCE ref, boolean check);

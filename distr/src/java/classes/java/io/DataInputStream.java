@@ -76,19 +76,6 @@ public class DataInputStream extends FilterInputStream implements DataInput
 		return x;
 	}
 	
-	public final long readLong() throws IOException 
-	{
-		long x = readByte0();
-		x = (x << 8) | readByte0();
-		x = (x << 8) | readByte0();
-		x = (x << 8) | readByte0();		
-		x = (x << 8) | readByte0();		
-		x = (x << 8) | readByte0();		
-		x = (x << 8) | readByte0();		
-		x = (x << 8) | readByte0();		
-		return x;
-	}
-	
 	public final short readShort() throws IOException 
 	{
 		int x = readByte0();

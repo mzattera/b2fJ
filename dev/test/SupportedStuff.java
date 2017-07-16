@@ -3,11 +3,15 @@ public class SupportedStuff {
 
 	public static void main(String[] args) {
 		
-		long l1, l2;
-		l1 = 0x0102030405060708L;
-		l2 = 0x0807060504030201L;
+		double l1, l2;
+		l1 = 33.333D;
+		l2 = 66.666D;
 		
+		if (l1 > l2) System.out.println("LI.");
+		else System.out.println("LI.");
+
 		l1 = l1 + l2;
+		System.out.println(l1);
 	}
 
 }

@@ -56,7 +56,7 @@ typedef unsigned long FOURBYTES;
 #define LITTLE_ENDIAN 1
 #endif
 
-#define FP_ARITHMETIC 0
+#define FP_ARITHMETIC 1
 #define TICKS_PER_TIME_SLICE          16 // Actually instructions per timeslice
 #define VERIFY
 #define RECORD_REFERENCES 1

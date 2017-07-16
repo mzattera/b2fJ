@@ -39,11 +39,6 @@ public final class Float extends Number implements Comparable<Float>
 		this.value = value;
 	}
 	
-	public Float(String s)
-	{
-		this.value = Float.parseFloat(s);
-	}
-	
 	@Override
 	public byte byteValue()
 	{
@@ -226,16 +221,6 @@ public final class Float extends Number implements Comparable<Float>
 		return (long)this.value;
 	}
 	
-	/**
-	 * Converts a String value into a float 
-	 * @param s String representation of float. Must only contain numbers and an optional decimal, and optional - sign at front.
-	 * @return float number
-	 */
-	public static float parseFloat(String s) throws NumberFormatException
-	{
-		return StringUtils.stringToFloat(s);
-	}
-	
 	@Override
 	public short shortValue()
 	{
@@ -261,10 +246,5 @@ public final class Float extends Number implements Comparable<Float>
 	public static Float valueOf(float f)
 	{
 		return new Float(f);
-	}
-	
-	public static Float valueOf(String s)
-	{
-		return new Float(s);
 	}
 }

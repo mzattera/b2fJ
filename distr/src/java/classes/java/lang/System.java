@@ -16,7 +16,29 @@ public final class System
    */
   // TODO: Make it native
   // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
+  public static void arraycopy (boolean[] src, int srcOffset, boolean[] dest, int destOffset, int length)
+  {
+    for (int i = 0; i < length; i++)
+      dest[i + destOffset] = src[i + srcOffset];
+  }
+  
+  /**
+   * Copies one array to another.
+   */
+  // TODO: Make it native
+  // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
   public static void arraycopy (byte[] src, int srcOffset, byte[] dest, int destOffset, int length)
+  {
+    for (int i = 0; i < length; i++)
+      dest[i + destOffset] = src[i + srcOffset];
+  }
+  
+  /**
+   * Copies one array to another.
+   */
+  // TODO: Make it native
+  // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
+  public static void arraycopy (short[] src, int srcOffset, short[] dest, int destOffset, int length)
   {
     for (int i = 0; i < length; i++)
       dest[i + destOffset] = src[i + srcOffset];
@@ -39,6 +61,39 @@ public final class System
   // TODO: Make it native
   // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
   public static void arraycopy (int[] src, int srcOffset, int[] dest, int destOffset, int length)
+  {
+    for (int i = 0; i < length; i++)
+      dest[i + destOffset] = src[i + srcOffset];
+  }
+
+  /**
+   * Copies one array to another.
+   */
+  // TODO: Make it native
+  // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
+  public static void arraycopy (long[] src, int srcOffset, long[] dest, int destOffset, int length)
+  {
+    for (int i = 0; i < length; i++)
+      dest[i + destOffset] = src[i + srcOffset];
+  }
+
+  /**
+   * Copies one array to another.
+   */
+  // TODO: Make it native
+  // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
+  public static void arraycopy (float[] src, int srcOffset, float[] dest, int destOffset, int length)
+  {
+    for (int i = 0; i < length; i++)
+      dest[i + destOffset] = src[i + srcOffset];
+  }
+
+  /**
+   * Copies one array to another.
+   */
+  // TODO: Make it native
+  // public static native void arraycopy (Object src, int srcOffset, Object dest, int destOffset, int length);
+  public static void arraycopy (double[] src, int srcOffset, double[] dest, int destOffset, int length)
   {
     for (int i = 0; i < length; i++)
       dest[i + destOffset] = src[i + srcOffset];

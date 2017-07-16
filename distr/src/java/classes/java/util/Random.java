@@ -9,7 +9,7 @@ public class Random
 	
   private int iPrevSeed, iSeed;
   
-  public Random (long seed)
+  public Random (int seed)
   {
     iPrevSeed = 1;
     iSeed = (int) seed;
@@ -17,7 +17,7 @@ public class Random
 
     public Random()
     {
-	this(System.currentTimeMillis());
+    	this((int)System.currentTimeMillis());
     }
   
   /**
@@ -51,13 +51,6 @@ public class Random
     {
 	int m = nextInt() % n;
 	return m >= 0 ? m : m + n;
-    }
-    
-    public long nextLong()
-    {
-		int n1 = this.next(32);
-		int n2 = this.next(32);
-		return ((long)n1 << 32) + n2;
     }
 
     /**

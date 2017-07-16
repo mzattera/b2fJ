@@ -112,7 +112,7 @@ public class BufferedInputStream extends FilterInputStream
 	}
 
 	@Override
-	public long skip(long n) throws IOException
+	public int skip(int n) throws IOException
 	{
 		checkOpen();
 		
@@ -123,7 +123,7 @@ public class BufferedInputStream extends FilterInputStream
 			return n;
 		}
 		
-		long norig = n;
+		int norig = n;
 		
 		//it holds n > blen
 		n -= blen;

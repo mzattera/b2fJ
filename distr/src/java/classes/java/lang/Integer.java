@@ -351,15 +351,6 @@ public final class Integer extends Number implements Comparable<Integer>
 		return (short)this.value;
 	}
 	
-	public static int signnum(long i)
-	{
-		//If i is negative, then i >> 31 is -1 because of the signed shift
-		//and the rest of the term can be ignored because -1 | anything is -1 again.		
-		//If i is positive, then i >> 31 will be zero, but (-i >>> 31) will be 1
-		//because the result of unsigned shift is the sign bit of -i.
-		return ((int)(i >> 31)) | ((int)(-i >>> 31));
-	}
-	
 	public static String toBinaryString(int v)
 	{
 		return toUnsignedString(v, 32, 1, 1);

@@ -15,14 +15,14 @@ public class ConsoleOutputStream extends PrintStream {
 	}
 
     /**
-     * Writes a char using prinf().
+     * Writes a char using printf().
      * 
      * @param b
      */
     private native void putCharToStdout0 (int b);
 
     /**
-     * Writes a String using prinf().
+     * Writes a String using printf().
      * 
      * @param s
      */
@@ -89,6 +89,18 @@ public class ConsoleOutputStream extends PrintStream {
     }
     
     @Override
+    public synchronized void print(double v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void print(float v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
     public synchronized void print(int v)
     {
     	putStringToStdout0(String.valueOf(v));
@@ -108,37 +120,49 @@ public class ConsoleOutputStream extends PrintStream {
     /*** println() Delegates ***/
     
     @Override
-    public void println(boolean v)
+    public synchronized void println(boolean v)
     {
     	println0(String.valueOf(v));
     }
     
     @Override
-    public void println(char v)
+    public synchronized void println(char v)
     {
     	println0(String.valueOf(v));
     }
     
     @Override
-    public void println(char[] v)
+    public synchronized void println(char[] v)
     {
     	println0(String.valueOf(v));
     }
     
     @Override
-    public void println(int v)
+    public synchronized void println(int v)
     {
     	println0(String.valueOf(v));
     }
     
     @Override
-    public void println(Object v)
+    public synchronized void println(double v)
     {
     	println0(String.valueOf(v));
     }
     
     @Override
-    public void println(String s)
+    public synchronized void println(float v)
+    {
+    	println0(String.valueOf(v));
+    }
+        
+    @Override
+    public synchronized void println(Object v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void println(String s)
     {
     	println0(String.valueOf(s));
     }

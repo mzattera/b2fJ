@@ -84,7 +84,7 @@ public class ByteArrayInputStream extends InputStream
 	}
 
 	@Override
-	public long skip(long n)
+	public int skip(int n)
 	{
 		if (n < 0)
 			return 0;

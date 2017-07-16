@@ -194,10 +194,10 @@ public abstract class InputStream implements Closeable
 	 * @return	 the actual number of bytes skipped.
 	 * @exception  IOException  if an I/O error occurs.
 	 */
-	public long skip(long n) throws IOException
+	public int skip(int n) throws IOException
 	{
 		byte[] buffer = new byte[SKIP_BUF_LEN];
-		long nbackup = n;
+		int nbackup = n;
 		
 		while (n > 0)
 		{

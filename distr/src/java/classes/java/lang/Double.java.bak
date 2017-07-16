@@ -36,24 +36,9 @@ public final class Double extends Number implements Comparable<Double>
 		return (byte)this.value;
 	}
 	
-	public static int compare(double a, double b)
-	{
-		// normal float compare, NaN falls through
-		if (a > b)
-			return 1;
-		if (a < b)
-			return -1;
-		// early out for non-zero values, NaN falls through
-		if (a == b && a != 0)
-			return 0;
-		
-		// TODO: handle NaN and negative/positive zero
-		return 0;
-	}
-	
 	public int compareTo(Double other)
 	{
-		return Double.compare(this.value, other.value);
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
@@ -65,21 +50,13 @@ public final class Double extends Number implements Comparable<Double>
 	@Override
 	public boolean equals(Object o)
 	{
-		if (o == null) return false;
-		return this.value == ((Double)o).value;
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public float floatValue()
 	{
 		return (float)this.value;
-	}
-	
-	@Override
-	public int hashCode()
-	{
-		// todo maybe better hashing
-		return this.intValue();
 	}
 	
 	@Override
@@ -123,7 +100,7 @@ public final class Double extends Number implements Comparable<Double>
     @Override
     public String toString()
     {
-    	return "<Double>";
+    	return ("<Double>");
     }
     
 	/**
@@ -133,7 +110,7 @@ public final class Double extends Number implements Comparable<Double>
 	 */
 	public static String toString(double d)
 	{
-		return "<Double>";
+		return String.valueOf(d);
 	}
 	
 	public static Double valueOf(double d)

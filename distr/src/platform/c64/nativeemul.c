@@ -105,6 +105,9 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 	case wait_4J_5V:
 		monitor_wait((Object*)word2ptr(paramBase[0]), paramBase[2]);
 		return;
+	case getDataAddress_4Ljava_3lang_3Object_2_5I:
+		push_word(ptr2word(((byte *)word2ptr(paramBase[0])) + HEADER_SIZE));
+		return;
 	case notify_4_5V:
 		monitor_notify((Object*)word2ptr(paramBase[0]), false);
 		return;

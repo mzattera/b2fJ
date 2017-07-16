@@ -118,22 +118,6 @@ public class DataOutputStream extends FilterOutputStream implements DataOutput
 		incCount(4);
 	}
 
-	public final void writeLong(long v) throws IOException
-	{
-		OutputStream o = this.out;
-		int tmp = (int)(v >>> 32);
-		o.write(tmp >>> 24);
-		o.write(tmp >>> 16);
-		o.write(tmp >>> 8);
-		o.write(tmp);
-		tmp = (int)v;
-		o.write(tmp >>> 24);
-		o.write(tmp >>> 16);
-		o.write(tmp >>> 8);
-		o.write(tmp);
-		incCount(8);
-	}
-
 	public final void writeShort(int v) throws IOException
 	{
 		OutputStream o = this.out;

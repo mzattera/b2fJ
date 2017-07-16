@@ -84,6 +84,28 @@ Object *ref2objImpl(REFERENCE ref, boolean check) {
 	return res;
 }
 
+extern STACKWORD jfloat2wordImpl(JFLOAT f, boolean check) {
+	AuxConvUnion1 res;
+	res.fnum = f;
+
+#ifdef VERIFY
+	if (check) assert(word2jfloatImpl(res.sword, 0) == f, CAST06);
+#endif
+
+	return res.sword;
+}
+
+extern JFLOAT word2jfloatImpl(STACKWORD wrd, boolean check) {
+	AuxConvUnion1 res;
+	res.sword = wrd;
+
+#ifdef VERIFY
+	if (check) assert(jfloat2wordImpl(res.fnum, 0) == wrd, CAST07);
+#endif
+
+	return res.fnum;
+}
+
 
 /**
 typedef struct S_MasterRecord

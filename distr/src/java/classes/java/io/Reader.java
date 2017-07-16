@@ -56,10 +56,10 @@ public abstract class Reader implements Closeable
 		throw new IOException("mark not supported");
 	}
 	
-	public long skip(long n) throws IOException
+	public int skip(int n) throws IOException
 	{
 		char[] buffer = new char[SKIP_BUF_LEN];
-		long nbackup = n;
+		int nbackup = n;
 		
 		while (n > 0)
 		{

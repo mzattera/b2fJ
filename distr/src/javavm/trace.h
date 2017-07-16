@@ -54,6 +54,8 @@
 #define CAST03        69
 #define CAST04        70
 #define CAST05        71
+#define CAST06        72
+#define CAST07        73
 
 #define assert( cond, code)  assert_hook( cond, code);
 
