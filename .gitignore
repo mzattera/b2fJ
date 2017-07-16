@@ -19,3 +19,4 @@ distr/build/*
 distr/src/*.o
 
 dev/test/java_code.h
+*.o
