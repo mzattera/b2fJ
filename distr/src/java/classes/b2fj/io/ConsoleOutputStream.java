@@ -8,13 +8,36 @@ import java.io.*;
  * @author  Massimiliano Zattera
  * @version 0.1
  */
-public class ConsoleOutputStream extends OutputStream {
+public class ConsoleOutputStream extends PrintStream {
 
-    private static final char NEW_LINE = '\n';
+    public ConsoleOutputStream() {
+		super(null);
+	}
 
+    /**
+     * Writes a char using prinf().
+     * 
+     * @param b
+     */
     private native void putCharToStdout0 (int b);
 
+    /**
+     * Writes a String using prinf().
+     * 
+     * @param s
+     */
     private native void putStringToStdout0 (String s);
+    
+    /**
+     * Writes a string followed by a newline character
+     * to the underlying output stream.
+     * 
+     * @param s the string to print
+     */
+    private synchronized void println0(String s) {
+        putStringToStdout0(s);
+        putCharToStdout0('\n');
+    }
 
     /**
      * Writes the specified byte to this output stream. The general
@@ -31,34 +54,92 @@ public class ConsoleOutputStream extends OutputStream {
      *             an <code>IOException</code> may be thrown if the
      *             output stream has been closed.
      */
+    @Override
     public synchronized void write(int b) {
         putCharToStdout0(b);
     }
-
+    
     /**
      * Writes a newline character
      * to the underlying output stream.
      */
+    @Override
     public synchronized void println() {
-   		write(NEW_LINE);
+   		putCharToStdout0('\n');
+    }    
+    
+    /*** print() Delegates ***/
+    
+    @Override
+    public synchronized void print(boolean v)
+    {
+    	putStringToStdout0(String.valueOf(v));
     }
-
-    /**
-     * Writes a string to the underlying output stream.
-     *
-     * @param s the string to print
-     */
+    
+    @Override
+    public synchronized void print(char v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void print(char[] v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void print(int v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void print(Object v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
     public synchronized void print(String s) {
     	putStringToStdout0(s);
     }
-
-    /**
-     * Writes a string to the underlying output stream.
-     *
-     * @param s the string to print
-     */
-    public synchronized void println(String s) {
-    	putStringToStdout0(s);
-   		write(NEW_LINE);
+    
+    /*** println() Delegates ***/
+    
+    @Override
+    public void println(boolean v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public void println(char v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public void println(char[] v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public void println(int v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public void println(Object v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public void println(String s)
+    {
+    	println0(String.valueOf(s));
     }
 }

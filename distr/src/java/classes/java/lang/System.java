@@ -1,5 +1,7 @@
 package java.lang;
 
+import java.io.PrintStream;
+
 import b2fj.io.ConsoleOutputStream;
 
 /**
@@ -96,31 +98,27 @@ public final class System
   	return Runtime.getRuntime();
   }
   
- // public static PrintStream out = new PrintStream(new LCDOutputStream());
- public static ConsoleOutputStream out = new ConsoleOutputStream();
+ public static PrintStream out = new ConsoleOutputStream();
  
  /**
   * Redirect System.out
   * 
   * @param out a PrintStream
-
+  */
  public static void setOut(PrintStream out) {
 	 System.out = out;
  }
-  */
 
- // public static PrintStream err = new PrintStream(new LCDOutputStream());
- public static ConsoleOutputStream err = new ConsoleOutputStream();
+ public static PrintStream err = new ConsoleOutputStream();
  
  /**
   * Redirect System.err
   * 
   * @param err a PrintStream
-
+   */
  public static void setErr(PrintStream err) {
 	 System.err = err;
  }
-   */
 }
 
 
