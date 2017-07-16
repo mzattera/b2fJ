@@ -14,7 +14,10 @@ In its current state, it is basically a straight port of leJOS RCX to the popula
 * Exceptions
 * Float, long, String types (custom implementation)
 
-...and all of its limitations, most noticeably it lacks garbage collection.
+...and all of its limitations:
+
+* No garbage collection.
+* No support for long (they are recognized but can only be assigned to).
 
 In addition, being a straight port, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
 

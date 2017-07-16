@@ -18,3 +18,4 @@ dev/VS/util/Release/*
 distr/build/*
 distr/src/*.o
 
+dev/test/java_code.h

@@ -1,7 +1,5 @@
 import b2fj.memory.*;
 
-import java.io.*;
-
 public class Sprite extends Thread {
 
     private static final int NUM_SPRITES = 4;
