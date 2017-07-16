@@ -74,7 +74,7 @@ void run(void)
 	} while ((region == NULL) && (size > 0));
 	memory_add_region(region, region + allocated * sizeof(TWOBYTES));
   }
-  printf("%d JAVA BYTES FREE\n\n", getHeapFree());
+  printf("  64K RAM SYSTEM % 5d JAVA BYTES FREE\n\n", getHeapFree());
 
   // Initialize exceptions
   init_exceptions();
@@ -150,7 +150,7 @@ int main (int argc, char *argv[])
 #endif
 
 	printf("\n");
-	printf("    ****   b2fJ JAVA VER.%s   ****\n\n", VERSION);
+	printf("    ****   b2fJ JAVA v. %s   ****\n\n", VERSION);
 
 	if (argc == 2) {
 		file = argv[1];
