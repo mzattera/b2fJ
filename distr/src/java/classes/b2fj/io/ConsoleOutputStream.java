@@ -107,6 +107,12 @@ public class ConsoleOutputStream extends PrintStream {
     }
     
     @Override
+    public synchronized void print(long v)
+    {
+    	putStringToStdout0(String.valueOf(v));
+    }
+    
+    @Override
     public synchronized void print(Object v)
     {
     	putStringToStdout0(String.valueOf(v));
@@ -139,6 +145,12 @@ public class ConsoleOutputStream extends PrintStream {
     
     @Override
     public synchronized void println(int v)
+    {
+    	println0(String.valueOf(v));
+    }
+    
+    @Override
+    public synchronized void println(long v)
     {
     	println0(String.valueOf(v));
     }

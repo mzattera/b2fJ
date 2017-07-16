@@ -113,6 +113,20 @@ public final class String implements CharSequence, Comparable<String>
 		System.arraycopy(c, off, characters, 0, len);
 	}
 	
+	public String(int[] codePoints, int off, int len)
+	{
+		int clen = 0;
+		for (int i=0; i<len; i++)
+			clen += codePoints[off + i] < Character.MIN_SUPPLEMENTARY_CODE_POINT ? 1 : 2;
+		this.characters = new char[clen];
+		clen = 0;
+		for (int i=0; i<len; i++)
+		{
+			int cp = codePoints[off + i];
+			clen += Character.toChars(cp, this.characters, clen);
+		}
+	}
+	
 	public String(String s)
 	{
 		this.characters = s.characters;
@@ -140,7 +154,51 @@ public final class String implements CharSequence, Comparable<String>
 
 		return characters[index];
 	}
-
+	
+	public int codePointAt(int index)
+	{	
+		char c1 = characters[index];
+		if (c1 >= Character.MIN_HIGH_SURROGATE && c1 <= Character.MAX_HIGH_SURROGATE && index + 1 < characters.length)
+		{
+			char c2 = characters[index + 1];
+			if (c2 >= Character.MIN_LOW_SURROGATE && c2 <= Character.MAX_LOW_SURROGATE)
+				return Character.toCodePoint(c1, c2);
+		}
+		return c1;
+	}
+	
+	public int codePointBefore(int index)
+	{
+		char c1 = characters[index - 1];
+		if (c1 >= Character.MIN_LOW_SURROGATE && c1 <= Character.MAX_LOW_SURROGATE && index > 1)
+		{
+			char c2 = characters[index - 2];
+			if (c2 >= Character.MIN_HIGH_SURROGATE && c2 <= Character.MAX_HIGH_SURROGATE)
+				return Character.toCodePoint(c2, c1);
+		}
+		return c1;
+	}
+	
+	public int codePointCount(int begin, int end)
+	{
+		if (begin < 0 || begin > end || end > characters.length)
+			throw new IndexOutOfBoundsException();
+		
+		int r = 0;
+		for (int i=begin; i<end;)
+		{
+			char c1 = characters[i++];
+			if (c1 >= Character.MIN_HIGH_SURROGATE && c1 <= Character.MAX_HIGH_SURROGATE && i < end)
+			{
+				char c2 = characters[i];
+				if (c2 >= Character.MIN_LOW_SURROGATE && c2 <= Character.MAX_LOW_SURROGATE)
+					i++;
+			}
+			r++;
+		}
+		return r;
+	}
+	
 	public int compareTo(String str)
 	{
 		int len1 = this.characters.length;
@@ -423,6 +481,31 @@ public final class String implements CharSequence, Comparable<String>
 		return characters.length;
 	}
 	
+	public int offsetByCodePoints(int idx, int codePointCount)
+	{
+		for (; codePointCount > 0; codePointCount--)
+		{
+			char c1 = characters[idx++];
+			if (c1 >= Character.MIN_HIGH_SURROGATE && c1 <= Character.MAX_HIGH_SURROGATE && idx < characters.length)
+			{
+				char c2 = characters[idx];
+				if (c2 >= Character.MIN_LOW_SURROGATE && c2 <= Character.MAX_LOW_SURROGATE)
+					idx++;
+			}
+		}
+		for (; codePointCount < 0; codePointCount++)
+		{
+			char c1 = characters[--idx];
+			if (c1 >= Character.MIN_LOW_SURROGATE && c1 <= Character.MAX_LOW_SURROGATE && idx > 0)
+			{
+				char c2 = characters[idx - 1];
+				if (c2 >= Character.MIN_HIGH_SURROGATE && c2 <= Character.MAX_HIGH_SURROGATE)
+					idx--;
+			}
+		}
+		return idx;
+	}
+	
 	public String replace(char oldChar, char newChar)
 	{
 		int len = characters.length;
@@ -570,16 +653,27 @@ public final class String implements CharSequence, Comparable<String>
 		return new String(c, start, length);
 	}
 
+	// Maxi: We do like this, to save memory and not reallocate the array at each conversion which,
+	// without garbage collection will result in an out of memory
+	private static final char[] sb = new char[StringUtils.MAX_FLOAT_CHARS];
+
 	public static String valueOf(float f)
 	{
-		char[] sb = new char[StringUtils.MAX_FLOAT_CHARS];
-		int p = StringUtils.getFloatChars(f, sb, 0);
+		int p = 0;
+		synchronized (sb) {
+			p = StringUtils.getFloatChars(f, sb, 0);
+		}
 		return new String(sb, 0, p);
 	}
 
 	public static String valueOf(int i)
 	{
 		return String.valueOf(i, 10);
+	}
+
+	public static String valueOf(long v)
+	{
+		return Long.toString(v);
 	}
 
 	/**

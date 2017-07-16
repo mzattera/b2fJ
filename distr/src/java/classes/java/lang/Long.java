@@ -66,6 +66,17 @@ public final class Long extends Number
 	{
 		return (short)this.value;
 	}
+	
+    @Override
+    public String toString()
+    {
+    	return "<Long>";
+    }
+
+	public static String toString(long v)
+	{
+		return "<Long>";
+	}
 			
 	public static Long valueOf(long v)
 	{

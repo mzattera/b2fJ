@@ -125,12 +125,7 @@ public final class Double extends Number implements Comparable<Double>
     {
     	return "<Double>";
     }
-    
-	/**
-	 * Convert a double to a String
-	 * @param d the double to be converted
-	 * @return the String representation of the float
-	 */
+
 	public static String toString(double d)
 	{
 		return "<Double>";

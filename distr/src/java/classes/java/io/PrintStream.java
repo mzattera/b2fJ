@@ -100,6 +100,11 @@ public class PrintStream extends OutputStream {
     	print0(String.valueOf(v));
     }
     
+    public void print(long v)
+    {
+    	print0(String.valueOf(v));
+    }
+    
     public void print(Object v)
     {
     	print0(String.valueOf(v));
@@ -146,6 +151,11 @@ public class PrintStream extends OutputStream {
     	println0(String.valueOf(v));
     }
     
+    public void println(long v)
+    {
+    	println0(String.valueOf(v));
+    }
+
     public void println(Object v)
     {
     	println0(String.valueOf(v));

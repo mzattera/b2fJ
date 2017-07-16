@@ -27,11 +27,11 @@ public class TS {
         s = null;
         System.out.println(s);        
         
-        float v5 = 3.333333F;
-        System.out.println(v5);        
-        
-        double v4 = 3.14D;
-        System.out.println(v4);
+//        float v5 = 3.333333F;
+//        System.out.println(v5);        
+//        
+//        double v4 = 3.14D;
+//        System.out.println(v4);
 	}
 
 	public static void main(String[] args) {

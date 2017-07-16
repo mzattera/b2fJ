@@ -84,6 +84,7 @@ Object *ref2objImpl(REFERENCE ref, boolean check) {
 	return res;
 }
 
+#if FP_ARITHMETIC
 extern STACKWORD jfloat2wordImpl(JFLOAT f, boolean check) {
 	AuxConvUnion1 res;
 	res.fnum = f;
@@ -105,6 +106,7 @@ extern JFLOAT word2jfloatImpl(STACKWORD wrd, boolean check) {
 
 	return res.fnum;
 }
+#endif
 
 
 /**

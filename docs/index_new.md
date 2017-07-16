@@ -20,11 +20,13 @@ In its current state, it is basically a straight port of leJOS RCX to the popula
 * Very limited support for long (they are recognized but can only be assigned to or read from).
 * Provided "standard" library does not cover the full JSE library.
 
-In addition, being a straight port, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint. However, the current implementation shows that running Java on an 8-bit machine is possible.
+In addition, b2fJ relies on a C language cross-compiler to compile the Java VM for the target platform (namely, the Commodore 64).
+The cc65 compiler currently used unfortunatley does not support floating-point variables, therefore types float and double, 
+even if implmented in b2fJ, are not available in the resulting Commodore 64 JVM.
 
-Finally, b2fJ relies on a C language cross-compiler to compile the Java VM for the target platfomr (namely, the Commodore 64).
-The cc65 compiler currently used unfortunatley does not support floating-point variables, therefore types float and double, even if implmented in b2fJ,
-are not implemented in the resulting Commodore 64 JVM.
+Finally, being a straight port, b2fJ is basically an interpreted machine with a 32-bit architecture running on top of a 30 year
+old 8-bit machine with limited RAM. This to say that much can (and hopefully will) be done to improve b2fJ speed and memory footprint.
+However, the current implementation shows that running Java on an 8-bit machine is possible.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 

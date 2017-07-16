@@ -18,5 +18,8 @@ dev/VS/util/Release/*
 distr/build/*
 distr/src/*.o
 
+distr/src/javavm/*.o
+
+distr/src/platform/*.o
+
 dev/test/java_code.h
-*.o
