@@ -1,0 +1,64 @@
+<!--
+  ============================================================================
+  Buildfile for building b2fJ release (creates release & Java API .zip)
+  
+  use "clean" task to cleanup afterwards, if desired.
+  ============================================================================
+-->
+<project name="b2fJ release" default="build" basedir=".">
+
+  <!-- Setting up the global properties for the build -->
+  <property environment="env"/>
+  <property name="b2fJ.root" value="${basedir}/.."/>
+  <property name="distr" value="${b2fJ.root}/distr"/>
+  <property name="lib" value="${distr}/lib"/>
+  <property name="src" value="${distr}/src"/>
+  <property name="release" value="${b2fJ.root}/release"/>
+  <property name="javasrc" value="${src}/java/classes"/>
+  <property name="jvmsrc" value="${src}/javavm"/>
+  <property name="build.tmp" value="${distr}/build"/>
+  <property name="docs.tmp" value="${build.tmp}/javadoc"/>
+  <property name="docs.zip" value="${release}/b2fJ Java API.zip"/>
+  <property name="release.zip" value="${release}/b2fJ - RENAMEME.zip"/>
+
+  <target name="build" depends="distr.zip, javadoc.zip" description="prepares a release" />
+
+  <target name="prepare">
+    <!-- delete generated files -->
+    <delete file="${release.zip}"/>
+    <delete file="${docs.zip}"/>
+  </target>
+
+  <!-- creates a zip of distr folder -->
+  <target name="distr.zip" depends="prepare">
+    <!-- generate .jar files in lib folder  -->
+    <ant dir="${src}" target="build" inheritAll="false" inheritRefs="false" useNativeBasedir="true">
+      <property name="b2fJ.root" value="${b2fJ.root}"/>
+    </ant>
+      <!-- cleanup the mess  -->
+    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true"/>
+    <!-- zip the reelase  -->
+    <zip basedir="${distr}" destfile="${release.zip}"/>
+  </target>
+
+  <!-- generate & zip javadocs -->
+  <target name="javadoc.zip" depends="prepare">
+    <delete dir="${docs.tmp}" />
+    <mkdir dir="${docs.tmp}" />
+    <javadoc
+      sourcepath="${javasrc}"
+      destdir="${docs.tmp}"
+      author="true"
+      access="protected"
+      additionalparam="-Xdoclint:none"
+      windowtitle="b2fJ API documentation"
+    />
+    <zip basedir="${docs.tmp}" destfile="${docs.zip}"/>
+  </target>
+
+  <!-- cleans the mess afterwards (meant to be called from outside) -->
+  <target name="clean">
+    <delete dir="${docs.tmp}" />
+    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true"/>
+  </target>
+</project>

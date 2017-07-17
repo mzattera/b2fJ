@@ -1,0 +1,11 @@
+* Update VERSION & MAGIC_MASK in distr\src\java\tools\js\tinyvm\TinyVMConstants.java.
+
+* Run the build.xml ant script under release (this folder).
+
+* Rename "b2fJ - RENAMEME.zip" with the right version number.
+
+* Unzip and test it.
+
+* Upload the release in github.
+
+* eventually, update homepage accordingly (new features / instructions).

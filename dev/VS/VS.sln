@@ -33,13 +33,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8DF87B3F-E735-4503-827E-5A77BBE163D6}"
 	ProjectSection(SolutionItems) = preProject
 		..\test\HelloWorld.java = ..\test\HelloWorld.java
-		..\test\Sprite - Orchestrator.java = ..\test\Sprite - Orchestrator.java
 		..\test\Sprite.java = ..\test\Sprite.java
 		..\test\TestExceptions.java = ..\test\TestExceptions.java
 		..\test\TS.java = ..\test\TS.java
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ascii", "ascii\ascii.vcxproj", "{9A136C9D-FE57-4333-BA27-BB8E5C910A7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "for release", "for release", "{ABE9FDAF-19B3-4F8F-8F9A-35138B649D7D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\release\build.xml = ..\..\release\build.xml
+		..\..\distr\src\java\tools\js\tinyvm\TinyVMConstants.java = ..\..\distr\src\java\tools\js\tinyvm\TinyVMConstants.java
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,5 +94,6 @@ Global
 		{761D72D2-791B-4BFB-AF7F-2A5FF7B1CD82} = {F6061B03-D731-4C63-B5A0-D831A7C03D8C}
 		{893F9F25-DB50-43F0-B7E8-FA22A78FABCE} = {F6061B03-D731-4C63-B5A0-D831A7C03D8C}
 		{8DF87B3F-E735-4503-827E-5A77BBE163D6} = {F6061B03-D731-4C63-B5A0-D831A7C03D8C}
+		{ABE9FDAF-19B3-4F8F-8F9A-35138B649D7D} = {F6061B03-D731-4C63-B5A0-D831A7C03D8C}
 	EndGlobalSection
 EndGlobal

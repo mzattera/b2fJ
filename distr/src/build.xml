@@ -1,58 +1,57 @@
 <!--
   ============================================================================
   Buildfile for building b2fJ standard class libraries & jtools (TinyVM tools)
+  
+  use "clean" task to cleanup afterwards, if desired.
   ============================================================================
 -->
-<project name="b2fJ" default="build" basedir=".">
+<project name="b2fJ libraries" default="build" basedir=".">
 
   <!-- Setting up the global properties for the build -->
   <property environment="env"/>
-  <property name="b2fJ.root" value=".."/>
-  <property name="3rdparty.libs" value="${b2fJ.root}/redistr/lib" />
-  <property name="lib" value="${b2fJ.root}/lib"/>
-  <property name="src" value="${b2fJ.root}/src"/>
+  <property name="b2fJ.root" value="${basedir}/../.."/>
+  <property name="distr" value="${b2fJ.root}/distr"/>
+  <property name="3rdparty.libs" value="${distr}/redistr/lib" />
+  <property name="lib" value="${distr}/lib"/>
+  <property name="src" value="${distr}/src"/>
   <property name="javasrc" value="${src}/java"/>
   <property name="jvmsrc" value="${src}/javavm"/>
-  <property name="build.tmp" value="${b2fJ.root}/build"/>
+  <property name="build.tmp" value="${distr}/build"/>
 
-  <target name="build" depends ="clean,jtools.jar,classes.jar" description="builds minimal things to have Java for c64" />
+  <target name="build" depends ="jtools.jar,classes.jar"/>
 
-  <!-- cleans the distribution -->
-  <target name="clean" description="clean up all generated files">
+  <!-- cleans up all generated suff, as preparation for the build -->
+  <target name="prepare">
     <!-- delete generated files -->
     <delete file="${javasrc}/tools/js/tinyvm/SpecialClassConstants.java"/>
     <delete file="${javasrc}/tools/js/tinyvm/SpecialSignatureConstants.java"/>
-    <delete file="${javasrc}/tools/js/tinyvm/TinyVMMagicNumber.java"/>
     <delete file="${jvmsrc}/specialclasses.h"/>
     <delete file="${jvmsrc}/specialsignatures.h"/>
     <delete file="${jvmsrc}/version.h"/>
+    <delete file="${lib}/classes.jar"/>
+    <delete file="${lib}/jtools.jar"/>
     <!-- delete compiled and generated artifacts -->
     <delete>
-      <fileset dir="${build.tmp}" includes="**/*"/>
       <fileset dir="${src}">
         <include name="**/*.o"/>
         <include name="**/*.class"/>
-      </fileset>
-      <fileset dir="${lib}">
-        <include name="**/*.jar"/>
+        <include name="**/*.prg"/>
       </fileset>
     </delete>
-    <!-- delete temporary build folder -->
-    <delete includeemptydirs="true">
-      <fileset dir="${build.tmp}" includes="**/*"/>
-    </delete>
+    <!-- initializes (temp) build folder -->
+    <delete dir="${build.tmp}"/>
+    <mkdir dir="${build.tmp}" />
   </target>
 
-  <!-- creates the classes jar (RCX: JDK 1.1) -->
-  <target name="classes.jar" description="generate classes jar">
+  <!-- creates classes.jar -->
+  <target name="classes.jar" depends ="prepare">
     <mkdir dir="${build.tmp}/classes"/>
     <javac includeantruntime="false" srcdir="${javasrc}/classes" destdir="${build.tmp}/classes" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"/>
     <jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>
   </target>
 
-  <!-- creates the jtools jar (PC: JDK 1.4) -->
-  <!-- target name="jtools.jar" depends="pcrcxcomm.jar" description="generate jtools jar"-->
-  <target name="jtools.jar" description="generate jtools jar">
+  <!-- creates jtools.jar -->
+  <target name="jtools.jar" depends ="prepare">
     <mkdir dir="${build.tmp}/tools"/>
     <!-- generate constants first -->
     <javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"
@@ -68,5 +67,19 @@
     </javac>
     <jar destfile="${lib}/jtools.jar" basedir="${build.tmp}/tools" update="false">
     </jar>
+  </target>
+
+  <!-- cleans the mess afterwards (meant to be called from outside) -->
+  <target name="clean" description="clean up all generated files">
+    <!-- delete compiled and generated artifacts -->
+    <delete>
+      <fileset dir="${src}">
+        <include name="**/*.o"/>
+        <include name="**/*.class"/>
+        <include name="**/*.prg"/>
+      </fileset>
+    </delete>
+    <!-- delete (temp) build folder -->
+    <delete dir="${build.tmp}"/>
   </target>
 </project>

@@ -16,7 +16,7 @@ In its current state, it is basically a straight port of leJOS RCX to the popula
 ...and all of its limitations:
 
 * No garbage collection.
-* 'switch' statement not implemented.
+* `switch` statement not implemented.
 * Very limited support for long (they are recognized but can only be assigned to or read from).
 * Provided "standard" library does not cover the full JSE library.
 
@@ -81,7 +81,7 @@ It will take some time to load, be patient ;-)
 
 Below, you can find a step-by-step explanation of the build process, which also sheds some light over the development toolchain.
     
-### From .java to .class (compilation)
+### From `.java` to `.class` (compilation)
 
 The below command will compile HelloWorld.java into corresponding `.class` file. 
 
@@ -118,25 +118,27 @@ The below command is a batch file that uses cc65, a 6502 cross-assembler (re)dis
 
     buildJVM
     
-Do not be scared by the many "Warnings" you will see printed; the build will only stop on errors (that will be displayed).
+Do not be scared by the many "Warnings" you will see printed; the build will only stop on errors.
 
-If the process is successful, a file called "b2fJ.prg" should have been created; this is your JVM.
+If the process is successful, a file called `b2fJ.prg` should have been created; this is your JVM.
 
 ### Running the program
 
 At last! You can now run your Java program on your C64.
 
-If you don`t have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE emulator that is (re)distributed with b2fJ, under "redistr\WinVICE-3.1-x86"; you can launch "x64.exe" then under "File > Autostart Disk/Tape image" choose the "b2fJ.prg" file you created above.
+If you don`t have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE
+emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you can launch "x64.exe" then under 
+"File > Autostart Disk/Tape image" choose the `b2fJ.prg` file you created above.
 
 # Expanding b2fJ
 
-Under `src/java/classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes that replace
-the default Java library (under `java` folder) and some custom classes to support features of the target platform (e.g. C64 sprites).
+Under `src\java\classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes 
+that replace the default Java library and some custom classes to support features of the target platform (e.g. C64 sprites).
 
 ## Building the library
 
 You can improve the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
-`classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an ANT script that serves this purpose.
+`classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an Ant script that serves this purpose.
 
 Install [Apace Ant](http://ant.apache.org/) and use it to run the build.
 
