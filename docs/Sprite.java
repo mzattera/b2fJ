@@ -1,7 +1,5 @@
 import b2fj.memory.*;
 
-import java.io.*;
-
 public class Sprite extends Thread {
 
     private static final int NUM_SPRITES = 4;
@@ -239,7 +237,7 @@ public class Sprite extends Thread {
         }
 
         // print something
-        String MSG = "one thread for this text...and one thread for each baloon...";
+        String MSG = "one thread for this text... and one thread for each baloon...";
         while (true) {
             System.out.print(MSG);
             try {
