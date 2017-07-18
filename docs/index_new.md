@@ -131,7 +131,7 @@ If the process is successful, a file called `b2fJ.prg` should have been created;
 At last! You can now run your Java program on your C64.
 
 If you don't have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE
-emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you can launch "x64.exe" then under 
+emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you can launch `x64.exe` then under 
 "File > Autostart Disk/Tape image" choose the `b2fJ.prg` file you created above.
 
 # Expanding b2fJ
@@ -164,10 +164,10 @@ In the process of extending the class library, it might be necessary to add nati
 	value and update `src\javavm\specialsignatures.h` with C constants matching each native method signature found.
 
 * In `src\platform\c64\nativeemul.c` there is a function `dispatch_native()`; there you can find a `switch` statement for each of the
-constants corresponding to native methods. Add a `case:` statement for you new native method and implement it here.
+constants corresponding to native methods. Add a `case:` statement for you new native method and implement it there.
 
   * In case the method is declared as `static`, `paramBase[0...n]` will contain the method parameters (as `STACKWORD`s; see the different 
-  macros availabe to convert this into useful Java objects).
+  macros availabe to convert this type into useful Java objects and vice-versa).
 
   * If the method is an instance method, `paramBase[0]` will contain a reference to the calling object (`this`) while the
   method parameters are stored in `paramBase[1...n]`.
