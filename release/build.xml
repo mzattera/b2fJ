@@ -35,8 +35,10 @@
     <ant dir="${src}" target="build" inheritAll="false" inheritRefs="false" useNativeBasedir="true">
       <property name="b2fJ.root" value="${b2fJ.root}"/>
     </ant>
-      <!-- cleanup the mess  -->
-    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true"/>
+    <!-- cleanup the mess  -->
+    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true">
+      <property name="b2fJ.root" value="${b2fJ.root}"/>
+    </ant>
     <!-- zip the reelase  -->
     <zip basedir="${distr}" destfile="${release.zip}"/>
   </target>
@@ -59,6 +61,8 @@
   <!-- cleans the mess afterwards (meant to be called from outside) -->
   <target name="clean">
     <delete dir="${docs.tmp}" />
-    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true"/>
+    <ant dir="${src}" target="clean" inheritAll="false" inheritRefs="false" useNativeBasedir="true">
+      <property name="b2fJ.root" value="${b2fJ.root}"/>
+    </ant>
   </target>
 </project>
