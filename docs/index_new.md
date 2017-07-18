@@ -44,11 +44,12 @@ The result should be this:
 
 In order to compile and run your Java programs, you need first of all to have a [Java Development Kit 1.8](https://www.google.ch/search?q=JDK+1.8+download) installed.
 
-Make sure that the JDK folder is in your path or that you have set [JAVA_HOME](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
+Make sure that the JDK folder is in your path or that you have set [`JAVA_HOME`](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
 
 ## b2fJ
 
-Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest). It`s easier to work if you add the "bin" folder in the distribution to your [PATH variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
+Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest).
+It`s easier to work if you add the `bin` folder in the distribution to your [`PATH` variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
 
 # Compile and run Java Programs
 
@@ -84,7 +85,7 @@ Below, you can find a step-by-step explanation of the build process, which also 
     
 ### From `.java` to `.class` (compilation)
 
-The below command will compile HelloWorld.java into corresponding `.class` file. 
+The below command will compile `HelloWorld.java` into corresponding `.class` file. 
 
     b2fJc HelloWorld.java
     
