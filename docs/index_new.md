@@ -8,10 +8,10 @@ It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX
 
 In its current state, it is basically a straight port of leJOS RCX to the popular Commodore 64. As such, it has all features of leJOS...
 
-* Lets you develop using Java (fully-featured OO language)
-* Preemptive threads with synchronization
-* Multi-dimensional arrays
-* Exceptions, String, etc. (custom implementation)
+* Lets you develop using Java (fully-featured OO language).
+* Preemptive threads with synchronization.
+* Multi-dimensional arrays.
+* Exceptions, String, etc.
 
 ...and all of its limitations:
 
@@ -54,7 +54,8 @@ Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/r
 
 The below steps explain how to compile and run a simple Java program on your C64.
 
-For our example, we will use a simple HelloWorld.java file. You can paste the code below into a file named HelloWorld.java, or create the file with your favorite Java editor.
+For our example, we will use a simple `HelloWorld.java` file. 
+You can paste the code below into a file named `HelloWorld.java`, or create the file with your favorite Java editor.
 
 	public class HelloWorld {
 
