@@ -18,8 +18,8 @@
   <property name="jvmsrc" value="${src}/javavm"/>
   <property name="build.tmp" value="${distr}/build"/>
   <property name="docs.tmp" value="${build.tmp}/javadoc"/>
-  <property name="docs.zip" value="${release}/b2fJ Java API.zip"/>
-  <property name="release.zip" value="${release}/b2fJ - RENAMEME.zip"/>
+  <property name="docs.zip" value="${release}/b2fJ Java API RENAMEME.zip"/>
+  <property name="release.zip" value="${release}/b2fJ RENAMEME.zip"/>
 
   <target name="build" depends="distr.zip, javadoc.zip" description="prepares a release" />
 
