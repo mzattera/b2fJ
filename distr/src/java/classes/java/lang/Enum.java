@@ -18,16 +18,10 @@ public abstract class Enum<E extends Enum<E>> implements Comparable<E>
 	}
 	
 	/**
-	 * Note this compares only the ordinal values, so it will return true even if the enum belong to
-	 * different classes.
+	 * Notice this only compares ordinals, even for two different Enum types, since Class is not supported.
 	 */
 	public final int compareTo(E o)
 	{
-		// This has been commented out because it is not implemented in b2fJ
-		// TODO: Support to be added in 
-		// if (this.getDeclaringClass() != o.getDeclaringClass())
-		//	throw new ClassCastException();
-		
 		// the declaration of tmp is required to build with Oracle JDK 1.7 
 		// when using o.ordinal directly, javac will complain that ordinal is private
 		Enum<E> tmp = o;
@@ -42,15 +36,7 @@ public abstract class Enum<E extends Enum<E>> implements Comparable<E>
 	{
 		return this==o;
 	}
-	
-	// Removed because not supported by b2fJ
-//	@SuppressWarnings("unchecked")
-//	public final Class<E> getDeclaringClass()
-//	{
-//		Class<?> c1 = this.getClass();
-//		Class<?> c2 = c1.getSuperclass();
-//		return (Class<E>)((c2 == Enum.class) ? c1 : c2);
-//	}
+
 	
 	@Override
 	public final int hashCode()
@@ -72,5 +58,16 @@ public abstract class Enum<E extends Enum<E>> implements Comparable<E>
 	public String toString()
 	{
 		return this.name;
+	}
+	
+	/**
+	 * @deprecated not implemented in leJOS.
+	 * Here because otherwise javac will complain. 
+	 */
+	@Deprecated
+	@SuppressWarnings("unused")
+	public static<T extends Enum<T>> T valueOf(Class enumclas, String name)
+	{
+		throw new UnsupportedOperationException();	
 	}
 }

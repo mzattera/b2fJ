@@ -89,10 +89,9 @@ The below command will compile HelloWorld.java into corresponding `.class` file.
     
 It will simply invoke the JDK compiler and compile your classes using the b2fJ libraries, instead of using the standard ones.
 
-Notice that:
-    
-* more than one .java file can be passed for compilation
-* you can provide a class-path to your classes and libraries by setting CLASSPATH variable properly.
+Notice that you can provide a class-path to your own classes and libraries by setting CLASSPATH variable properly.
+
+Also, any Java 1.8 compiler can be used for compilation, as long as you make sure `lib\classes.jar` is used instead of standard Java class libraries.
 
 ### From `.class` to C (linking)
 
@@ -109,6 +108,8 @@ The commnad to perform this "linking" operation is as follows:
     b2fJl HelloWorld
 
 The "linker" is a Java application (`lib\jtools.jar`); its source code can be found under `src\java\tools` folder.
+
+Again, you can provide a class-path to your own classes and libraries by setting CLASSPATH variable properly.
 
 ### Building the JVM
 

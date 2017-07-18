@@ -17,9 +17,9 @@ if [%JAVA_HOME%] == [] (
     @echo   Java Home: "%JAVA_HOME%"
     set "JC=%JAVA_HOME%\bin\java"
 )
-    rem @echo   Java CLASSPATH: "%CLASSPATH%"
+    @echo   Java CLASSPATH: "%CLASSPATH%"
 
-set "LINK_CLASSPATH=.;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOME%\redistr\lib\commons-cli-1.0.jar;%B2FJ_HOME%\lib\jtools.jar;%B2FJ_HOME%\lib\classes.jar"
+set "LINK_CLASSPATH=.;%CLASSPATH%;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOME%\redistr\lib\commons-cli-1.0.jar;%B2FJ_HOME%\lib\jtools.jar;%B2FJ_HOME%\lib\classes.jar"
 set "OBJ_FILE=%~n1.o"
 
 @echo.

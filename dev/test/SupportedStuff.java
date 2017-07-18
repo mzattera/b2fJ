@@ -12,21 +12,21 @@ public class SupportedStuff {
 		l1 = 33.333F;
 		l2 = 66.666F;
 
-		char[] sb = new char[50];
-		int len = MyStringUtils.getFloatChars(l1, sb, 0);
-		for (int j = 0; j < len; ++j) {
-			System.out.println("[" + ((int)sb[j]) + "]");
-		}
-		System.out.println();
-		System.out.println(";;;");
-		System.out.println(sb);
-
-		char[] sc = new char[len];
-		arraycopy(sb, 0, sc, 0, len);
-		System.out.println();
-		System.out.println("===");
-		System.out.println(sb);
-		System.out.println();
+//		char[] sb = new char[50];
+//		int len = MyStringUtils.getFloatChars(l1, sb, 0);
+//		for (int j = 0; j < len; ++j) {
+//			System.out.println("[" + ((int)sb[j]) + "]");
+//		}
+//		System.out.println();
+//		System.out.println(";;;");
+//		System.out.println(sb);
+//
+//		char[] sc = new char[len];
+//		arraycopy(sb, 0, sc, 0, len);
+//		System.out.println();
+//		System.out.println("===");
+//		System.out.println(sb);
+//		System.out.println();
 
 		System.out.println(l1);
 		System.out.println(l2);
