@@ -6,6 +6,6 @@
 
 * Unzip and test it.
 
-* Upload the release in github.
+* Upload the release in github (check comments).
 
 * eventually, update homepage accordingly (new features / instructions).
