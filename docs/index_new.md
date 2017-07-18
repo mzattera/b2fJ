@@ -92,7 +92,7 @@ The below command will compile `HelloWorld.java` into corresponding `.class` fil
     
 It will simply invoke the JDK compiler and compile your classes using the b2fJ libraries, instead of using the standard ones.
 
-Notice that you can provide a class-path to your own classes and libraries by setting CLASSPATH variable properly.
+Notice that you can provide a class-path to your own classes and libraries by setting `CLASSPATH` variable properly.
 
 Also, any Java 1.8 compiler can be used for compilation, as long as you make sure `lib\classes.jar` is used instead of standard Java class libraries.
 
@@ -118,7 +118,7 @@ Again, you can provide a class-path to your own classes and libraries by setting
 
 Finally, we must re-build the b2fJ Virtual Machine that, as explained above, will embed your program which will be executed when the JVM is launched.
 
-The below command is a batch file that uses cc65, a 6502 cross-assembler (re)distributed with b2fJ, to compile the JVM for the C64.
+The below command is a batch file that uses cc65, a 6502 cross-assembler (re)distributed together with b2fJ, to compile the JVM for the C64.
 
     buildJVM
     
@@ -130,7 +130,7 @@ If the process is successful, a file called `b2fJ.prg` should have been created;
 
 At last! You can now run your Java program on your C64.
 
-If you don`t have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE
+If you don't have a C64 at hand (and if you do, please send me a video of your Java running on it) you can use the WinVICE
 emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you can launch "x64.exe" then under 
 "File > Autostart Disk/Tape image" choose the `b2fJ.prg` file you created above.
 
