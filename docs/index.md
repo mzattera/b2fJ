@@ -44,7 +44,7 @@ The result should be this:
 
 In order to compile and run your Java programs, you need first of all to have a [Java Development Kit 1.8](https://www.google.ch/search?q=JDK+1.8+download) installed.
 
-Make sure that the JDK folder is in your path or that you have set [`JAVA_HOME`](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
+Make sure that the JDK folder is in your path or that you have [set `JAVA_HOME`](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
 
 ## b2fJ
 
