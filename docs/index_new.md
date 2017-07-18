@@ -49,7 +49,8 @@ Make sure that the JDK folder is in your path or that you have set [`JAVA_HOME`]
 ## b2fJ
 
 Download and unzip [latest b2fJ distribution](https://github.com/mzattera/b2fJ/releases/latest).
-It`s easier to work if you add the `bin` folder in the distribution to your [`PATH` variable](https://www.google.ch/search?q=set+PATH+windows); the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
+It's easier to work if you add the `bin` folder in the distribution to your [`PATH` variable](https://www.google.ch/search?q=set+PATH+windows);
+the below instructions assume you did so. If not, you obviously must specify the full path for each command in the different compilation steps.
 
 # Compile and run Java Programs
 
