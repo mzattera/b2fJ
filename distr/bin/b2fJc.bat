@@ -24,7 +24,7 @@ if [%JAVA_HOME%] == [] (
 @echo.
 @echo on
 
-%JC% -bootclasspath "%B2FJ_HOME%\lib\classes.jar;%CLASSPATH%" %1 %2 %3 %4 %5 %6 %7 %8 %9
+%JC% -bootclasspath "%B2FJ_HOME%\lib\classes.jar" -classpath ".;%CLASSPATH%" %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 @echo.
 @echo ============================

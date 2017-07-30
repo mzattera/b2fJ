@@ -20,14 +20,13 @@ if [%JAVA_HOME%] == [] (
     @echo   Java CLASSPATH: "%CLASSPATH%"
 
 set "LINK_CLASSPATH=.;%CLASSPATH%;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOME%\redistr\lib\commons-cli-1.0.jar;%B2FJ_HOME%\lib\jtools.jar;%B2FJ_HOME%\lib\classes.jar"
-set "OBJ_FILE=%~n1.o"
 
 @echo.
 @echo Linking classes - creating C bytecode array:
 @echo.
 @echo on
 
-%JC% -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o java_code.h %~n1
+%JC% -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o java_code.h "%~n1"
 @echo off
 if ERRORLEVEL 1 goto end
 

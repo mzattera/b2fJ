@@ -92,7 +92,13 @@ The below command will compile `HelloWorld.java` into corresponding `.class` fil
     
 It will simply invoke the JDK compiler and compile your classes using the b2fJ libraries, instead of using the standard ones.
 
-Notice that you can provide a class-path to your own classes and libraries by setting `CLASSPATH` variable properly.
+Notice that you can provide a class-path to your own classes and libraries by setting `CLASSPATH` variable properly; in case you are not familiar with this,
+please have a look at this [nicely written article](http://kevinboone.net/classpath.html).
+
+* Make sure to set your `CLASSPATH` to the "root(s)" of your class packages.
+* Go to the folder where your `main()` class reside.
+* Launch `b2fJc` from there (just provide the `.java` file name without path).
+* Same applies to to the "linking" step below.
 
 Also, any Java 1.8 compiler can be used for compilation, as long as you make sure `lib\classes.jar` is used instead of standard Java class libraries.
 

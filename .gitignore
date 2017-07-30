@@ -19,3 +19,5 @@ distr/src/javavm/*.o
 distr/src/platform/*.o
 
 release/*.zip
+dev/test/b2fJ/test/b2fJ.prg
+*.vsf
