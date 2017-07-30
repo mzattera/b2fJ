@@ -73,13 +73,13 @@ public class ConsoleOutputStream extends PrintStream {
     @Override
     public synchronized void print(boolean v)
     {
-    	putStringToStdout0(String.valueOf(v));
+    	putStringToStdout0(v ? "true" : "false");
     }
     
     @Override
     public synchronized void print(char v)
     {
-    	putStringToStdout0(String.valueOf(v));
+   		putCharToStdout0(v);
     }
     
     @Override
@@ -128,13 +128,15 @@ public class ConsoleOutputStream extends PrintStream {
     @Override
     public synchronized void println(boolean v)
     {
-    	println0(String.valueOf(v));
+    	putStringToStdout0(v ? "true" : "false");
+   		putCharToStdout0('\n');
     }
     
     @Override
     public synchronized void println(char v)
     {
-    	println0(String.valueOf(v));
+   		putCharToStdout0(v);
+   		putCharToStdout0('\n');
     }
     
     @Override
