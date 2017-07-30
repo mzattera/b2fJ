@@ -57,7 +57,43 @@ char charMap[] = {
 	'y', 'z', '{', '|', '}', '~', 127
 };
 
+// Converts a Java char into corresponding platform-dependent char (e.g. PETSCII).
+// This is necessary, since not all platforms use ASCII or UTF-8.
+char int2nativeChar(int c)
+{
+#if USING_VS
+	return c;
+#endif
+
+	// must swap upper / lower case letters
+	if (c >= 65 && c <= 90)
+		return (c + 32);
+	if (c >= 97 && c <= 122)
+		return (c - 32);
+
+	// Special chars; represented with graphical PETSCII chars
+	// Based on C64 Programmer's Reference Guide
+	if (c == 92) // Backslash
+		return 191;
+	if (c == 95) // _
+		return 164;
+	if (c == 96) // `
+		return 173;
+	if (c == 123) // {
+		return 179;
+	if (c == 124) // |
+		return 221;
+	if (c == 125) // }
+		return 171;
+	if (c == 126) // ~
+		return 177;
+
+	return c;
+}
+
+
 // Convert a Java String in a char[]
+// TODO make buffer smaller and use multiple iteratons eventually.
 char* string2chp(String* s)
 {
 	if ((s != null) && (s->characters))
@@ -73,14 +109,7 @@ char* string2chp(String* s)
 		if (length > STRING_BUF_SIZE) length = STRING_BUF_SIZE;
 		for (i = 0; i < length; i++)
 		{
-#if USING_VS
-			strBuffer[i] = (char)pA[i];
-#else
-			if (pA[i] < 128)
-				strBuffer[i] = charMap[(int)pA[i]];
-			else
-				strBuffer[i] = (char)pA[i];
-#endif
+			strBuffer[i] = int2nativeChar((int)pA[i]);
 		}
 		strBuffer[i] = 0;
 		return strBuffer;
@@ -181,19 +210,15 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		push_word(getHeapSize());
 		return;
 	case floatToRawIntBits_4F_5I: // Fall through
-	case intBitsToFloat_4I_5F: // TODO: I don-t thik it works properly
+	case intBitsToFloat_4I_5F: 
 		push_word(paramBase[0]);
 		return;
 	case putCharToStdout0_4I_5V:
-	{
-		int c = (int)paramBase[1];
-#if !USING_VS
-		if (c < 128)
-			c = charMap[c];
-#endif
-		putc(c, stdout);
+		putc(int2nativeChar((int)paramBase[1]), stdout);
 		return;
-	}
+	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
+		printf("%s", string2chp((String*)word2obj(paramBase[1])));
+		return;
 	case peek_4I_5I:
 #if USING_VS
 		ptr = word2ptr(paramBase[0]);
@@ -211,9 +236,6 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 #else
 		*((byte*)word2ptr(paramBase[0])) = (byte)paramBase[1];
 #endif
-		return;
-	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
-		printf("%s", string2chp((String*)word2obj(paramBase[1])));
 		return;
 	default:
 #ifdef DEBUG_METHODS

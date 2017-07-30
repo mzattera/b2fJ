@@ -21,3 +21,4 @@ distr/src/platform/*.o
 release/*.zip
 dev/test/b2fJ/test/b2fJ.prg
 *.vsf
+dev/test/b2fJ/test/c64/b2fJ.prg
