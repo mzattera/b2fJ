@@ -32,7 +32,7 @@ However, the current implementation shows that running Java on an 8-bit machine 
 
 ## A small demo
 
-[Here](./Sprite.java) you can doenload the code for a tiny demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
+[Here](./Sprite.java) you can download the code for a tiny demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
 
 The result should be this:
 
@@ -150,7 +150,7 @@ that replace the default Java library and some custom classes to support feature
 You can improve the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
 `classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an Ant script that serves this purpose.
 
-Install [Apace Ant](http://ant.apache.org/) and use it to run the build.
+Install [Apache Ant](http://ant.apache.org/) and use it to run the build.
 
 ## Adding native methods
 
@@ -173,7 +173,7 @@ In the process of extending the class library, it might be necessary to add nati
 constants corresponding to native methods. Add a `case:` statement for you new native method and implement it there.
 
   * In case the method is declared as `static`, `paramBase[0...n]` will contain the method parameters (as `STACKWORD`s; see the different 
-  macros availabe to convert this type into useful Java objects and vice-versa).
+  macros available to convert this type into useful Java objects and vice-versa).
 
   * If the method is an instance method, `paramBase[0]` will contain a reference to the calling object (`this`) while the
   method parameters are stored in `paramBase[1...n]`.
