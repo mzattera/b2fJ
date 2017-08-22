@@ -73,6 +73,8 @@ char int2nativeChar(int c)
 
 	// Special chars; represented with graphical PETSCII chars
 	// Based on C64 Programmer's Reference Guide
+	if (c == 10) // New line
+		return 13;
 	if (c == 92) // Backslash
 		return 191;
 	if (c == 95) // _

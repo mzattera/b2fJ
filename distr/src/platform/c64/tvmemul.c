@@ -74,7 +74,7 @@ void run(void)
 	} while ((region == NULL) && (size > 0));
 	memory_add_region(region, region + allocated * sizeof(TWOBYTES));
   }
-  printf("  64K RAM SYSTEM % 5d JAVA BYTES FREE\n\n", getHeapFree());
+  printf("  64K RAM SYSTEM %5d JAVA BYTES FREE\n\n", getHeapFree());
 
   // Initialize exceptions
   init_exceptions();
