@@ -24,7 +24,7 @@ Initially developed by [Ullrich von Bassewitz](http://www.cc65.org/), it is now 
 
 * [VICE](http://vice-emu.sourceforge.net) it is arguabely the best Commodore 64 emulator for Windows; it used here to run the Java programs compiled with b2fJ. It is distributed under the GNU General Public License (version 2 or later). 
 
-* [Apache Commons BCEL](http://commons.apache.org/bcel/) and [Apache Commons CLI](https://commons.apache.org/cli/) libraries (`.jar`) are distributed under the Apache license (http://www.apache.org/licenses/).
+* [Apache Commons BCEL](http://commons.apache.org/bcel/) and [Apache Commons CLI](https://commons.apache.org/cli/) libraries (`.jar`) are distributed under the [Apache license](http://www.apache.org/licenses/).
 
 ## Thanks
 
