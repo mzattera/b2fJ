@@ -2,7 +2,7 @@
 
 **Back to the Future Java (b2fJ)** is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
-It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest).
+It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest) (distributed un der MOZILLA PUBLIC LICENSE Version 1.0.).
 
 It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
