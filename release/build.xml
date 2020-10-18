@@ -52,6 +52,7 @@
       destdir="${docs.tmp}"
       author="true"
       access="protected"
+	  source="1.8"
       additionalparam="-Xdoclint:none"
       windowtitle="b2fJ API documentation"
     />
