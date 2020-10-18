@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>ca65 Users Guide</TITLE>
 </HEAD>
 <BODY>
@@ -10,7 +10,7 @@
 
 <H2>
 <A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A>,<BR>
-<A HREF="mailto:greg.king5@verizon.net">Greg King</A></H2>2016-06-11
+<A HREF="mailto:greg.king5@verizon.net">Greg King</A></H2>
 <HR>
 <EM>ca65 is a powerful macro assembler for the 6502, 65C02, and 65816 CPUs. It is
 used as a companion assembler for the cc65 crosscompiler, but it may also be
@@ -276,8 +276,10 @@ used as a standalone product.</EM>
 <UL>
 <LI><A NAME="toc15.1">15.1</A> <A HREF="ca65.html#ss15.1">Structs and unions Overview</A>
 <LI><A NAME="toc15.2">15.2</A> <A HREF="ca65.html#ss15.2">Declaration</A>
-<LI><A NAME="toc15.3">15.3</A> <A HREF="ca65.html#ss15.3">The <CODE>.TAG</CODE> keyword</A>
-<LI><A NAME="toc15.4">15.4</A> <A HREF="ca65.html#ss15.4">Limitations</A>
+<LI><A NAME="toc15.3">15.3</A> <A HREF="ca65.html#ss15.3">The storage allocator keywords</A>
+<LI><A NAME="toc15.4">15.4</A> <A HREF="ca65.html#ss15.4">The <CODE>.ORG</CODE> keyword</A>
+<LI><A NAME="toc15.5">15.5</A> <A HREF="ca65.html#ss15.5">The <CODE>.TAG</CODE> keyword</A>
+<LI><A NAME="toc15.6">15.6</A> <A HREF="ca65.html#ss15.6">Limitations</A>
 </UL>
 <P>
 <H2><A NAME="toc16">16.</A> <A HREF="ca65.html#s16">Module constructors/destructors</A></H2>
@@ -319,22 +321,22 @@ by me a long time ago.</P>
 development:</P>
 <P>
 <UL>
-<LI>    The assembler must support macros. Macros are not essential, but they
+<LI>  The assembler must support macros. Macros are not essential, but they
 make some things easier, especially when you use the assembler in the
 backend of a compiler.</LI>
-<LI>    The assembler must support the newer 65C02 and 65816 CPUs. I have been
+<LI>  The assembler must support the newer 65C02 and 65816 CPUs. I have been
 thinking about a 65816 backend for the C compiler, and even my old
 a816 assembler had support for these CPUs, so this wasn't really a
 problem.</LI>
-<LI>    The assembler must produce relocatable code. This is necessary for the
+<LI>  The assembler must produce relocatable code. This is necessary for the
 compiler support, and it is more convenient.</LI>
-<LI>    Conditional assembly must be supported. This is a must for bigger
+<LI>  Conditional assembly must be supported. This is a must for bigger
 projects written in assembler (like Elite128).</LI>
-<LI>    The assembler must support segments, and it must support more than
+<LI>  The assembler must support segments, and it must support more than
 three segments (this is the count, most other assemblers support).
 Having more than one code segments helps developing code for systems
 with a divided ROM area (like the C64).</LI>
-<LI>    The linker must be able to resolve arbitrary expressions. It should
+<LI>  The linker must be able to resolve arbitrary expressions. It should
 be able to get things like
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -345,18 +347,18 @@ be able to get things like
 </CODE></BLOCKQUOTE>
 
 right.</LI>
-<LI>    True lexical nesting for symbols. This is very convenient for larger
+<LI>  True lexical nesting for symbols. This is very convenient for larger
 assembly projects.</LI>
-<LI>    "Cheap" local symbols without lexical nesting for those quick, late
+<LI>  "Cheap" local symbols without lexical nesting for those quick, late
 night hacks.</LI>
-<LI>    I liked the idea of "options" as Anre Fachats .o65 format has it, so I
+<LI>  I liked the idea of "options" as Anre Fachats .o65 format has it, so I
 introduced the concept into the object file format use by the new cc65
 binutils.</LI>
-<LI>    The assembler will be a one pass assembler. There was no real need for
+<LI>  The assembler will be a one pass assembler. There was no real need for
 this decision, but I've written several multipass assemblers, and it
 started to get boring. A one pass assembler needs much more elaborated
 data structures, and because of that it's much more fun:-)</LI>
-<LI>    Non-GPLed code that may be used in any project without restrictions or
+<LI>  Non-GPLed code that may be used in any project without restrictions or
 fear of "GPL infecting" other code.</LI>
 </UL>
 </P>
@@ -512,7 +514,7 @@ never be generated in case of assembly errors.</P>
 <DT><B><CODE>--large-alignment</CODE></B><DD>
 <P>Disable warnings about a large combined alignment. See the discussion of the
 <CODE>
-<A HREF="#.ALIGN">.ALIGN</A></CODE> directive for futher information.</P>
+<A HREF="#.ALIGN">.ALIGN</A></CODE> directive for further information.</P>
 
 <P>
 <A NAME="option--list-bytes"></A> </P>
@@ -873,19 +875,19 @@ case, the assembler has to make some assumptions about the result of an
 expression:</P>
 <P>
 <UL>
-<LI>    If the result of an expression is constant, the actual value is
+<LI>  If the result of an expression is constant, the actual value is
 checked to see if it's a byte sized expression or not.</LI>
-<LI>    If the expression is explicitly casted to a byte sized expression by
+<LI>  If the expression is explicitly casted to a byte sized expression by
 one of the '&gt;', '&lt;' or '^' operators, it is a byte expression.</LI>
-<LI>    If this is not the case, and the expression contains a symbol,
+<LI>  If this is not the case, and the expression contains a symbol,
 explicitly declared as zero page symbol (by one of the .importzp or
 .exportzp instructions), then the whole expression is assumed to be
 byte sized.</LI>
-<LI>    If the expression contains symbols that are not defined, and these
+<LI>  If the expression contains symbols that are not defined, and these
 symbols are local symbols, the enclosing scopes are searched for a
 symbol with the same name. If one exists and this symbol is defined,
 its attributes are used to determine the result size.</LI>
-<LI>    In all other cases the expression is assumed to be word sized.</LI>
+<LI>  In all other cases the expression is assumed to be word sized.</LI>
 </UL>
 </P>
 <P>Note: If the assembler is not able to evaluate the expression at assembly
@@ -937,7 +939,7 @@ problem in most cases.</P>
 <TABLE BORDER><TR><TD>
 <B>Operator</B></TD><TD> <B>Description</B></TD><TD> <B>Precedence</B></TD></TR><TR><TD>
 </TD><TD> Built-in string functions</TD><TD> 0</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 </TD><TD> Built-in pseudo-variables</TD><TD> 1</TD></TR><TR><TD>
 </TD><TD> Built-in pseudo-functions</TD><TD> 1</TD></TR><TR><TD>
 +</TD><TD> Unary positive</TD><TD> 1</TD></TR><TR><TD>
@@ -946,7 +948,7 @@ problem in most cases.</P>
 &lt;<BR>.LOBYTE</TD><TD> Unary low-byte operator</TD><TD> 1</TD></TR><TR><TD>
 &gt;<BR>.HIBYTE</TD><TD> Unary high-byte operator</TD><TD> 1</TD></TR><TR><TD>
 ^<BR>.BANKBYTE</TD><TD> Unary bank-byte operator</TD><TD> 1</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 *</TD><TD> Multiplication</TD><TD> 2</TD></TR><TR><TD>
 /</TD><TD> Division</TD><TD> 2</TD></TR><TR><TD>
 .MOD</TD><TD> Modulo operator</TD><TD> 2</TD></TR><TR><TD>
@@ -954,24 +956,24 @@ problem in most cases.</P>
 ^<BR>.BITXOR</TD><TD> Binary bitwise xor</TD><TD> 2</TD></TR><TR><TD>
 &lt;&lt;<BR>.SHL</TD><TD> Shift-left operator</TD><TD> 2</TD></TR><TR><TD>
 &gt;&gt;<BR>.SHR</TD><TD> Shift-right operator</TD><TD> 2</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 +</TD><TD> Binary addition</TD><TD> 3</TD></TR><TR><TD>
 -</TD><TD> Binary subtraction</TD><TD> 3</TD></TR><TR><TD>
 |<BR>.BITOR</TD><TD> Bitwise or</TD><TD> 3</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 = </TD><TD> Compare operator (equal)</TD><TD> 4</TD></TR><TR><TD>
 &lt;&gt;</TD><TD> Compare operator (not equal)</TD><TD> 4</TD></TR><TR><TD>
 &lt;</TD><TD> Compare operator (less)</TD><TD> 4</TD></TR><TR><TD>
 &gt;</TD><TD> Compare operator (greater)</TD><TD> 4</TD></TR><TR><TD>
 &lt;=</TD><TD> Compare operator (less or equal)</TD><TD> 4</TD></TR><TR><TD>
 &gt;=</TD><TD> Compare operator (greater or equal)</TD><TD> 4</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 &amp;&amp;<BR>.AND</TD><TD> Boolean and</TD><TD> 5</TD></TR><TR><TD>
 .XOR</TD><TD> Boolean xor</TD><TD> 5</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
 ||<BR>.OR</TD><TD> Boolean or</TD><TD> 6</TD></TR><TR><TD>
-</TD><TD></TD><TD>&nbsp;</TD></TR><TR><TD>
-!<BR>.NOT</TD><TD> Boolean not</TD><TD> 7</TD></TR><TR><TD>
+&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR><TR><TD>
+!<BR>.NOT</TD><TD> Boolean not</TD><TD> 7
 </TD></TR></TABLE>
 <CAPTION>Available operators, sorted by precedence</CAPTION>
 </CENTER><BR>
@@ -1573,8 +1575,20 @@ an explanation on how this is done.</P>
 </H2>
 
 
-
-
+<P>The address size of a symbol can be specified with a prefix:</P>
+<P>
+<UL>
+<LI>z: zeropage addressing (8 bits).</LI>
+<LI>a: absolute addressing (16 bits).</LI>
+<LI>f: far addressing (24 bits).</LI>
+</UL>
+</P>
+<P>The zeropage addressing override can be used to ensure the use of optimal
+zeropage instructions, or correct cases where the size isn't yet known
+due to the single-pass assembly model.</P>
+<P>The larger addressing overrides can be used to promote a smaller address
+to absolute or far addressing, instead of being automatically fit into
+a smaller addressing type.</P>
 
 
 <H2><A NAME="ss8.4">8.4</A> <A HREF="#toc8.4">Memory models</A>
@@ -2103,7 +2117,7 @@ reserved keyword "A".</P>
 <BLOCKQUOTE><CODE>
 <PRE>
         ; Reserve space for the larger of two data blocks
-        savearea:       .max (.sizeof (foo), .sizeof (bar))
+        savearea:       .res .max (.sizeof (foo), .sizeof (bar))
   
 </PRE>
 </CODE></BLOCKQUOTE>
@@ -2176,8 +2190,8 @@ right paren in the given case).</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
-        ; Reserve space for some data, but 256 bytes minimum
-        savearea:       .min (.sizeof (foo), 256)
+        ; Reserve space for some data, but 256 bytes maximum
+        savearea:       .res .min (.sizeof (foo), 256)
   
 </PRE>
 </CODE></BLOCKQUOTE>
@@ -2236,17 +2250,17 @@ the given case).</P>
 </H2>
 
 
-<P><CODE>.SIZEOF</CODE> is a pseudo function that returns the size of its argument. The
-argument can be a struct/union, a struct member, a procedure, or a label. In
-case of a procedure or label, its size is defined by the amount of data
-placed in the segment where the label is relative to. If a line of code
-switches segments (for example in a macro) data placed in other segments
-does not count for the size.</P>
-<P>Please note that a symbol or scope must exist, before it is used together with
-<CODE>.SIZEOF</CODE> (this may get relaxed later, but will always be true for scopes).
-A scope has preference over a symbol with the same name, so if the last part
-of a name represents both, a scope and a symbol, the scope is chosen over the
-symbol.</P>
+<P><CODE>.SIZEOF()</CODE> is a pseudo function that returns the size of its argument.
+The argument can be a struct/union, a struct member, a scope/procedure, or a
+label. In the case of a procedure or label, its size is defined by the
+amount of data placed in the segment where the label is relative to. If a
+line of code switches segments (for example, in a macro), data placed in
+other segments does not count for the size.</P>
+<P>Please note that a symbol or scope must exist before it can be used together
+with <CODE>.SIZEOF()</CODE> (that may get relaxed later, but always will be true for
+scopes). A scope has preference over a symbol with the same name; so, if the
+last part of a name represents both a scope and a symbol, then the scope is
+chosen over the symbol.</P>
 <P>After the following code:</P>
 <P>
 <BLOCKQUOTE><CODE>
@@ -3144,7 +3158,7 @@ is read from an include file.</P>
 </H2>
 
 
-<P>End of local lexical level (see <CODE>
+<P>End of the local lexical level (see <CODE>
 <A HREF="#.PROC">.PROC</A></CODE>).</P>
 
 
@@ -3160,7 +3174,7 @@ is read from an include file.</P>
 </H2>
 
 
-<P>End of local lexical level (see <CODE>
+<P>End of the local lexical level (see <CODE>
 <A HREF="#.SCOPE">.SCOPE</A></CODE>).</P>
 
 
@@ -3192,8 +3206,8 @@ command and the separate section named
 keyword. If a name is given, a new scope is created for the enumeration,
 otherwise the enumeration members are placed in the enclosing scope.</P>
 <P>In the enumeration body, symbols are declared. The first symbol has a value
-of zero, and each following symbol will get the value of the preceding plus
-one. This behaviour may be overridden by an explicit assignment. Two symbols
+of zero, and each following symbol will get the value of the preceding, plus
+one. That behaviour may be overridden by an explicit assignment. Two symbols
 may have the same value.</P>
 <P>Example:</P>
 <P>
@@ -3208,9 +3222,9 @@ may have the same value.</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>Above example will create a new scope named <CODE>errorcodes</CODE> with three
-symbols in it that get the values 0, 1 and 2 respectively. Another way
-to write this would have been:</P>
+<P>The above example will create a new scope named <CODE>errorcodes</CODE> with three
+symbols in it that get the values 0, 1, and 2 respectively. Another way
+to write that would have been:</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -3248,12 +3262,12 @@ to write this would have been:</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>In this example, the enumeration does not have a name, which means that the
-members will be visible in the enclosing scope and can be used in this scope
+<P>In that example, the enumeration does not have a name, which means that the
+members will be visible in the enclosing scope, and can be used in that scope
 without explicit scoping. The first member (<CODE>EUNKNOWN</CODE>) has the value -1.
-The value for the following members is incremented by one, so <CODE>EOK</CODE> would
-be zero and so on. <CODE>EWOULDBLOCK</CODE> is an alias for <CODE>EGAIN</CODE>, so it has an
-override for the value using an already defined symbol.</P>
+The values for the following members are incremented by one; so, <CODE>EOK</CODE>
+would be zero, and so on. <CODE>EWOULDBLOCK</CODE> is an alias for <CODE>EAGAIN</CODE>; so,
+it has an override for the value, using an already defined symbol.</P>
 
 
 <H2><A NAME=".ERROR"></A> <A NAME="ss11.37">11.37</A> <A HREF="#toc11.37"><CODE>.ERROR</CODE></A>
@@ -3437,7 +3451,7 @@ enabled it, so using</P>
 
 <DT><B><CODE>at_in_identifiers</CODE>
 <A NAME="at_in_identifiers"></A> </B><DD>
-<P>Accept the at character (`@') as a valid character in identifiers. The
+<P>Accept the at character ('@') as a valid character in identifiers. The
 at character is not allowed to start an identifier, even with this
 feature enabled.</P>
 
@@ -3481,13 +3495,13 @@ which results in error messages. See the following non working example:</P>
 
 <DT><B><CODE>dollar_in_identifiers</CODE>
 <A NAME="dollar_in_identifiers"></A> </B><DD>
-<P>Accept the dollar sign (`$') as a valid character in identifiers. The
+<P>Accept the dollar sign ('$') as a valid character in identifiers. The
 dollar character is not allowed to start an identifier, even with this
 feature enabled.</P>
 
 <DT><B><CODE>dollar_is_pc</CODE>
 <A NAME="dollar_is_pc"></A> </B><DD>
-<P>The dollar sign may be used as an alias for the star (`*'), which
+<P>The dollar sign may be used as an alias for the star ('*'), which
 gives the value of the current PC in expressions.
 Note: Assignment to the pseudo variable is not allowed.</P>
 
@@ -3507,7 +3521,7 @@ if they start at the beginning of a line (no leading white space).</P>
 
 <DT><B><CODE>leading_dot_in_identifiers</CODE>
 <A NAME="leading_dot_in_identifiers"></A> </B><DD>
-<P>Accept the dot (`.') as the first character of an identifier. This may be
+<P>Accept the dot ('.') as the first character of an identifier. This may be
 used for example to create macro names that start with a dot emulating
 control directives of other assemblers. Note however, that none of the
 reserved keywords built into the assembler, that starts with a dot, may be
@@ -3549,11 +3563,28 @@ effect will only enable absolute mode for the current segment. Dito for
 
 <DT><B><CODE>pc_assignment</CODE>
 <A NAME="pc_assignment"></A> </B><DD>
-<P>Allow assignments to the PC symbol (`*' or `$' if <CODE>dollar_is_pc</CODE>
+<P>Allow assignments to the PC symbol ('*' or '$' if <CODE>dollar_is_pc</CODE>
 is enabled). Such an assignment is handled identical to the <CODE>
 <A HREF="#.ORG">.ORG</A></CODE> command (which is usually not needed, so just
 removing the lines with the assignments may also be an option when porting
 code written for older assemblers).</P>
+
+<DT><B><CODE>string_escapes</CODE>
+<A NAME="string_escapes"></A> </B><DD>
+<P>Allow C-style backslash escapes within string constants to embed
+special characters. The following escapes are accepted:
+<UL>
+<LI><CODE>\\</CODE> backslash (<CODE>$5C</CODE>)</LI>
+<LI><CODE>\'</CODE> single quote (<CODE>$27</CODE>)</LI>
+<LI><CODE>\&#34;</CODE> double quote (<CODE>$22</CODE>)</LI>
+<LI><CODE>\t</CODE> tab (<CODE>$09</CODE>)</LI>
+<LI><CODE>\r</CODE> carriage return (<CODE>$0D</CODE>)</LI>
+<LI><CODE>\n</CODE> newline (<CODE>$0A</CODE>)</LI>
+<LI><CODE>\xNN</CODE>  (<CODE>$NN</CODE>)</LI>
+</UL>
+</P>
+<P>Note that string escapes are converted to platform-specific characters in
+the same way that other characters are converted.</P>
 
 <DT><B><CODE>ubiquitous_idents</CODE>
 <A NAME="ubiquitous_idents"></A> </B><DD>
@@ -4308,8 +4339,8 @@ packages are:</P>
         atari           Defines the scrcode macro.
         cbm             Defines the scrcode macro.
         cpu             Defines constants for the .CPU variable.
-        generic         Defines generic macroes like add, sub, and blt.
-        longbranch      Defines conditional long-jump macroes.
+        generic         Defines generic macros like add, sub, and blt.
+        longbranch      Defines conditional long-jump macros.
   
 </PRE>
 </CODE></BLOCKQUOTE>
@@ -4757,7 +4788,7 @@ That is, the segment will reside somewhere in core memory outside the zero
 page. "zeropage" (8 bit) means that the segment will be placed in the zero
 page and direct (short) addressing is possible for data in this segment.</P>
 <P>Beware: Only labels in a segment with the zeropage attribute are marked
-as reachable by short addressing. The `*' (PC counter) operator will
+as reachable by short addressing. The '*' (PC counter) operator will
 work as in other segments and will create absolute variable values.</P>
 <P>Please note that a segment cannot have two different address sizes. A
 segment specified as zeropage cannot be declared as being absolute later.</P>
@@ -5365,14 +5396,14 @@ similar to the classic macro type described above, but behaviour is sometimes
 different:</P>
 <P>
 <UL>
-<LI>    Macros defined with <CODE>
+<LI>  Macros defined with <CODE>
 <A HREF="#.DEFINE">.DEFINE</A></CODE> may not
 span more than a line. You may use line continuation (see <CODE>
 <A HREF="#.LINECONT">.LINECONT</A></CODE>) to spread the definition over
 more than one line for increased readability, but the macro itself
 may not contain an end-of-line token.
 </LI>
-<LI>    Macros defined with <CODE>
+<LI>  Macros defined with <CODE>
 <A HREF="#.DEFINE">.DEFINE</A></CODE> share
 the name space with classic macros, but they are detected and replaced
 at the scanner level. While classic macros may be used in every place,
@@ -5380,7 +5411,7 @@ where a mnemonic or other directive is allowed, <CODE>
 <A HREF="#.DEFINE">.DEFINE</A></CODE> style macros are allowed anywhere in a line. So
 they are more versatile in some situations.
 </LI>
-<LI>    <CODE>
+<LI>  <CODE>
 <A HREF="#.DEFINE">.DEFINE</A></CODE> style macros may take
 parameters. While classic macros may have empty parameters, this is
 not true for <CODE>
@@ -5392,14 +5423,14 @@ To make this possible, formal parameters are enclosed in braces when
 defining the macro. If there are no parameters, the empty braces may
 be omitted.
 </LI>
-<LI>    Since <CODE>
+<LI>  Since <CODE>
 <A HREF="#.DEFINE">.DEFINE</A></CODE> style macros may not
 contain end-of-line tokens, there are things that cannot be done. They
 may not contain several processor instructions for example. So, while
 some things may be done with both macro types, each type has special
 usages. The types complement each other.
 </LI>
-<LI>    Parentheses work differently from C macros.
+<LI>  Parentheses work differently from C macros.
 The common practice of wrapping C macros in parentheses may cause
 unintended problems here, such as accidentally implying an
 indirect addressing mode. While the definition of a macro requires
@@ -5566,8 +5597,8 @@ are:</P>
 </H2>
 
 
-<P>This macro package defines macroes that are useful in almost any program.
-Currently defined macroes are:</P>
+<P>This macro package defines macros that are useful in almost any program.
+Currently defined macros are:</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -5771,9 +5802,10 @@ compiler, depending on the target system selected:</P>
 <LI><CODE>__C128__</CODE> - Target system is <CODE>c128</CODE></LI>
 <LI><CODE>__C16__</CODE> - Target system is <CODE>c16</CODE> or <CODE>plus4</CODE></LI>
 <LI><CODE>__C64__</CODE> - Target system is <CODE>c64</CODE></LI>
-<LI><CODE>__CBM__</CODE> - Target is a Commodore system</LI>
+<LI><CODE>__CBM__</CODE> - Target is a Commodore or Commodore-alike system</LI>
 <LI><CODE>__CBM510__</CODE> - Target system is <CODE>cbm510</CODE></LI>
 <LI><CODE>__CBM610__</CODE> - Target system is <CODE>cbm610</CODE></LI>
+<LI><CODE>__CX16__</CODE> - Target system is <CODE>cx16</CODE></LI>
 <LI><CODE>__GEOS__</CODE> - Target is a GEOS system</LI>
 <LI><CODE>__GEOS_APPLE__</CODE> - Target system is <CODE>geos-apple</CODE></LI>
 <LI><CODE>__GEOS_CBM__</CODE> - Target system is <CODE>geos-cbm</CODE></LI>
@@ -5791,6 +5823,7 @@ compiler, depending on the target system selected:</P>
 </P>
 
 
+
 <H2><A NAME="structs"></A> <A NAME="s15">15.</A> <A HREF="#toc15">Structs and unions</A></H2>
 
 
@@ -5801,10 +5834,10 @@ compiler, depending on the target system selected:</P>
 
 <P>Structs and unions are special forms of 
 <A HREF="#scopes">scopes</A>.  They
-are to some degree comparable to their C counterparts. Both have a list of
-members. Each member allocates storage and may optionally have a name, which,
-in case of a struct, is the offset from the beginning and, in case of a union,
-is always zero.</P>
+are, to some degree, comparable to their C counterparts. Both have a list of
+members. Each member allocates storage, and optionally may have a name whose
+value, in the case of a struct, usually is the storage offset from the
+beginning, and in the case of a union, doesn't change, and usually is zero.</P>
 
 
 <H2><A NAME="ss15.2">15.2</A> <A HREF="#toc15.2">Declaration</A>
@@ -5812,8 +5845,7 @@ is always zero.</P>
 
 
 <P>Here is an example for a very simple struct with two members and a total size
-of 4 bytes:</P>
-<P>
+of 4 bytes:
 <BLOCKQUOTE><CODE>
 <PRE>
       .struct Point
@@ -5823,10 +5855,9 @@ of 4 bytes:</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>A union shares the total space between all its members, its size is the same
+<P>A union shares the total space between all its members; its size is the same
 as that of the largest member. The offset of all members relative to the union
-is zero.</P>
-<P>
+is zero.
 <BLOCKQUOTE><CODE>
 <PRE>
       .union  Entry
@@ -5836,12 +5867,11 @@ is zero.</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>A struct or union must not necessarily have a name. If it is anonymous, no
-local scope is opened, the identifiers used to name the members are placed
+<P>A struct or union may not necessarily have a name. If it is anonymous, no
+local scope is opened; the identifiers used to name the members are placed
 into the current scope instead.</P>
-<P>A struct may contain unnamed members and definitions of local structs. The
-storage allocators may contain a multiplier, as in the example below:</P>
-<P>
+<P>A struct may contain unnamed members and definitions of local structs/unions.
+The storage allocators may contain a multiplier, as in the example below:
 <BLOCKQUOTE><CODE>
 <PRE>
       .struct Circle
@@ -5852,17 +5882,64 @@ storage allocators may contain a multiplier, as in the example below:</P>
       .endstruct
 </PRE>
 </CODE></BLOCKQUOTE>
-</P>
+
+The size of the Circle struct is 6 (three words).</P>
 
 
-<H2><A NAME="ss15.3">15.3</A> <A HREF="#toc15.3">The <CODE>.TAG</CODE> keyword</A>
+<H2><A NAME="ss15.3">15.3</A> <A HREF="#toc15.3">The storage allocator keywords</A>
 </H2>
 
 
-<P>Using the 
-<A HREF="#.TAG">.TAG</A> keyword, it is possible to reserve space
-for an already defined struct or unions within another struct:</P>
 <P>
+<DL>
+
+<DT><B>.BYTE, .RES</B><DD>
+<P>Allocates multiples of 1 byte.  <CODE>.RES</CODE> requires an operand.</P>
+
+<DT><B>.DBYTE, .WORD, .ADDR</B><DD>
+<P>Allocates multiples of 2 bytes.</P>
+
+<DT><B>.FARADDR</B><DD>
+<P>Allocates multiples of 3 bytes.</P>
+
+<DT><B>.DWORD</B><DD>
+<P>Allocates multiples of 4 bytes.</P>
+
+</DL>
+</P>
+
+
+<H2><A NAME="ss15.4">15.4</A> <A HREF="#toc15.4">The <CODE>.ORG</CODE> keyword</A>
+</H2>
+
+
+<P>The <CODE>.ORG</CODE> keyword changes the offset value that is assigned to subsequent
+member names.  It's useful when using a struct to define the names of the
+registers in an I/O chip.  Example:
+<BLOCKQUOTE><CODE>
+<PRE>
+; 6551
+.struct ACIA            ; Asynchronous Communications Interface Adapter
+        .org    $031C
+DATA    .byte
+STATUS  .byte
+CMD     .byte           ; Command register
+CTRL    .byte           ; Control register
+.endstruct
+
+        lda     ACIA::DATA      ; Get an RS-232 character
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+
+
+<H2><A NAME="ss15.5">15.5</A> <A HREF="#toc15.5">The <CODE>.TAG</CODE> keyword</A>
+</H2>
+
+
+<P>By using the 
+<A HREF="#.TAG">.TAG</A> keyword, it is possible to reserve
+space for an already defined struct or union within another struct:
 <BLOCKQUOTE><CODE>
 <PRE>
       .struct Point
@@ -5877,41 +5954,39 @@ for an already defined struct or unions within another struct:</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>Space for a struct or union may be allocated using the 
-<A HREF="#.TAG">.TAG</A> directive.</P>
-<P>
+<P>Actual space for a struct or union may be allocated by using the 
+<A HREF="#.TAG">.TAG</A> directive.
 <BLOCKQUOTE><CODE>
 <PRE>
-        C:      .tag    Circle
+C:      .tag    Circle
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
 <P>Currently, members are just offsets from the start of the struct or union. To
-access a field of a struct, the member offset has to be added to the address
-of the struct itself:</P>
-<P>
+access a field of a struct, the member offset must be added to the address of
+the struct variable itself:
 <BLOCKQUOTE><CODE>
 <PRE>
         lda     C+Circle::Radius        ; Load circle radius into A
 </PRE>
 </CODE></BLOCKQUOTE>
-</P>
-<P>This may change in a future version of the assembler.</P>
+
+That may change in a future version of the assembler.</P>
 
 
-<H2><A NAME="ss15.4">15.4</A> <A HREF="#toc15.4">Limitations</A>
+<H2><A NAME="ss15.6">15.6</A> <A HREF="#toc15.6">Limitations</A>
 </H2>
 
 
-<P>Structs and unions are currently implemented as nested symbol tables (in fact,
+<P>Structs and unions currently are implemented as nested symbol tables (in fact,
 they were a by-product of the improved scoping rules). Currently, the
-assembler has no idea of types. This means that the 
-<A HREF="#.TAG">.TAG</A> keyword will only allocate space. You won't be able to initialize
+assembler has no idea of types. That means that the 
+<A HREF="#.TAG">.TAG</A> keyword only will allocate space. You won't be able to initialize
 variables declared with 
-<A HREF="#.TAG">.TAG</A>, and adding an embedded
+<A HREF="#.TAG">.TAG</A>; and, adding an embedded
 structure to another structure with 
 <A HREF="#.TAG">.TAG</A> will not make
-this structure accessible by using the '::' operator.</P>
+that added structure accessible by using the '::' operator.</P>
 
 
 
@@ -6140,13 +6215,13 @@ including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:</P>
 <P>
 <OL>
-<LI>    The origin of this software must not be misrepresented; you must not
+<LI>  The origin of this software must not be misrepresented; you must not
 claim that you wrote the original software. If you use this software
 in a product, an acknowledgment in the product documentation would be
 appreciated but is not required.</LI>
-<LI>    Altered source versions must be plainly marked as such, and must not
+<LI>  Altered source versions must be plainly marked as such, and must not
 be misrepresented as being the original software.</LI>
-<LI>    This notice may not be removed or altered from any source
+<LI>  This notice may not be removed or altered from any source
 distribution.</LI>
 </OL>
 </P>

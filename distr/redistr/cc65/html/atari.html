@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>Atari specific information for cc65</TITLE>
 </HEAD>
 <BODY>
@@ -10,7 +10,7 @@
 
 <H2>
 <A HREF="mailto:shawnjefferson@24fightingchickens.com">Shawn Jefferson</A> and<BR>
-<A HREF="mailto:chris@groessler.org">Christian Groessler</A></H2>2014-04-24
+<A HREF="mailto:chris@groessler.org">Christian Groessler</A></H2>
 <HR>
 <EM>An overview over the Atari runtime system as it is implemented for the cc65 C
 compiler.</EM>
@@ -43,6 +43,7 @@ compiler.</EM>
 <LI><A NAME="toc5.2">5.2</A> <A HREF="atari.html#ss5.2">Hardware access</A>
 <LI><A NAME="toc5.3">5.3</A> <A HREF="atari.html#ss5.3">Display lists</A>
 <LI><A NAME="toc5.4">5.4</A> <A HREF="atari.html#ss5.4">Character mapping</A>
+<LI><A NAME="toc5.5">5.5</A> <A HREF="atari.html#ss5.5">Keyboard codes</A>
 </UL>
 <P>
 <H2><A NAME="toc6">6.</A> <A HREF="atari.html#s6">Loadable drivers</A></H2>
@@ -58,7 +59,8 @@ compiler.</EM>
 <H2><A NAME="toc7">7.</A> <A HREF="atari.html#s7">Limitations</A></H2>
 
 <UL>
-<LI><A NAME="toc7.1">7.1</A> <A HREF="atari.html#ss7.1"><CODE>atarixl</CODE></A>
+<LI><A NAME="toc7.1">7.1</A> <A HREF="atari.html#ss7.1"><CODE>Realtime clock</CODE></A>
+<LI><A NAME="toc7.2">7.2</A> <A HREF="atari.html#ss7.2"><CODE>atarixl target</CODE></A>
 </UL>
 <P>
 <H2><A NAME="toc8">8.</A> <A HREF="atari.html#s8">DIO implementation</A></H2>
@@ -102,7 +104,7 @@ supports XL type or newer machines (excluding the 600XL).</P>
 <P>The <CODE>atarixl</CODE> runtime makes the whole 64K of memory available, with the
 exception of the I/O area at $D000 - $D7FF. Since the
 <CODE>atarixl</CODE> runtime has some 
-<A HREF="#limitations">limitations</A>, it is
+<A HREF="#xllimitations">limitations</A>, it is
 recommended to use the <CODE>atari</CODE> target unless lack of memory dictates the
 use of the <CODE>atarixl</CODE> target.</P>
 <P>Please note that Atari specific functions are just mentioned here, they are
@@ -281,6 +283,18 @@ is <I>left out</I>, keep this in mind.</P>
 <P>The values you assign to the two symbols <CODE>__AUTOSTART__</CODE> and <CODE>__EXEHDR__</CODE>
 don't matter.</P>
 
+<H3><CODE>atari-asm-xex.cfg</CODE></H3>
+
+
+<P>This config file allows writing multi segment binaries easily, without having to
+write the header explicitly on each segment.</P>
+<P>It is similar to the <CODE>atari-asm.cfg</CODE> above, but uses the ATARI (xex) file
+format support on LD65 instead of the standard binary output, so it does not
+have the <CODE>__AUTOSTART</CODE> nor the <CODE>__EXEHDR__</CODE> symbols.</P>
+<P>Note that each <CODE>MEMORY</CODE> area in the configuration file will have it's own
+segment in the output file with the correct headers, and you can specify and
+init address INITAD) for each memory area.</P>
+
 <H3><CODE>atari-cart.cfg</CODE></H3>
 
 
@@ -304,6 +318,18 @@ for C and assembly language programs.</P>
 would need to be split in more parts and the parts to be loaded manually.</P>
 <P>To write the generated file to a cassette, a utility (<CODE>w2cas.com</CODE>) to run
 on an Atari is provided in the <CODE>util</CODE> directory of <CODE>atari</CODE> target dir.</P>
+
+<H3><CODE>atari-xex.cfg</CODE></H3>
+
+
+<P>This config file shows how to write a binary using the ATARI (xex) file format
+support on LD65, this simplifies the memory areas and allows to add new memory
+areas easily without writing new headers and trailers.</P>
+<P>Note that the default C library includes the system-check chunk, so in this
+linker configuration we suppress the importing of the header and trailer for
+this chunk by defining the standard import symbols to a 0 value. For the
+initialization address of the system-check chunk, the INITAD is set directly in
+the configuration.</P>
 
 <H2><A NAME="ss4.2">4.2</A> <A HREF="#toc4.2"><CODE>atarixl</CODE> config files</A>
 </H2>
@@ -333,13 +359,40 @@ source distribution.</P>
 optionally be left out, see 
 <A HREF="#nosyschk">Getting rid of the &#34;system check&#34; load chunk</A>.</P>
 
+<H3><CODE>atarixl-xex.cfg</CODE></H3>
+
+
+<P>Similar to the <CODE>atari-xex.cfg</CODE> above, this config file shows how to write a
+binary using the ATARI (xex) file format support on LD65.</P>
+<P>In addition to the suppressing of the system-check headers and trailers, this
+also suppresses the shadow-ram-preparation headers and trailers, but does this
+by defining an "UNUSED" memory area that is not written to the output file.</P>
+
 
 <H2><A NAME="s5">5.</A> <A HREF="#toc5">Platform specific header files</A></H2>
 
 
 <P>Programs containing Atari specific code may use the <CODE>atari.h</CODE>
 header file.</P>
-
+<P>This also includes access to operating system locations (e.g. hardware shadow registers) by a structure called
+"<CODE>OS</CODE>".
+The names are the usual ones you can find in system reference manuals. Example:</P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+...
+    OS.savmsc = ScreenMemory;
+    OS.color4 = 14;                         // white frame
+    if (OS.stick0 != 15 || OS.ch != 255)    // key or stick input?
+...
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>Please note that memory location 762/$2FA is called "<CODE>char_</CODE>" while the orignal name "<CODE>char</CODE>" conflicts with the C keyword.</P>
+<P>If you like to use the OS names and locations for the original Atari 800 operating system, please "<CODE>#define OSA</CODE>" before including the
+<CODE>atari.h</CODE> header file.
+If you like to target the floating point register model of revision 2 machines, put a "<CODE>#define OS_REV2</CODE>" before including <CODE>atari.h</CODE>.</P>
+<P>Access to the Basic programming language zero page variables is established by the structure "<CODE>BASIC</CODE>".</P>
 
 <H2><A NAME="ss5.1">5.1</A> <A HREF="#toc5.1">Atari specific functions</A>
 </H2>
@@ -414,28 +467,31 @@ cc65 supports constructing these display lists by offering defines
 for the instructions. In conjunction with the "void"-variable extension
 of cc65, display lists can be created quite comfortable:</P>
 <P>
+<BLOCKQUOTE><CODE>
 <PRE>
 ...
 unsigned char ScreenMemory[100];
 
 void DisplayList =
 {
-        DL_BLK8,
-        DL_BLK8,
-        DL_BLK8,
-        DL_LMS(DL_CHR20x8x2),
-        ScreenMemory,
-        DL_CHR20x8x2,
-        DL_CHR20x8x2,
-        DL_CHR20x8x2,
-        DL_BLK4,
-        DL_CHR20x8x2,
-        DL_JVB
+    DL_BLK8,
+    DL_BLK8,
+    DL_BLK8,
+    DL_LMS(DL_CHR20x8x2),
+    ScreenMemory,
+    DL_CHR20x8x2,
+    DL_CHR20x8x2,
+    DL_CHR20x8x2,
+    DL_BLK4,
+    DL_CHR20x8x2,
+    DL_JVB,
+    &amp;DisplayList
 };
 ...
-POKEW(560,(unsigned int)&amp;DisplayList);              // SDLSTL
+OS.sdlst = &amp;DisplayList;
 ...
 </PRE>
+</CODE></BLOCKQUOTE>
 </P>
 <P>Please inspect the <CODE>_antic.h</CODE> header file to detemine the supported
 instruction names. Modifiers on instructions can be nested without need
@@ -478,16 +534,19 @@ package delivers the same feature.</EM></P>
 under different mappings, defining remapped strings works only flawlessly
 with static array initialization:</P>
 <P>
+<BLOCKQUOTE><CODE>
 <PRE>
-#include &lt;atari\_screen\_charmap.h&gt;
+#include &lt;atari_screen_charmap.h&gt;
 char pcScreenMappingString[] = "Hello Atari!";
 
 #include &lt;atari_atascii_charmap.h&gt;
 char pcAtasciiMappingString[] = "Hello Atari!";
 </PRE>
+</CODE></BLOCKQUOTE>
 </P>
 <P>delivers correct results, while</P>
 <P>
+<BLOCKQUOTE><CODE>
 <PRE>
 #include &lt;atari_screen_charmap.h&gt;
 char* pcScreenMappingString = "Hello Atari!";
@@ -495,8 +554,35 @@ char* pcScreenMappingString = "Hello Atari!";
 #include &lt;atari_atascii_charmap.h&gt;
 char* pcAtasciiMappingString = "Hello Atari!";
 </PRE>
+</CODE></BLOCKQUOTE>
 </P>
 <P>does not.</P>
+
+<H2><A NAME="ss5.5">5.5</A> <A HREF="#toc5.5">Keyboard codes</A>
+</H2>
+
+
+<P>For direct keyboard scanning in conjunction with e.g. the OS location "CH" (764/$2FC),
+all keyboard codes are available as defined values on C and assembler side.</P>
+<P>Example:
+<BLOCKQUOTE><CODE>
+<PRE>
+...
+    while (!kbhit());
+    switch (OS.ch)
+    {
+        case KEY_RETURN:
+        ...
+        case KEY_SPACE:
+        ...
+        case KEY_1:
+        ...
+    }
+...
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>You can find the C defines in the file "<CODE>atari.h</CODE>" or "<CODE>atari.inc</CODE>" for the assembler variant.</P>
 
 
 <H2><A NAME="s6">6.</A> <A HREF="#toc6">Loadable drivers</A></H2>
@@ -713,7 +799,19 @@ interface module.</P>
 
 
 
-<H2><A NAME="limitations"></A> <A NAME="ss7.1">7.1</A> <A HREF="#toc7.1"><CODE>atarixl</CODE></A>
+<H2><A NAME="realtimeclock"></A> <A NAME="ss7.1">7.1</A> <A HREF="#toc7.1"><CODE>Realtime clock</CODE></A>
+</H2>
+
+
+<P>Access to the realtime clock is supported only when running on SpartaDOS-X.
+There needs to be a realtime clock driver installed. This is normally the case
+in the default installation (CONFIG.SYS) of SpartaDOS-X.
+A missing realtime clock driver in SpartaDOS-X is not supported, and the program
+may crash when calling the <CODE>clock_settime()</CODE> or <CODE>clock_gettime()</CODE>
+functions.</P>
+<P>The resolution of the realtime clock driver is 1 second.</P>
+
+<H2><A NAME="xllimitations"></A> <A NAME="ss7.2">7.2</A> <A HREF="#toc7.2"><CODE>atarixl target</CODE></A>
 </H2>
 
 
@@ -1053,16 +1151,16 @@ chunk #2 (RAM memory area).</P>
 file (split.s):
 <BLOCKQUOTE><CODE>
 <PRE>
-        .import __CODE_LOAD__, __BSS_LOAD__, __CODE_SIZE__
-        .import __DATA_LOAD__, __RODATA_LOAD__, __STARTUP_LOAD__
+    .import __CODE_LOAD__, __BSS_LOAD__, __CODE_SIZE__
+    .import __DATA_LOAD__, __RODATA_LOAD__, __STARTUP_LOAD__
 
-        .segment "NEXEHDR"
-        .word    __STARTUP_LOAD__
-        .word    __CODE_LOAD__ + __CODE_SIZE__ - 1
+    .segment "NEXEHDR"
+    .word    __STARTUP_LOAD__
+    .word    __CODE_LOAD__ + __CODE_SIZE__ - 1
 
-        .segment "CHKHDR"
-        .word    __RODATA_LOAD__
-        .word    __BSS_LOAD__ - 1
+    .segment "CHKHDR"
+    .word    __RODATA_LOAD__
+    .word    __BSS_LOAD__ - 1
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
@@ -1137,16 +1235,16 @@ FEATURES {
 <P>New contents for NEXEHDR and CHKHDR are needed (split2.s):
 <BLOCKQUOTE><CODE>
 <PRE>
-        .import __STARTUP_LOAD__, __BSS_LOAD__, __DATA_SIZE__
-        .import __DATA_LOAD__, __RODATA_LOAD__
+    .import __STARTUP_LOAD__, __BSS_LOAD__, __DATA_SIZE__
+    .import __DATA_LOAD__, __RODATA_LOAD__
 
-        .segment "NEXEHDR"
-        .word    __RODATA_LOAD__
-        .word    __DATA_LOAD__ + __DATA_SIZE__ - 1
+    .segment "NEXEHDR"
+    .word    __RODATA_LOAD__
+    .word    __DATA_LOAD__ + __DATA_SIZE__ - 1
 
-        .segment "CHKHDR"
-        .word    __STARTUP_LOAD__
-        .word    __BSS_LOAD__ - 1
+    .segment "CHKHDR"
+    .word    __STARTUP_LOAD__
+    .word    __BSS_LOAD__ - 1
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
@@ -1182,7 +1280,7 @@ regarding the MAINHDR segment. Like this:</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
-ld65: Error: Missing memory area assignment for segment `MAINHDR'
+ld65: Error: Missing memory area assignment for segment 'MAINHDR'
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
@@ -1237,13 +1335,13 @@ including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:</P>
 <P>
 <OL>
-<LI>    The origin of this software must not be misrepresented; you must not
+<LI>  The origin of this software must not be misrepresented; you must not
 claim that you wrote the original software. If you use this software
 in a product, an acknowledgment in the product documentation would be
 appreciated but is not required.</LI>
-<LI>    Altered source versions must be plainly marked as such, and must not
+<LI>  Altered source versions must be plainly marked as such, and must not
 be misrepresented as being the original software.</LI>
-<LI>    This notice may not be removed or altered from any source
+<LI>  This notice may not be removed or altered from any source
 distribution.</LI>
 </OL>
 </P>

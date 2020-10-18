@@ -1,3 +1,7 @@
+* Download Apache ANT (https://ant.apache.org/bindownload.cgi) binaries, unzip them somewhere and add its root folder to your PATH. Latest tested with version apache-ant-1.10.9.
+
+* Eventually update tools redistributed under distr\redistr and update README.txt
+
 * Update VERSION & MAGIC_MASK in distr\src\java\tools\js\tinyvm\TinyVMConstants.java.
 
 * Run the build.xml ant script under release (this folder).

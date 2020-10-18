@@ -42,8 +42,8 @@ The result should be this:
 
 ## JDK
 
-In order to compile and run your Java programs, you need first of all to have a [Java Development Kit 1.8](https://www.google.ch/search?q=JDK+1.8+download) or later installed.
-bsfJ has been tested both with Java 1.8 and 15 machines, but it uses 1.8 as target for the generated code.
+In order to compile and run your Java programs, you need first of all to have a [Java Development Kit](https://www.google.ch/search?q=JDK+1.8+download) installed.
+b2fJ uses 1.8 as target for the generated code, it has been tested with Java 15, but it shoudl work with JDK 9 or later (as it uses `--release` parameter for compilation).
 
 Make sure that the JDK folder is in your path or that you have [set `JAVA_HOME`](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
 

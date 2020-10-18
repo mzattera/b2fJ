@@ -12,6 +12,6 @@ call "%B2FJ_HOME%\bin\b2fJl" %1
 if ERRORLEVEL 1 goto end
 call "%B2FJ_HOME%\bin\makeJVM"
 if ERRORLEVEL 1 goto end
-"%B2FJ_HOME%\redistr\WinVICE-3.1-x86\x64" "%CD%\b2fJ.prg"
+"%B2FJ_HOME%\redistr\WinVICE\x64sc" "%CD%\b2fJ.prg"
 
 :end

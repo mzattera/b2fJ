@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>cc65 Users Guide</TITLE>
 </HEAD>
 <BODY>
@@ -10,7 +10,7 @@
 
 <H2>
 <A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A>,<BR>
-<A HREF="mailto:gregdk@users.sf.net">Greg King</A></H2>2017-05-20
+<A HREF="mailto:gregdk@users.sf.net">Greg King</A></H2>
 <HR>
 <EM>cc65 is a C compiler for 6502 targets. It supports several 6502 based home
 computers like the Commodore and Atari machines, but it is easily retargetable.</EM>
@@ -50,16 +50,17 @@ computers like the Commodore and Atari machines, but it is easily retargetable.<
 <LI><A NAME="toc7.7">7.7</A> <A HREF="cc65.html#ss7.7"><CODE>#pragma data-name ([push,] &lt;name&gt;)</CODE></A>
 <LI><A NAME="toc7.8">7.8</A> <A HREF="cc65.html#ss7.8"><CODE>#pragma inline-stdfuncs ([push,] on|off)</CODE></A>
 <LI><A NAME="toc7.9">7.9</A> <A HREF="cc65.html#ss7.9"><CODE>#pragma local-strings ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.10">7.10</A> <A HREF="cc65.html#ss7.10"><CODE>#pragma optimize ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.11">7.11</A> <A HREF="cc65.html#ss7.11"><CODE>#pragma rodata-name ([push,] &lt;name&gt;)</CODE></A>
-<LI><A NAME="toc7.12">7.12</A> <A HREF="cc65.html#ss7.12"><CODE>#pragma regvaraddr ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.13">7.13</A> <A HREF="cc65.html#ss7.13"><CODE>#pragma register-vars ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.14">7.14</A> <A HREF="cc65.html#ss7.14"><CODE>#pragma signed-chars ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.15">7.15</A> <A HREF="cc65.html#ss7.15"><CODE>#pragma static-locals ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.16">7.16</A> <A HREF="cc65.html#ss7.16"><CODE>#pragma warn (name, [push,] on|off)</CODE></A>
-<LI><A NAME="toc7.17">7.17</A> <A HREF="cc65.html#ss7.17"><CODE>#pragma wrapped-call (push, &lt;name&gt;, &lt;identifier&gt;)</CODE></A>
-<LI><A NAME="toc7.18">7.18</A> <A HREF="cc65.html#ss7.18"><CODE>#pragma writable-strings ([push,] on|off)</CODE></A>
-<LI><A NAME="toc7.19">7.19</A> <A HREF="cc65.html#ss7.19"><CODE>#pragma zpsym (&lt;name&gt;)</CODE></A>
+<LI><A NAME="toc7.10">7.10</A> <A HREF="cc65.html#ss7.10"><CODE>#pragma message (&lt;message&gt;)</CODE></A>
+<LI><A NAME="toc7.11">7.11</A> <A HREF="cc65.html#ss7.11"><CODE>#pragma optimize ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.12">7.12</A> <A HREF="cc65.html#ss7.12"><CODE>#pragma rodata-name ([push,] &lt;name&gt;)</CODE></A>
+<LI><A NAME="toc7.13">7.13</A> <A HREF="cc65.html#ss7.13"><CODE>#pragma regvaraddr ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.14">7.14</A> <A HREF="cc65.html#ss7.14"><CODE>#pragma register-vars ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.15">7.15</A> <A HREF="cc65.html#ss7.15"><CODE>#pragma signed-chars ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.16">7.16</A> <A HREF="cc65.html#ss7.16"><CODE>#pragma static-locals ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.17">7.17</A> <A HREF="cc65.html#ss7.17"><CODE>#pragma warn (name, [push,] on|off)</CODE></A>
+<LI><A NAME="toc7.18">7.18</A> <A HREF="cc65.html#ss7.18"><CODE>#pragma wrapped-call (push, &lt;name&gt;, &lt;identifier&gt;)</CODE></A>
+<LI><A NAME="toc7.19">7.19</A> <A HREF="cc65.html#ss7.19"><CODE>#pragma writable-strings ([push,] on|off)</CODE></A>
+<LI><A NAME="toc7.20">7.20</A> <A HREF="cc65.html#ss7.20"><CODE>#pragma zpsym (&lt;name&gt;)</CODE></A>
 </UL>
 <P>
 <H2><A NAME="toc8">8.</A> <A HREF="cc65.html#s8">Register variables</A></H2>
@@ -150,7 +151,8 @@ Long options:
   --data-name seg               Set the name of the DATA segment
   --debug                       Debug mode
   --debug-info                  Add debug info to object file
-  --debug-opt name              Debug optimization steps
+  --debug-opt name              Configure optimizations with a file
+  --debug-opt-output            Debug output of each optimization step
   --dep-target target           Use this dependency target
   --disable-opt name            Disable an optimization step
   --eagerly-inline-funcs        Eagerly inline some known functions
@@ -255,8 +257,22 @@ brackets).</P>
 
 
 <DT><B><CODE>-d, --debug</CODE></B><DD>
-<P>Enables debug mode, something that should not be needed for mere
-mortals:-)</P>
+<P>Enables debug mode, for debugging the behavior of cc65.</P>
+
+
+<DT><B><CODE>--debug-opt name</CODE></B><DD>
+<P>The named file contains a list of specific optimization steps to enable or disable.
+Each line contains the name of an optimization step with either a
+<CODE>+</CODE> (enable) or <CODE>-</CODE> (disable) prefix.
+The name <CODE>all</CODE> can be used to enable or disable all optimizations.
+Comment lines may begin with <CODE>#</CODE> or <CODE>;</CODE>.</P>
+<P>Use <CODE>--list-opt-steps</CODE> to generate a complete list of available optimization steps.</P>
+<P>Use <CODE>--debug</CODE> to see a list of optimizations applied during compilation.</P>
+
+
+<DT><B><CODE>--debug-opt-output</CODE></B><DD>
+<P>For debugging the output of each optimization pass, step by step.
+Generates a <CODE>name.opt</CODE> output listing for each optimized function <CODE>name</CODE>.</P>
 
 <P>
 <A NAME="option-dep-target"></A> </P>
@@ -288,7 +304,6 @@ symbols in a special section in the object file.</P>
 <LI><CODE>strcmp()</CODE></LI>
 <LI><CODE>strcpy()</CODE></LI>
 <LI><CODE>strlen()</CODE></LI>
-<LI>most of the functions declared in <CODE>&lt;ctype.h&gt;</CODE></LI>
 </UL>
 </P>
 <P>Note: This has two consequences:
@@ -299,9 +314,7 @@ using <CODE>--eagerly-inline-funcs</CODE> actually will break things.
 
 </LI>
 <LI>The inlined string and memory functions will not handle strings or
-memory areas larger than 255 bytes.  Similarly, the inlined <CODE>is..()</CODE>
-functions will not work with values outside the char. range (such as
-<CODE>EOF</CODE>).
+memory areas larger than 255 bytes.
 
 </LI>
 </UL>
@@ -452,6 +465,7 @@ default CPU. The CPU setting can be overriden by use of the <CODE>
 <LI>sim6502</LI>
 <LI>sim65c02</LI>
 <LI>supervision</LI>
+<LI>telestrat</LI>
 <LI>vic20</LI>
 </UL>
 </P>
@@ -886,6 +900,65 @@ size zero, even if it is initialized.
 
 
 </LI>
+<LI>  cc65 supports <CODE>_Static_assert</CODE> from C11 and C2X.  This is similar
+to <CODE>#error</CODE> but happens at a later stage of translation, so types
+can be used.
+
+<BLOCKQUOTE><CODE>
+<PRE>
+        /* C11 version with message. */
+        _Static_assert (sizeof (int) == 2, "Expected 2-bytes ints.");
+
+        /* C2X version without message. */
+        _Static_assert (sizeof (int) == 2);
+        
+</PRE>
+</CODE></BLOCKQUOTE>
+
+
+<CODE>_Static_assert</CODE> is also available as the macro <CODE>static_assert</CODE> in
+<CODE>assert.h</CODE>.
+</LI>
+<LI>  cc65 supports bit-fields of any integral type that is int-sized or
+smaller, and enumerated types with those types as their underlying
+type.  (Only <CODE>int</CODE>, <CODE>signed int</CODE>, and <CODE>unsigned int</CODE> are
+required by the standard.)
+</LI>
+<LI>  Computed gotos, a GCC extension, has limited support. With it you can
+use fast jump tables from C. You can take the address of a label with
+a double ampersand, putting them in a static const array of type void *.
+Then you can jump to one of these labels as follows:
+
+<BLOCKQUOTE><CODE>
+<PRE>
+        static const void * const jumptable[] = {
+                &amp;&amp;add,
+                &amp;&amp;sub
+        };
+        goto *jumptable[somevar];
+
+        add:
+        ...code...
+        
+</PRE>
+</CODE></BLOCKQUOTE>
+
+
+In the jump table, no expressions are supported. The array index
+used in the goto must be a simple variable or a constant.
+</LI>
+<LI>  Binary literals, a C++14 feature and a GCC C extension, are accepted.
+They can be disabled with the <CODE>
+<A HREF="#option--standard">--standard</A></CODE> option.
+
+<BLOCKQUOTE><CODE>
+<PRE>
+        unsigned char foo = 0b101; // sets it to 5
+        
+</PRE>
+</CODE></BLOCKQUOTE>
+
+</LI>
 </UL>
 </P>
 
@@ -953,6 +1026,9 @@ defined as <CODE>0x02E0</CODE>.</P>
 </UL>
 </P>
 
+<DT><B><CODE>__CX16__</CODE></B><DD>
+<P>This macro is defined if the target is the Commander X16 (-t cx16).</P>
+
 <DT><B><CODE>__DATE__</CODE></B><DD>
 <P>This macro expands to the date of translation of the preprocessing
 translation unit in the form "Mmm dd yyyy".</P>
@@ -1019,6 +1095,9 @@ translation unit in the form "Mmm dd yyyy".</P>
 <DT><B><CODE>__SUPERVISION__</CODE></B><DD>
 <P>This macro is defined if the target is the Supervision (-t supervision).</P>
 
+<DT><B><CODE>__TELESTRAT__</CODE></B><DD>
+<P>This macro is defined if the target is the Telestrat (-t telestrat).</P>
+
 <DT><B><CODE>__TIME__</CODE></B><DD>
 <P>This macro expands to the time of translation of the preprocessing
 translation unit in the form "hh:mm:ss".</P>
@@ -1059,14 +1138,15 @@ eager inlining of known functions if inlining of standard functions is enabled.<
 
 
 <P>This pragma changes the name used for the BSS segment (the BSS segment
-is used to store uninitialized data). The argument is a string enclosed
-in double quotes.</P>
+is used to store variables with static storage duration and no explicit
+initializer). The argument is a string enclosed in double quotes.</P>
 <P>Note: The default linker configuration file does only map the standard
 segments. If you use other segments, you have to create a new linker
 configuration file.</P>
 <P>Beware: The startup code will zero only the default BSS segment. If you
 use another BSS segment, you have to do that yourself, otherwise
-uninitialized variables do not have the value zero.</P>
+variables with static storage duration and no explicit initializer will
+not have the value zero.</P>
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 <P>Example:
 <BLOCKQUOTE><CODE>
@@ -1214,7 +1294,31 @@ or rodata segment, but cannot be merged. When inactive, string literals are
 remembered and output as a whole when translation is finished.</P>
 
 
-<H2><A NAME="pragma-optimize"></A> <A NAME="ss7.10">7.10</A> <A HREF="#toc7.10"><CODE>#pragma optimize ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-message"></A> <A NAME="ss7.10">7.10</A> <A HREF="#toc7.10"><CODE>#pragma message (&lt;message&gt;)</CODE></A>
+</H2>
+
+
+<P>This pragma is used to display informational messages at compile-time.</P>
+<P>The message intented to be displayed must be a string literal.</P>
+<P>Example:
+<BLOCKQUOTE><CODE>
+<PRE>
+        #pragma message ("in a bottle")
+  
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>Results in the compiler outputting the following to stderr:
+<BLOCKQUOTE><CODE>
+<PRE>
+        example.c(42): Note: in a bottle
+  
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+
+
+<H2><A NAME="pragma-optimize"></A> <A NAME="ss7.11">7.11</A> <A HREF="#toc7.11"><CODE>#pragma optimize ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1229,7 +1333,7 @@ determine if the generated code is optimized or not.</P>
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 
 
-<H2><A NAME="pragma-rodata-name"></A> <A NAME="ss7.11">7.11</A> <A HREF="#toc7.11"><CODE>#pragma rodata-name ([push,] &lt;name&gt;)</CODE></A>
+<H2><A NAME="pragma-rodata-name"></A> <A NAME="ss7.12">7.12</A> <A HREF="#toc7.12"><CODE>#pragma rodata-name ([push,] &lt;name&gt;)</CODE></A>
 </H2>
 
 
@@ -1250,7 +1354,7 @@ configuration file.</P>
 </P>
 
 
-<H2><A NAME="pragma-regvaraddr"></A> <A NAME="ss7.12">7.12</A> <A HREF="#toc7.12"><CODE>#pragma regvaraddr ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-regvaraddr"></A> <A NAME="ss7.13">7.13</A> <A HREF="#toc7.13"><CODE>#pragma regvaraddr ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1277,7 +1381,7 @@ register variables. So be careful with this #pragma.</P>
 </P>
 
 
-<H2><A NAME="pragma-register-vars"></A> <A NAME="ss7.13">7.13</A> <A HREF="#toc7.13"><CODE>#pragma register-vars ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-register-vars"></A> <A NAME="ss7.14">7.14</A> <A HREF="#toc7.14"><CODE>#pragma register-vars ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1288,7 +1392,7 @@ variables are explained in more detail in
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 
 
-<H2><A NAME="pragma-signed-chars"></A> <A NAME="ss7.14">7.14</A> <A HREF="#toc7.14"><CODE>#pragma signed-chars ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-signed-chars"></A> <A NAME="ss7.15">7.15</A> <A HREF="#toc7.15"><CODE>#pragma signed-chars ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1300,7 +1404,7 @@ better code. This default may be overridden by the <CODE>
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 
 
-<H2><A NAME="pragma-static-locals"></A> <A NAME="ss7.15">7.15</A> <A HREF="#toc7.15"><CODE>#pragma static-locals ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-static-locals"></A> <A NAME="ss7.16">7.16</A> <A HREF="#toc7.16"><CODE>#pragma static-locals ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1312,7 +1416,7 @@ most cases faster, but non-reentrant code.</P>
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 
 
-<H2><A NAME="pragma-warn"></A> <A NAME="ss7.16">7.16</A> <A HREF="#toc7.16"><CODE>#pragma warn (name, [push,] on|off)</CODE></A>
+<H2><A NAME="pragma-warn"></A> <A NAME="ss7.17">7.17</A> <A HREF="#toc7.17"><CODE>#pragma warn (name, [push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1338,7 +1442,7 @@ changing it.</P>
 </P>
 
 
-<H2><A NAME="pragma-wrapped-call"></A> <A NAME="ss7.17">7.17</A> <A HREF="#toc7.17"><CODE>#pragma wrapped-call (push, &lt;name&gt;, &lt;identifier&gt;)</CODE></A>
+<H2><A NAME="pragma-wrapped-call"></A> <A NAME="ss7.18">7.18</A> <A HREF="#toc7.18"><CODE>#pragma wrapped-call (push, &lt;name&gt;, &lt;identifier&gt;)</CODE></A>
 </H2>
 
 
@@ -1371,7 +1475,7 @@ void somefunc2(int, char *);
 </P>
 
 
-<H2><A NAME="pragma-writable-strings"></A> <A NAME="ss7.18">7.18</A> <A HREF="#toc7.18"><CODE>#pragma writable-strings ([push,] on|off)</CODE></A>
+<H2><A NAME="pragma-writable-strings"></A> <A NAME="ss7.19">7.19</A> <A HREF="#toc7.19"><CODE>#pragma writable-strings ([push,] on|off)</CODE></A>
 </H2>
 
 
@@ -1387,7 +1491,7 @@ worry.</P>
 <P>The <CODE>#pragma</CODE> understands the push and pop parameters as explained above.</P>
 
 
-<H2><A NAME="ss7.19">7.19</A> <A HREF="#toc7.19"><CODE>#pragma zpsym (&lt;name&gt;)</CODE></A>
+<H2><A NAME="ss7.20">7.20</A> <A HREF="#toc7.20"><CODE>#pragma zpsym (&lt;name&gt;)</CODE></A>
 </H2>
 
 
@@ -1523,10 +1627,16 @@ a C <CODE>#define</CODE> into the Y index register, one would use</P>
             unsigned char x;
             unsigned char y;
             unsigned char color;
+            unsigned char data[32];
         } pixel_t;
         static pixel_t pixel;
         __asm__ ("ldy #%b", offsetof(pixel_t, color));
         __asm__ ("lda %v,y", pixel);
+
+        /* or to access an array member */
+        static unsigned char i;
+        __asm__ ("ldy %v", i);
+        __asm__ ("lda %v+%b,y", pixel, offsetof(pixel_t, data));
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>

@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>da65 Users Guide</TITLE>
 </HEAD>
 <BODY>
@@ -10,7 +10,7 @@
 
 <H2>
 <A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A>,<BR>
-<A HREF="mailto:greg.king5@verizon.net">Greg King</A></H2>2014-11-23
+<A HREF="mailto:greg.king5@verizon.net">Greg King</A></H2>
 <HR>
 <EM>da65 is a 6502/65C02 disassembler that is able to read user-supplied
 information about its input data, for better results. The output is ready for
@@ -91,6 +91,7 @@ Short options:
   -o name               Name the output file
   -v                    Increase verbosity
   -F                    Add formfeeds to the output
+  -s                    Accept line markers in the info file
   -S addr               Set the start/load address
   -V                    Print the disassembler version
 
@@ -108,6 +109,7 @@ Long options:
   --mnemonic-column n   Specify mnemonic start column
   --pagelength n        Set the page length for the listing
   --start-addr addr     Set the start/load address
+  --sync-lines          Accept line markers in the info file
   --text-column n       Specify text start column
   --verbose             Increase verbosity
   --version             Print the disassembler version
@@ -235,6 +237,19 @@ with '0x', '0X', or '$', and as a decimal value in all other cases. If no
 start address is specified, $10000 minus the size of the input file is used.</P>
 
 <P>
+<A NAME="option--sync-lines"></A> </P>
+<DT><B><CODE>-s, --sync-lines</CODE></B><DD>
+<P>Accept line markers in the info file in the following syntax:
+<BLOCKQUOTE><CODE>
+<PRE>
+#line &lt;lineno> ["&lt;filename>"]
+# &lt;lineno> "&lt;filename>" [&lt;flag>] ...
+</PRE>
+</CODE></BLOCKQUOTE>
+
+This option is intended for preprocessing info files with "cpp" or "m4".</P>
+
+<P>
 <A NAME="option--text-column"></A> </P>
 <DT><B><CODE>--text-column n</CODE></B><DD>
 <P>Specifies the column where additional text is output. This additional text
@@ -341,9 +356,10 @@ anything). Each attribute is terminated by a semicolon.</P>
 </H2>
 
 
-<P>Comments start with a hash mark (<CODE>#</CODE>); and, extend from the position of
-the mark to the end of the current line. Hash marks inside of strings will
-<EM>not</EM> start a comment, of course.</P>
+<P>Comments start with a hash mark (<CODE>#</CODE>) or a double slash (<CODE>//</CODE>);
+and, extend from the position of the mark to the end of the current line.
+Hash marks or double slashes inside of strings will <EM>not</EM> start a comment,
+of course.</P>
 
 
 <H2><A NAME="global-options"></A> <A NAME="ss4.2">4.2</A> <A HREF="#toc4.2">Specifying global options</A>
@@ -601,6 +617,21 @@ that follows. If a size greater than 1 is specified, the disassembler will
 create labels in the form <CODE>label+offs</CODE> for all bytes within the given
 range, where <CODE>label</CODE> is the label name given with the <CODE>NAME</CODE>
 attribute, and <CODE>offs</CODE> is the offset within the data.</P>
+
+<DT><B><CODE>PARAMSIZE</CODE></B><DD>
+<P>This optional attribute is followed by a numerical value. It tells the
+assembler that subroutine calls to this label are followed by
+"inline parameters" with the given number of bytes, like this:</P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+        JSR     LabelWithParamSize2
+        .byte   $00, $10
+        (return here)
+        code...
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
 
 </DL>
 </P>

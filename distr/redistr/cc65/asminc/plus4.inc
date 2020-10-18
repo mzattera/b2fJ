@@ -33,12 +33,9 @@ FKEY_COUNT      := $55D         ; Characters for function key
 FKEY_SPACE      := $55F         ; Function key definitions
 FKEY_ORIG       := $F3D2        ; Original definitions
 
-; ---------------------------------------------------------------------------
-; Kernal routines
-
-; Direct entries
-CLRSCR          := $D88B
-KBDREAD         := $D8C1
+KBDREPEAT       := $540
+KBDREPEATRATE   := $541
+KBDREPEATDELAY  := $542
 
 ; ---------------------------------------------------------------------------
 ; Vector and other locations
@@ -69,6 +66,7 @@ TED_CURSLO      := $FF0D
 TED_V1FRQLO     := $FF0E
 TED_V2FRQLO     := $FF0F
 TED_V2FRQHI     := $FF10
+TED_CLK         := $FF13
 TED_BGCOLOR     := $FF15
 TED_COLOR1      := $FF16
 TED_COLOR2      := $FF17
@@ -85,5 +83,3 @@ TED_RAMSEL      := $FF3F
 
 ENABLE_ROM      := TED_ROMSEL
 ENABLE_RAM      := TED_RAMSEL
-
-

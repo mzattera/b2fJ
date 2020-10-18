@@ -46,7 +46,15 @@
   <!-- creates classes.jar -->
   <target name="classes.jar" depends ="prepare">
     <mkdir dir="${build.tmp}/classes"/>
-    <javac includeantruntime="false" srcdir="${javasrc}/classes" destdir="${build.tmp}/classes" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"/>
+    <javac 
+		includeantruntime="false" 
+		srcdir="${javasrc}/classes" 
+		destdir="${build.tmp}/classes" 
+		fork="yes" 
+		optimize="on" 
+		debug="on" 
+		release="8"
+	/>
     <jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>
   </target>
 
@@ -54,14 +62,30 @@
   <target name="jtools.jar" depends ="prepare">
     <mkdir dir="${build.tmp}/tools"/>
     <!-- generate constants first -->
-    <javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8"
-      includes="**/GenerateConstants.java">
+    <javac 
+		includeantruntime="false" 
+		srcdir="${javasrc}/tools" 
+		destdir="${build.tmp}/tools" 
+		fork="yes" 
+		optimize="on" 
+		debug="on" 
+		release="8"
+		includes="**/GenerateConstants.java"
+	>
     </javac>
     <java classpath="${build.tmp}/tools" classname="js.tinyvm.GenerateConstants">
       <sysproperty key="tinyvm.home" value="${src}"/>
     </java>
     <!-- generate tools -->
-    <javac includeantruntime="false" srcdir="${javasrc}/tools" destdir="${build.tmp}/tools" fork="yes" optimize="on" debug="on" source="1.8" target="1.8">
+    <javac 
+		includeantruntime="false" 
+		srcdir="${javasrc}/tools" 
+		destdir="${build.tmp}/tools" 
+		fork="yes" 
+		optimize="on" 
+		debug="on" 
+		release="8"
+	>
       <classpath location="${3rdparty.libs}/commons-cli-1.0.jar"/>
       <classpath location="${3rdparty.libs}/bcel-5.1.jar"/>
     </javac>

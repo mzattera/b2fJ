@@ -43,20 +43,18 @@
         ID      .byte   3       ; $6A, $6F, $79 ("joy")
         VERSION .byte   1       ; Interface version
         LIBREF  .addr           ; Library reference
-        MASKS   .byte   8       ; Joystick state mask array
         JUMPTAB .struct
             INSTALL     .addr   ; INSTALL routine
             UNINSTALL   .addr   ; UNINSTALL routine
             COUNT       .addr   ; COUNT routine
             READ        .addr   ; READ routine
-            IRQ         .addr   ; IRQ routine
         .endstruct
 .endstruct
 
 ;------------------------------------------------------------------------------
 ; The JOY API version, stored in JOY_HDR::VERSION
 
-JOY_API_VERSION         = $03
+JOY_API_VERSION         = $05
 
 ;------------------------------------------------------------------------------
 ; Variables
