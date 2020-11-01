@@ -7,9 +7,9 @@
 #ifndef _COMPILER_CONFIG_H_
 #define _COMPILER_CONFIG_H_
 
-#define __INLINED 
-#define __BYTE_BITFIELD int 
-#define __TWOBYTE_BITFIELD int
+#define __INLINED inline
+#define __BYTE_BITFIELD byte
+#define __TWOBYTE_BITFIELD TWOBYTES
 
 // GCC (original code)
 // #define __INLINED inline

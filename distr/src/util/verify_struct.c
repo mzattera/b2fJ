@@ -1,11 +1,12 @@
 /**
  * Maxi: Util to validate length and alignment of structures.
  */
-#include "classes.h"
-#include "memory.h"
-#include "threads.h"
-
 #include <stdio.h>
+#include "classes.h"
+#include "language.h"
+#include "memory.h"
+#include "types.h"
+#include "threads.h"
 
 int determine_little_endian()
 {

@@ -2,21 +2,17 @@
  * Runtime data structures for loaded program.
  */
 
-#include "types.h"
-#include "trace.h"
 #include "constants.h"
-#include "specialsignatures.h"
-#include "specialclasses.h"
-#include "memory.h"
-#include "threads.h"
 #include "classes.h"
-#include "language.h"
-#include "configure.h"
-#include "interpreter.h"
 #include "exceptions.h"
+#include "interpreter.h"
+#include "language.h"
+#include "memory.h"
+#include "platform_config.h"
+#include "specialclasses.h"
+#include "specialsignatures.h"
 #include "stack.h"
-#include "platform_hooks.h"
-#include "mydebug.h"
+#include "threads.h"
 
 #if 0
 #define get_stack_object(MREC_)  ((Object *) get_ref_at ((MREC_)->numParameters - 1))

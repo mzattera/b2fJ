@@ -1,10 +1,10 @@
-
-#include "types.h"
-#include "constants.h"
-#include "classes.h"
-
 #ifndef _INTERPRETER_H
 #define _INTERPRETER_H
+
+#include "constants.h"
+#include "compiler_config.h"
+#include "types.h"
+#include "platform_config.h"
 
 #define REQUEST_TICK          0
 #define REQUEST_SWITCH_THREAD 1

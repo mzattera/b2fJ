@@ -1,19 +1,14 @@
-
-#include "trace.h"
-#include "types.h"
-#include "constants.h"
 #include "classes.h"
-#include "interpreter.h"
-#include "platform_hooks.h"
-#include "threads.h"
-#include "opcodes.h"
-#include "configure.h"
-#include "memory.h"
-#include "language.h"
+#include "constants.h"
 #include "exceptions.h"
+#include "interpreter.h"
+#include "language.h"
+#include "opcodes.h"
+#include "platform_config.h"
 #include "specialclasses.h"
-#include "fields.h"
 #include "stack.h"
+#include "threads.h"
+#include "types.h"
 
 #define F_OFFSET_MASK  0x0F
 

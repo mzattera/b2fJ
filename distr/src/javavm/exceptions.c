@@ -1,23 +1,14 @@
-
-#include "types.h"
-#include "trace.h"
-
-#include "threads.h"
-#include "constants.h"
-#include "specialsignatures.h"
-#include "specialclasses.h"
-#include "exceptions.h"
 #include "classes.h"
-
-#include "language.h"
-#include "configure.h"
+#include "constants.h"
+#include "exceptions.h"
 #include "interpreter.h"
-
+#include "language.h"
 #include "memory.h"
-#include "stack.h"
-
+#include "debug.h"
 #include "platform_hooks.h"
-#include "mydebug.h"
+#include "specialclasses.h"
+#include "stack.h"
+#include "threads.h"
 
 Object *outOfMemoryError;
 Object *noSuchMethodError;

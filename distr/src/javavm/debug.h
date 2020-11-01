@@ -8,7 +8,6 @@
 
 #include "classes.h"
 #include "language.h"
-#include "types.h"
 
 // MAXI custom flags for various debug stuff
 

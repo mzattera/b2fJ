@@ -1,8 +1,5 @@
-
 #ifndef _TRACE_H
 #define _TRACE_H
-
-#include "types.h"
 
 #ifdef VERIFY
 

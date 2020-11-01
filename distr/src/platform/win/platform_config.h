@@ -2,18 +2,7 @@
 #define _PLATFORM_CONFIG_H
 
 #include <time.h>
-#include "compiler_config.h"
 
-/*
-Using cc65
-
-sizeof primitive types
-
-char 1
-short 2
-int 2
-long 4
-*/
 typedef unsigned char byte;
 typedef signed char JBYTE;
 typedef signed short JSHORT;
@@ -29,7 +18,7 @@ typedef unsigned long FOURBYTES;
 #endif
 
 #define FP_ARITHMETIC 0
-#define TICKS_PER_TIME_SLICE          16 /* Actually instructions per timeslice */
+#define TICKS_PER_TIME_SLICE          16 // Actually instructions per timeslice
 #define VERIFY
 #define RECORD_REFERENCES 1
 

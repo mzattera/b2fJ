@@ -1,12 +1,8 @@
-#include <stdio.h>
-
-#include "types.h"
-#include "classes.h"
-#include "memory.h"
-#include "trace.h"
-
 #ifndef _LANGUAGE_H
 #define _LANGUAGE_H
+
+#include "classes.h"
+#include "platform_config.h"
 
 #define STATIC_INITIALIZER 0
 

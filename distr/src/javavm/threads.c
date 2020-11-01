@@ -1,18 +1,11 @@
-
-#include "types.h"
-#include "trace.h"
-#include "platform_hooks.h"
-#include "constants.h"
-#include "specialsignatures.h"
-#include "specialclasses.h"
-#include "threads.h"
-#include "classes.h"
-#include "language.h"
 #include "configure.h"
-#include "interpreter.h"
-#include "memory.h"
+#include "constants.h"
 #include "exceptions.h"
+#include "interpreter.h"
+#include "debug.h"
+#include "specialsignatures.h"
 #include "stack.h"
+#include "threads.h"
 
 #if DEBUG_MY_MAIN
 extern byte javaClassFileContent[];

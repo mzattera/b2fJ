@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>b2fJc64</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>b2fJ-win</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,13 +72,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>I:\leJOS_Toolchain\b2fJ\distr\src\platform\c64;I:\leJOS_Toolchain\b2fJ\distr\src\javavm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\distr\src\javavm;$(SolutionDir)..\..\distr\src\util;$(SolutionDir)..\..\distr\src\platform\win;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\..\distr\src\javavm;$(SolutionDir)..\..\distr\src\util;$(SolutionDir)..\..\distr\src\platform\win;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,6 +92,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,6 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,24 +172,24 @@
     <ClInclude Include="..\..\..\distr\src\javavm\exceptions.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\fields.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\interpreter.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\types.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\language.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\limits.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\load.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\memory.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\mydebug.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\debug.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\opcodes.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\specialclasses.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\specialsignatures.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\stack.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\threads.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\trace.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\types.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\tvmemul.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\version.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\c64\compiler_config.h" />
     <ClInclude Include="..\..\..\distr\src\platform\c64\java_code.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\c64\load.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\c64\platform_config.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\c64\platform_hooks.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\c64\platform_txt.h" />
+    <ClInclude Include="..\..\..\distr\src\platform\win\compiler_config.h" />
+    <ClInclude Include="..\..\..\distr\src\platform\win\platform_config.h" />
+    <ClInclude Include="..\..\..\distr\src\platform\win\platform_hooks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\distr\src\javavm\exceptions.c" />
@@ -193,12 +197,13 @@
     <ClCompile Include="..\..\..\distr\src\javavm\language.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\memory.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\mydebug.c" />
+    <ClCompile Include="..\..\..\distr\src\javavm\nativeemul.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\threads.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\c64\load.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\c64\nativeemul.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\c64\platform_txt.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\c64\traceemul.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\c64\tvmemul.c" />
+    <ClCompile Include="..\..\..\distr\src\javavm\traceemul.c" />
+    <ClCompile Include="..\..\..\distr\src\javavm\tvmemul.c" />
+    <ClCompile Include="..\..\..\distr\src\platform\win\load.c" />
+    <ClCompile Include="..\..\..\distr\src\platform\win\main.c" />
+    <ClCompile Include="..\..\..\distr\src\platform\win\platform_native.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

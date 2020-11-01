@@ -14,7 +14,6 @@ typedef byte boolean;
  * FOURBYTES
  */
 
-
 typedef float        JFLOAT;
 typedef JBYTE        JBOOLEAN;
 typedef JSHORT       JCHAR;
@@ -38,5 +37,3 @@ typedef struct
 #endif
 
 #endif // _TYPES_H
-
-

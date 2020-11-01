@@ -1,9 +1,7 @@
-
-#include "types.h"
-#include "classes.h"
-
 #ifndef _EXCEPTIONS_H
 #define _EXCEPTIONS_H
+
+#include "classes.h"
 
 extern Object *outOfMemoryError;
 extern Object *noSuchMethodError;

@@ -1,13 +1,11 @@
-
-#include "configure.h"
-#include "threads.h"
-#include "interpreter.h"
-#include "memory.h"
-#include "language.h"
-#include "mydebug.h"
-
 #ifndef _STACK_H
 #define _STACK_H
+
+#include "fields.h"
+#include "memory.h"
+#include "debug.h"
+#include "platform_hooks.h"
+#include "threads.h"
 
 #define get_local_word(IDX_)       (localsBase[(IDX_)])
 #define get_local_ref(IDX_)        (localsBase[(IDX_)])

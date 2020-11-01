@@ -5,11 +5,9 @@
  * In addition several debug functions added.
  */
 
-#include "mydebug.h"
-#include "classes.h"
-#include "memory.h"
-#include "threads.h"
-
+#include <stdio.h>
+#include "debug.h"
+#include "trace.h"
 
 /*
 #define ptr2word(PTR_) ((STACKWORD) (PTR_))

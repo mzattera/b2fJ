@@ -3,11 +3,12 @@
  * Contains conterparts of special classes as C structs.
  */
  
+#include "compiler_config.h"
+#include "platform_config.h"
+#include "types.h"
+
 #ifndef _CLASSES_H
 #define _CLASSES_H
-
-#include "types.h"
-#include "compiler_config.h"
 
 #define CLASS_MASK      0x00FF
 #define CLASS_SHIFT     0
@@ -34,9 +35,6 @@
 #define is_allocated(OBJ_)       ((OBJ_)->flags.freeBlock.isAllocated)
 #define get_monitor_count(OBJ_)  ((OBJ_)->monitorCount)
 #define is_gc(OBJ_)              ((OBJ_)->flags.objects.mark)
-
-// Double-check these data structures with the 
-// Java declaration of each corresponding class.
 
 /**
  * Object class native structure

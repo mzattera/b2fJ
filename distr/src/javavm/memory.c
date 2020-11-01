@@ -1,18 +1,15 @@
 
 #include <stdlib.h>
-#include "types.h"
-#include "trace.h"
-#include "constants.h"
-#include "specialsignatures.h"
-#include "specialclasses.h"
-#include "memory.h"
-#include "threads.h"
+#include <string.h>
 #include "classes.h"
-#include "language.h"
-#include "configure.h"
-#include "interpreter.h"
+#include "constants.h"
 #include "exceptions.h"
-#include "mydebug.h"
+#include "memory.h"
+#include "debug.h"
+#include "compiler_config.h"
+#include "platform_config.h"
+#include "threads.h"
+#include "trace.h"
 
 #ifdef VERIFY
 static boolean memoryInitialized = false;

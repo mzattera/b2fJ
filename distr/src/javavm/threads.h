@@ -1,11 +1,13 @@
-
-#include "classes.h"
-#include "language.h"
-#include "constants.h"
-#include "trace.h"
-
 #ifndef _THREADS_H
 #define _THREADS_H
+
+#include "constants.h"
+#include "language.h"
+#include "platform_config.h"
+#include "types.h"
+#include "memory.h"
+#include "debug.h"
+#include "trace.h"
 
 #define NEW              0 // Just been created
 #define DEAD             1 // run() has exited

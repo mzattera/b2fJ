@@ -6,7 +6,7 @@ dev
   Chossing "Import existing Eclipse project" will find all Eclipse project that are relevant.
 
 dev\test
-  Contains 
+ 
 
 distr
   by contrast, all that must be released is here, including source files.
