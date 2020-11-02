@@ -1,6 +1,3 @@
-eclipse
-  This is the Eclipse workbench where you can deveop java tools used for the VM and the b2fJ "bootstrap" library, plus some tests.
-  
 VS
   This is VisualStudio solution that allows
 		1) building the JVM and executng it as a Console application (notice it uses the "win" platform).
