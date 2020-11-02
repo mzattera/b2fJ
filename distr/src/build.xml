@@ -17,6 +17,7 @@
   <property name="javasrc" value="${src}/java"/>
   <property name="jvmsrc" value="${src}/javavm"/>
   <property name="build.tmp" value="${distr}/build"/>
+  <property name="b2fJ.java.version" value="8"/>
 
   <target name="build" depends ="jtools.jar,classes.jar"/>
 
@@ -52,8 +53,8 @@
 		destdir="${build.tmp}/classes" 
 		fork="yes" 
 		optimize="on" 
-		debug="on" 
-		release="8"
+		debug="on"
+		release="${b2fJ.java.version}"
 	/>
     <jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>
   </target>
@@ -69,7 +70,7 @@
 		fork="yes" 
 		optimize="on" 
 		debug="on" 
-		release="8"
+		release="${b2fJ.java.version}"
 		includes="**/GenerateConstants.java"
 	>
     </javac>
@@ -84,7 +85,7 @@
 		fork="yes" 
 		optimize="on" 
 		debug="on" 
-		release="8"
+		release="${b2fJ.java.version}"
 	>
       <classpath location="${3rdparty.libs}/commons-cli-1.0.jar"/>
       <classpath location="${3rdparty.libs}/bcel-5.1.jar"/>

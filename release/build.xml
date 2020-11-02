@@ -16,6 +16,7 @@
   <property name="release" value="${b2fJ.root}/release"/>
   <property name="javasrc" value="${src}/java/classes"/>
   <property name="jvmsrc" value="${src}/javavm"/>
+  <property name="javadoc.version" value="1.8"/>
   <property name="build.tmp" value="${distr}/build"/>
   <property name="docs.tmp" value="${build.tmp}/javadoc"/>
   <property name="docs.zip" value="${release}/b2fJ Java API RENAMEME.zip"/>
@@ -52,7 +53,7 @@
       destdir="${docs.tmp}"
       author="true"
       access="protected"
-	  source="1.8"
+	  source="${javadoc.version}"
       additionalparam="-Xdoclint:none"
       windowtitle="b2fJ API documentation"
     />
