@@ -38,7 +38,7 @@ case OP_LDC:
       //printf ("### LDC offset=%d 0x%X (%f)\n", (int) tempConstRec->offset, (int) tempStackWord, word2jfloat(tempStackWord));
       push_word (tempStackWord);
       break;
-    #ifdef VERIFY
+    #if VERIFY
     default:
       assert (false, INTERPRETER0);
     #endif
@@ -50,7 +50,7 @@ case OP_LDC2_W:
   // Arguments: 2
   tempConstRec = get_constant_record (((TWOBYTES) pc[0] << 8) | pc[1]);
 
-  #ifdef VERIFY
+  #if VERIFY
   assert (tempConstRec->constantSize == 8, INTERPRETER6);
   #endif // VERIFY
 

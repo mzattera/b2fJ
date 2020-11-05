@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "constants.h"
-#include "..\c64\java_code.h"
+#include "java_code.h"
 #include "language.h"
 #include "load.h"
 #include "platform_config.h"

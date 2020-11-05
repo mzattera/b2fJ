@@ -5,10 +5,12 @@
 #include "language.h"
 #include "memory.h"
 #include "debug.h"
+#include "platform_config.h"
 #include "platform_hooks.h"
 #include "specialclasses.h"
 #include "stack.h"
 #include "threads.h"
+#include "trace.h"
 
 Object *outOfMemoryError;
 Object *noSuchMethodError;
@@ -57,9 +59,9 @@ void throw_exception (Object *exception)
 {
   Thread *auxThread;
   
-  #ifdef VERIFY
+#if VERIFY
   assert (exception != null, EXCEPTIONS0);
-  #endif // VERIFY
+#endif // VERIFY
 
 #if DEBUG_EXCEPTIONS
   printf("Throw exception\n");
@@ -75,7 +77,7 @@ void throw_exception (Object *exception)
     currentThread->interruptState = INTERRUPT_CLEARED;
   }
   
-  #ifdef VERIFY
+  #if VERIFY
   assert (currentThread->state > DEAD, EXCEPTIONS1);
   #endif // VERIFY
   

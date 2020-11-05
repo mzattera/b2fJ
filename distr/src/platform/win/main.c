@@ -39,10 +39,6 @@ int main (int argc, char *argv[])
 	// Name of the file to use. Leave null to use code linked directly in memory.
 	char *file = null;
 
-	system("cls");
-	printf("\n");
-	printf("    ****   b2fJ JAVA v. %s   ****\n\n", VERSION);
-
 	if (argc == 2) {
 		file = argv[1];
 		printf("-> %s\n\n", file);
@@ -57,6 +53,5 @@ int main (int argc, char *argv[])
 	printf("Running...\n");
 #endif
 	run();
-	getc(stdin);
 	exit(0);
 } 

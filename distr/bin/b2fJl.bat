@@ -32,7 +32,7 @@ set "LINK_CLASSPATH=.;%CLASSPATH%;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOM
 @echo off
 if ERRORLEVEL 1 goto end
 
-MOVE /Y java_code.h "%B2FJ_HOME%"\src\platform\c64
+MOVE /Y java_code.h "%B2FJ_HOME%"\src\javavm
 
 :end
 @echo off

@@ -90,7 +90,7 @@ static __INLINED void init_threads()
  */
 static __INLINED void sleep_thread (const FOURBYTES time)
 {
-  #ifdef VERIFY
+  #if VERIFY
   assert (currentThread != JNULL, THREADS3);
   assert (currentThread->state != MON_WAITING, THREADS9);
   #endif

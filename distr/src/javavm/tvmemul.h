@@ -4,9 +4,6 @@
 #include "classes.h"
 #include "language.h"
 
-/* Max memory size (in WORDS) to allocate for Java Heap. */
-#define MEMORY_SIZE 26623
-
 /* Maxi: Buffer to convert from Java String to char[] */
 #define STRING_BUF_SIZE 255
 extern char *strBuffer;

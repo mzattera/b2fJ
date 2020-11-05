@@ -1,7 +1,9 @@
 #ifndef _TRACE_H
 #define _TRACE_H
 
-#ifdef VERIFY
+#include "platform_config.h"
+
+#if VERIFY
 
 #define INTERPRETER0   10
 #define INTERPRETER1   11

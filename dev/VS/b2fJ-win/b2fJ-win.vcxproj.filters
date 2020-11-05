@@ -110,9 +110,6 @@
     <ClInclude Include="..\..\..\distr\src\javavm\tvmemul.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\platform\c64\java_code.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\distr\src\platform\win\compiler_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -128,6 +125,9 @@
     <ClInclude Include="..\..\..\distr\src\javavm\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\java_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\distr\src\javavm\exceptions.c">
@@ -140,9 +140,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\distr\src\javavm\memory.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\distr\src\javavm\mydebug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\distr\src\javavm\threads.c">
@@ -164,6 +161,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\distr\src\platform\win\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

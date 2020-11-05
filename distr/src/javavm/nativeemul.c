@@ -15,6 +15,7 @@
 #include "specialsignatures.h"
 #include "stack.h"
 #include "threads.h"
+#include "trace.h"
 
 
 /**

@@ -3,6 +3,7 @@
  */
 #include <stdio.h>
 #include "classes.h"
+#include "configure.h"
 #include "language.h"
 #include "memory.h"
 #include "types.h"

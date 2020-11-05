@@ -1,11 +1,13 @@
 #include "configure.h"
 #include "constants.h"
+#include "debug.h"
 #include "exceptions.h"
 #include "interpreter.h"
-#include "debug.h"
+#include "platform_config.h"
 #include "specialsignatures.h"
 #include "stack.h"
 #include "threads.h"
+#include "trace.h"
 
 #if DEBUG_MY_MAIN
 extern byte javaClassFileContent[];
@@ -126,7 +128,7 @@ boolean init_thread (Thread *thread)
   
   gThreadCounter++;
   
-  #ifdef VERIFY
+  #if VERIFY
   assert (is_array (word2obj (thread->stackFrameArray)), THREADS0);
   assert (is_array (word2obj (thread->stackArray)), THREADS1);
   #endif
@@ -256,7 +258,7 @@ boolean switch_thread()
             byte threadId = get_thread_id(pObj);
 
             // We are waiting to enter a synchronized block
-            #ifdef VERIFY
+            #if VERIFY
             assert (pObj != JNULL, THREADS6);
             #endif
              
@@ -625,7 +627,7 @@ void exit_monitor (Thread *pThread, Object* obj)
     return;
   }
 
-  #ifdef VERIFY
+  #if VERIFY
   assert (get_thread_id(obj) == pThread->threadId, THREADS7);
   assert (get_monitor_count(obj) > 0, THREADS8);
   #endif

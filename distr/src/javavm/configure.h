@@ -33,7 +33,7 @@
 /**
  * If not 0 allow multiple heap segments (heap split in pieces).
  */
-#define SEGMENTED_HEAP                 0
+#define SEGMENTED_HEAP                 1
 
 /**
  * If not 0, threads in the DEAD state are

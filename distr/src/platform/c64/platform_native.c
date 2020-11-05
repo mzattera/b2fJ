@@ -3,6 +3,7 @@
  * Native methods specific to a platform.
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include "constants.h"
 #include "debug.h"
 #include "types.h"
@@ -11,7 +12,6 @@
 #include "platform_hooks.h"
 #include "specialsignatures.h"
 #include "stack.h"
-#include "tvmemul.h"
 
 /**
  * Converts a Java char into corresponding platform-dependent char (PETSCII).
@@ -46,34 +46,6 @@ char int2nativeChar(int c)
 	return c;
 }
 
-
-/* 
- * Converts a Java String in a char[]
- */
-char* string2chp(String* s)
-{
-	if ((s != null) && (s->characters))
-	{
-		Object *obj;
-		JCHAR *pA;
-		int i;
-		int length;
-
-		obj = word2obj(get_word((byte*)(&(s->characters)), 4));
-		pA = jchar_array(obj);
-		length = get_array_length(obj);
-		if (length > STRING_BUF_SIZE) length = STRING_BUF_SIZE;
-		for (i = 0; i < length; i++)
-		{
-			strBuffer[i] = int2nativeChar((int)pA[i]);
-		}
-		strBuffer[i] = 0;
-		return strBuffer;
-	}
-
-	return ("null");
-}
-
 int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	switch (signature)
@@ -82,7 +54,18 @@ int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 		putc(int2nativeChar((int)paramBase[1]), stdout);
 		return true;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
-		printf("%s", string2chp((String*)word2obj(paramBase[1])));
+		{
+			String* s = (String*)word2obj(paramBase[1]);
+			if ((s != null) && (s->characters)) {
+				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
+				JCHAR *pA = jchar_array(obj);
+				int length = get_array_length(obj);
+				int i = 0;
+				for (; i<length; ++i) {
+					putc(int2nativeChar((int)pA[i]), stdout);
+				}
+			}
+		}		
 		return true;
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
@@ -93,4 +76,13 @@ int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 	}
 	
 	return false;
+}
+
+
+
+/*
+ * Returns size of maximum free memory heap block available (as TWOBYTES words).
+ */
+size_t get_max_block_size() {
+	return _heapmaxavail() / sizeof(TWOBYTES);
 }

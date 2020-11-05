@@ -8,6 +8,7 @@
 #include "specialclasses.h"
 #include "stack.h"
 #include "threads.h"
+#include "trace.h"
 #include "types.h"
 
 #define F_OFFSET_MASK  0x0F
@@ -240,7 +241,7 @@ void engine()
     #include "op_methods.hc"
 
 /*
-#ifdef VERIFY
+#if VERIFY
 	default:
 		assert(false, (TWOBYTES)(pc-1) % 10000);
 		break;
@@ -260,7 +261,7 @@ void engine()
   
    // This point should never be reached
 
-   #ifdef VERIFY
+   #if VERIFY
    assert (false, 1000 + *pc);
    #endif // VERIFY
 

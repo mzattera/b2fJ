@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "debug.h"
+#include "platform_config.h"
 #include "trace.h"
 
 /*
@@ -16,7 +17,7 @@
 STACKWORD ptr2wordImpl(void *ptr, boolean check) {
 	STACKWORD res = (STACKWORD)ptr;
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(word2ptrImpl(res, 0) == ptr, CAST00);
 #endif
 
@@ -26,7 +27,7 @@ STACKWORD ptr2wordImpl(void *ptr, boolean check) {
 void *word2ptrImpl(STACKWORD wrd, boolean check) {
 	void *res = (void *)wrd;
 
-//#ifdef VERIFY
+//#if VERIFY
 //	printf("%lx\n", wrd);
 //	if (wrd == 0)
 //		getc(stdin);
@@ -45,7 +46,7 @@ void *word2ptrImpl(STACKWORD wrd, boolean check) {
 void *obj2ptrImpl(Object *obj, boolean check) {
 	void *res = (void *)obj;
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(ref2objImpl(ptr2refImpl(res, 0), 0) == obj, CAST02);
 #endif
 
@@ -55,7 +56,7 @@ void *obj2ptrImpl(Object *obj, boolean check) {
 REFERENCE ptr2refImpl(void *ptr, boolean check) {
 	REFERENCE res = (REFERENCE)ptr2word(ptr);
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(ref2ptrImpl(res, 0) == ptr, CAST03);
 #endif
 
@@ -65,7 +66,7 @@ REFERENCE ptr2refImpl(void *ptr, boolean check) {
 void *ref2ptrImpl(REFERENCE ref, boolean check) {
 	void *res = word2ptr((STACKWORD)ref);
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(ptr2refImpl(res, 0) == ref, CAST04);
 #endif
 
@@ -75,7 +76,7 @@ void *ref2ptrImpl(REFERENCE ref, boolean check) {
 Object *ref2objImpl(REFERENCE ref, boolean check) {
 	Object *res = (Object *)ref2ptr(ref);
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(obj2ref(res) == ref, CAST05);
 #endif
 
@@ -87,7 +88,7 @@ extern STACKWORD jfloat2wordImpl(JFLOAT f, boolean check) {
 	AuxConvUnion1 res;
 	res.fnum = f;
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(word2jfloatImpl(res.sword, 0) == f, CAST06);
 #endif
 
@@ -98,7 +99,7 @@ extern JFLOAT word2jfloatImpl(STACKWORD wrd, boolean check) {
 	AuxConvUnion1 res;
 	res.sword = wrd;
 
-#ifdef VERIFY
+#if VERIFY
 	if (check) assert(jfloat2wordImpl(res.fnum, 0) == wrd, CAST07);
 #endif
 
