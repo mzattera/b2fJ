@@ -55,6 +55,13 @@ extern void handle_uncaught_exception (Object *exception,
 				       const MethodRecord *rootMethod,
 				       byte *pc);
 
+
+/*
+ * Called to exit the program.
+ * As last step, this should call exit() passing given exit code.
+ */
+extern void exit_tool(char* exitMessage, int exitCode);
+
 /**
  * Dispatches a native method.
  */

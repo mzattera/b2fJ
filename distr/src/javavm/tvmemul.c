@@ -20,22 +20,6 @@
 byte *region;
 Thread   *bootThread;
 
-void handle_uncaught_exception(Object *exception,
-	const Thread *thread,
-	const MethodRecord *methodRecord,
-	const MethodRecord *rootMethod,
-	byte *pc)
-{
-	printf("*** UNCAUGHT EXCEPTION/ERROR: \n");
-	printf("--  Exception class   : %u\n", (unsigned)get_class_index(exception));
-	printf("--  Thread            : %u\n", (unsigned)thread->threadId);
-	printf("--  Method signature  : %u\n", (unsigned)methodRecord->signatureId);
-	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
-	printf("--  Bytecode offset   : %u\n", (unsigned)pc -
-		(int)get_code_ptr(methodRecord));
-	getc(stdout);
-}
-
 void run(void)
 {
 	// Initialize binary image state
@@ -61,8 +45,7 @@ void run(void)
 		init_threads();
 		if (!init_thread(bootThread))
 		{
-			printf("Unable to initialize threading module.\n");
-			exit(1);
+			exit_tool ("Unable to initialize threading module", -1);
 		}
 		// Execute the bytecode interpreter
 		set_program_number(0);

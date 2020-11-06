@@ -39,12 +39,12 @@ static __INLINED void engine_start_hook()
 {
 	system("cls");
 	printf("****   b2fJ v.%s   ****\n", VERSION);
-	printf("%5d Java bytes free\n\n", getHeapFree());
-}
+	printf("  %5d Java bytes free\n\n", getHeapFree());
+} 
 
 extern void switch_thread_hook(void);
 
-/**
+/*
  * Called when thread is about to die due to an uncaught exception.
  */
 extern void handle_uncaught_exception (Object *exception,
@@ -52,6 +52,12 @@ extern void handle_uncaught_exception (Object *exception,
 				       const MethodRecord *methodRecord,
 				       const MethodRecord *rootMethod,
 				       byte *pc);
+
+/*
+ * Called to exit the program.
+ * As last step, this should call exit() passing given exit code.
+ */
+extern void exit_tool(char* exitMessage, int exitCode);
 
 /**
  * Dispatches a native method.

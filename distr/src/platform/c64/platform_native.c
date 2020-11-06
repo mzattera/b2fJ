@@ -46,6 +46,7 @@ char int2nativeChar(int c)
 	return c;
 }
 
+
 int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	switch (signature)
@@ -55,13 +56,14 @@ int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 		return true;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
 		{
+			int length = 0;
+			int i = 0;
 			String* s = (String*)word2obj(paramBase[1]);
 			if ((s != null) && (s->characters)) {
 				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
 				JCHAR *pA = jchar_array(obj);
-				int length = get_array_length(obj);
-				int i = 0;
-				for (; i<length; ++i) {
+				length = get_array_length(obj);
+				for (i=0; i<length; ++i) {
 					putc(int2nativeChar((int)pA[i]), stdout);
 				}
 			}
@@ -75,9 +77,9 @@ int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 		return true;
 	}
 	
+	/* Fallback to default native implementation */
 	return false;
 }
-
 
 
 /*
@@ -85,4 +87,37 @@ int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
  */
 size_t get_max_block_size() {
 	return _heapmaxavail() / sizeof(TWOBYTES);
+}
+
+
+void handle_uncaught_exception(Object *exception,
+	const Thread *thread,
+	const MethodRecord *methodRecord,
+	const MethodRecord *rootMethod,
+	byte *pc)
+{
+	printf("*** UNCAUGHT EXCEPTION/ERROR: \n");
+	printf("--  Exception class   : %u\n", (unsigned)get_class_index(exception));
+	printf("--  Thread            : %u\n", (unsigned)thread->threadId);
+	printf("--  Method signature  : %u\n", (unsigned)methodRecord->signatureId);
+	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
+	printf("--  Bytecode offset   : %u\n", (unsigned)pc - (int)get_code_ptr(methodRecord));
+}
+
+
+void exit_tool(char* exitMessage, int exitCode)
+{
+	if (exitMessage) 
+		printf(exitMessage);
+	exit(exitCode);
+}
+
+
+/* Called by assert(aCond,aCode) */
+void assert_hook(boolean aCond, int aCode)
+{
+	if (aCond)
+		return;
+	printf("Assertion violation: %d", aCode);
+	exit_tool(NULL, aCode);
 }

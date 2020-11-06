@@ -5,16 +5,20 @@
 
 #include <malloc.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "constants.h"
-#include "types.h"
 #include "platform_config.h"
 #include "platform_hooks.h"
+#include "trace.h"
+#include "types.h"
+
 
 /*
  * Execute platform-specific native methods.
  */
 int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {
+	/* Fallback to default native implementation */
 	return false;
 }
 
@@ -42,4 +46,40 @@ size_t get_max_block_size() {
 	*/
 
 	return MAX_HEAP_SIZE;
+}
+
+
+void handle_uncaught_exception(Object *exception,
+	const Thread *thread,
+	const MethodRecord *methodRecord,
+	const MethodRecord *rootMethod,
+	byte *pc)
+{
+	printf("*** UNCAUGHT EXCEPTION/ERROR: \n");
+	printf("--  Exception class   : %u\n", (unsigned)get_class_index(exception));
+	printf("--  Thread            : %u\n", (unsigned)thread->threadId);
+	printf("--  Method signature  : %u\n", (unsigned)methodRecord->signatureId);
+	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
+	printf("--  Bytecode offset   : %u\n", (unsigned)pc -
+		(int)get_code_ptr(methodRecord));
+}
+
+
+void exit_tool(char* exitMessage, int exitCode)
+{
+	if (exitMessage)
+		printf(exitMessage);
+	if (exitCode)
+		getchar();
+	exit(exitCode);
+}
+
+
+/* Called by assert(aCond,aCode) */
+void assert_hook(boolean aCond, int aCode)
+{
+	if (aCond)
+		return;
+	printf("Assertion violation: %d", aCode);
+	exit_tool(NULL, aCode);
 }

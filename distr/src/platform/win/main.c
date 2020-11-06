@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "load.h"
+#include "platform_hooks.h"
 #include "tvmemul.h"
 #include "version.h"
 
@@ -41,7 +42,6 @@ int main (int argc, char *argv[])
 
 	if (argc == 2) {
 		file = argv[1];
-		printf("-> %s\n\n", file);
 	}
 
 #if DEBUG_STARTUP
@@ -53,5 +53,5 @@ int main (int argc, char *argv[])
 	printf("Running...\n");
 #endif
 	run();
-	exit(0);
+	exit_tool (NULL, 0);
 } 

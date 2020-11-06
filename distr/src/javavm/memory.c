@@ -460,34 +460,26 @@ void memory_init()
 		/* Keeps allocating blocks until desired heap size is reached (or we ran out of memory) */
 		size_t remaining = MAX_HEAP_SIZE;
 
-if (size > 1024) size = 1024;
-
-		while ((remaining > 0) && ((mem = (byte *)malloc(size * sizeof(TWOBYTES))) != NULL)) {
-printf("Allocating %ul\n", size);
-		
+		while ((remaining > 0) && (size > 0) && ((mem = (byte *)malloc(size * sizeof(TWOBYTES))) != NULL)) {
 			memory_add_region(mem, mem + size * sizeof(TWOBYTES));
 			remaining -= size;
 			size = get_max_block_size();
 			if (size > remaining) size = remaining;
-
-if (size > 1024) size = 1024;
 		}
 
 		if (remaining == MAX_HEAP_SIZE) {
-			printf("Unable to allocate Java heap.");
-			exit(1);
+			exit_tool ("Unable to allocate Java heap", -1);
 		}
 	}
 #else
 	/* Allocates biggest available block for Java heap*/
 	size = get_max_block_size();
 	if (size > MAX_HEAP_SIZE) size = MAX_HEAP_SIZE;
-	mem = (byte *)malloc(size * sizeof(TWOBYTES));
+	mem = (size > 0) ? (byte *)malloc(size * sizeof(TWOBYTES)) : NULL;
 	if (mem != NULL) {
 		memory_add_region(mem, mem + size * sizeof(TWOBYTES));
 	} else {
-		printf("Unable to allocate Java heap.");
-		exit(1);
+		exit_tool("Unable to allocate Java heap", -1);
 	}
 #endif
 }
