@@ -148,9 +148,6 @@
     <ClCompile Include="..\..\..\distr\src\javavm\nativeemul.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\distr\src\javavm\traceemul.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\distr\src\javavm\tvmemul.c">
       <Filter>Source Files</Filter>
     </ClCompile>

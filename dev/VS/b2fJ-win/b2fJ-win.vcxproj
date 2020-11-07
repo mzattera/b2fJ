@@ -199,7 +199,6 @@
     <ClCompile Include="..\..\..\distr\src\javavm\debug.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\nativeemul.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\threads.c" />
-    <ClCompile Include="..\..\..\distr\src\javavm\traceemul.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\tvmemul.c" />
     <ClCompile Include="..\..\..\distr\src\platform\win\load.c" />
     <ClCompile Include="..\..\..\distr\src\platform\win\main.c" />

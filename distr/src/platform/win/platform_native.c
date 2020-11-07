@@ -69,7 +69,8 @@ void exit_tool(char* exitMessage, int exitCode)
 {
 	if (exitMessage)
 		printf(exitMessage);
-	if (exitCode)
+//	if (exitCode)
+	printf("Press any key...");
 		getchar();
 	exit(exitCode);
 }
