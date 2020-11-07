@@ -60,15 +60,18 @@ The below steps explain how to compile and run a simple Java program on your C64
 For our example, we will use a simple `HelloWorld.java` file. 
 You can paste the code below into a file named `HelloWorld.java`, or create the file with your favorite Java editor.
 
-	public class HelloWorld {
-
-		public static void main(String[] args) throws InterruptedException {
-			while (true) {            
-				System.out.print("Hello World! ");
-				Thread.sleep(500);
-			}
-		}
+```java
+public class HelloWorld {
+	
+	public static void main(String[] args) throws InterruptedException {
+		String s = "Hello World. ";
+		while (true) {            
+			System.out.print(s);
+			Thread.sleep(1000);
+	   }
 	}
+}
+```
 
 
 ## The easy way
