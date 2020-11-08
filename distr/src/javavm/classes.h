@@ -2,13 +2,13 @@
  * classes.h
  * Contains conterparts of special classes as C structs.
  */
- 
-#include "compiler_config.h"
-#include "platform_config.h"
-#include "types.h"
 
 #ifndef _CLASSES_H
 #define _CLASSES_H
+
+#include "compiler_config.h"
+#include "platform_config.h"
+#include "types.h"
 
 #define CLASS_MASK      0x00FF
 #define CLASS_SHIFT     0
@@ -134,6 +134,16 @@ typedef struct S_String
   Object _super;
 
   REFERENCE characters;
+
+  /*
+  Maxi: Original leJos code creates a new String each time a String constant is used (ldc bytecode).
+  So, for example, a loop that prints always the same string will generate an OutOfMemoryException.
+  To avoid this, we link allocated Java Strings in a list and we store a pointer to constants from which they were created.
+  When we need to create a new String, we check in the list first, if a String for given constant is already allocated and re-use it.
+  BTW this aligns b2fJ with Java behavior.
+  */
+  REFERENCE next;
+  JSHORT constantOffset;
 } String;
 
 

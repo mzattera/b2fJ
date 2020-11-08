@@ -1,9 +1,8 @@
 public class HelloWorld {
 	
 	public static void main(String[] args) throws InterruptedException {
-		String s = "Hello World. ";
 		while (true) {            
-			System.out.print(s);
+			System.out.print("Hello World. ");
 			Thread.sleep(1000);
 	   }
 	}
