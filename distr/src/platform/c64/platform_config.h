@@ -1,43 +1,96 @@
-#ifndef _PLATFORM_CONFIG_H
-#define _PLATFORM_CONFIG_H
-
-#include <time.h>
-#include "compiler_config.h"
-
 /*
-Using cc65
-
-sizeof primitive types
-
-char 1
-short 2
-int 2
-long 4
+ * This headers defines setting and functions that might be different for each
+ * different platform b2fJ is ported to.
+ *
 */
-typedef unsigned char byte;
-typedef signed char JBYTE;
-typedef signed short JSHORT;
-typedef signed long JINT;
-typedef unsigned short TWOBYTES;
-typedef unsigned long FOURBYTES;
+#ifndef _PLATFORM_H_
+#define _PLATFORM_H_
 
-#ifndef LITTLE_ENDIAN
-#define LITTLE_ENDIAN 1
-#endif
+#include <stddef.h>
+#include <stdint.h>
 
-#define FP_ARITHMETIC			0
-#define TICKS_PER_TIME_SLICE	16	/* Actually instructions per timeslice */
-#define VERIFY					0	/* If 0 disables all assertions and debug checks */
-#define RECORD_REFERENCES		1
+/***********************************************************************************************************
+ * Compiler specific settings.
+ ***********************************************************************************************************/
+
+ /* Primitive data types */
+
+typedef uint8_t		byte;		/* 8 bit unsigned */
+typedef int8_t		JBYTE;		/* Java byte (8 bit signed) */
+typedef int16_t		JSHORT;		/* Java short (16 bit signed) */
+typedef int32_t		JINT;		/* Java int (32 bit signed) */
+typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
+typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
+
+#define __INLINED				/* Used to mark a method "inline" */
+
+/* To align with Java, the C structures we use must be packed. */
+#define __PACKED(DEC)		DEC
+
+#define __TWOBYTE_BITFIELD	int	/* A 16 bits bitfield */
+
+/***********************************************************************************************************
+* Platform specific settings.
+***********************************************************************************************************/
+
+#define LITTLE_ENDIAN	1	/* Is the platform little endian? */
+
+
+/***********************************************************************************************************
+* VM settings.
+***********************************************************************************************************/
 
 /* Max size (in TWOBYTES words) for Java Heap. The JVM will try to allocate this much memory for heap at startup. */
-#define MAX_HEAP_SIZE ((size_t)(65536 / sizeof(TWOBYTES)))
+#define MAX_HEAP_SIZE	((size_t)(65536 / sizeof(TWOBYTES)))
 
-/* Returns current time in millis */
-#define get_sys_time() ((FOURBYTES)(clock() * 1000 / CLOCKS_PER_SEC))
+#define SEGMENTED_HEAP				0	/* If not 0 allow multiple heap segments (heap split in pieces) */
+#define COALESCE					0	/* If not 0, coalesce adjacent free blocks in the heap */
 
-/* Returns size of maximum free memory heap block available (in TWOBYTES words) */
-/* If your platform has no way to provide this, return MAX_HEAP_SIZE */
-extern size_t get_max_block_size(void);
+#define FIXED_STACK_SIZE			0
+#if FIXED_STACK_SIZE
+	/**
+	* Initial level of recursion.
+	*/
+	#define INITIAL_STACK_FRAMES	10
 
-#endif // _PLATFORM_CONFIG_H
+	/**
+	* Initial number of words in a thread's stack
+	* (for both locals and operands). Needs to be an
+	* even number.
+	*/
+	#define INITIAL_STACK_SIZE		70
+#else
+	#define INITIAL_STACK_FRAMES	4
+	#define INITIAL_STACK_SIZE		10
+#endif
+
+/* If not 0, threads in the DEAD state are  removed from the circular list. Recommended. */
+#define REMOVE_DEAD_THREADS			1	
+
+/* Set to non-zero if we want the scheduler to perform priority inversion avoidance */
+#define PI_AVOIDANCE				1
+
+#define TICKS_PER_TIME_SLICE		16	/* After this number of instructions, switch thread */
+
+#define FP_ARITHMETIC				0	/* Used to enable/disable floating point math */
+#define WIMPY_MATH					0	/* ??? leave this 0 */
+
+#define RECORD_REFERENCES			1	/* ??? leave this 1 */
+
+#define SAFE                        1	/* Slightly safer code (???) */
+
+/* VM debug settings */
+
+#define ASSERTIONS_ENABLED			0	/* If false, disables all assertions */
+
+#define DEBUG_STARTUP     0
+#define DEBUG_MEMORY      0
+#define DEBUG_THREADS     0
+#define DEBUG_METHODS     0
+#define DEBUG_BYTECODE    0
+#define DEBUG_FIELDS      0
+#define DEBUG_OBJECTS     0
+#define DEBUG_EXCEPTIONS  0
+#define DEBUG_MONITOR     0
+
+#endif // _PLATFORM_H_

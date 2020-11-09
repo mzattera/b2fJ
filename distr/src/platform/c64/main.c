@@ -1,46 +1,50 @@
 /**
- * Entry source file for TinyVM emulator.
- */
+* main() for b2fJ; should handle command line parameters, including loading of Java bytecode.
+*/
 
-#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "constants.h"
-#include "load.h"
+#include "java_code.h"
+#include "language.h"
+#include "platform_config.h"
 #include "platform_hooks.h"
 #include "tvmemul.h"
 #include "version.h"
 
-/***************************************************************************
- * int main
- * Parses command line. Format is:
- *	argv[0] [-v] bin_file
- *
- * options:
- *	-v	Verbose mode. Prints text output rather than raw output.
- *
- *--------------------------------------------------------------------------
- * To go into man page:
- * Name:	emu-lejosrun - Emulate lejos RCX code in Unix
- *
- * Synosis:	emu-lejosrun [-v] bin_file
- *
- * Description:	Executes a binary file created by the lejos compiler within
- *		Unix rather than in the RCX environment. The Java byte-codes
- *		are executed here, and their actions are listed rather than
- *		executed as they would be on the real RCX device.
- *
- * Options:	-v	Verbose mode. Normally the output is printed in raw
- *			mode. The actual hex values are printed. Using this
- *			option displays more user-friendly output.
- *--------------------------------------------------------------------------
- ***************************************************************************/
-int main (int argc, char *argv[])
+
+/**
+* Read Java bytecode from given file.
+* If the file name is NULL, it means bytecode is linked directly in a byte[].
+*/
+void readBinary()
+{
+#if DEBUG_STARTUP
+	printf("Installing binary %d\n");
+#endif
+	install_binary(javaClassFileContent);
+
+#if DEBUG_STARTUP
+	printf("Checking validity of magic number\n");
+#endif
+	if (get_master_record()->magicNumber != MAGIC_MASK)
+	{
+		printf("Bad magic number: 0x%X", get_master_record()->magicNumber);
+		exit_tool(NULL, -1);
+	}
+
+#if DEBUG_STARTUP
+	printf("Magic number OK!\n");
+#endif
+}
+
+
+int main ()
 {
 #if DEBUG_STARTUP
 	printf ("Reading binary %s\n", file);
 #endif
-	readBinary (NULL);
+	readBinary ();
 
 #if DEBUG_STARTUP
 	printf("Running...\n");
@@ -48,4 +52,6 @@ int main (int argc, char *argv[])
 
 	run();
 	exit_tool (NULL, 0);
+	
+	return 0;
 } 

@@ -108,7 +108,21 @@ int main(int argc, char *argv[])
 	// TODO see how it works for big-endian machines.
 	assert0(determine_little_endian() == 1, "Machine is little endian.");
 
+	assertLength("int16_t", 2, sizeof(int16_t));
+
+	assertLength("byte", 1, sizeof(byte));
+	assertLength("JBYTE", 1, sizeof(JBYTE));
+	assertLength("JSHORT", 2, sizeof(JSHORT));
+	assertLength("JINT", 4, sizeof(JINT));
+	assertLength("TWOBYTES", 2, sizeof(TWOBYTES));
+	assertLength("FOURBYTES", 4, sizeof(FOURBYTES));
+	assertLength("REFERENCE", 4, sizeof(REFERENCE));
+
+	getchar();
+
 	checkObject();
+
+	getchar();
 
 	assertLength("MasterRecord", 16, sizeof(MasterRecord));
 	assertLength("ClassRecord", 10, sizeof(ClassRecord));
@@ -116,11 +130,15 @@ int main(int argc, char *argv[])
 	assertLength("ExceptionRecord", 8, sizeof(ExceptionRecord));
 	assertLength("ConstantRecord", 4, sizeof(ConstantRecord));
 
-	assertLength("Thread", 32, sizeof(Thread));
+	getchar();
+
+	assertLength("Thread", 31, sizeof(Thread));
 	assertLength("Runtime", 4, sizeof(Runtime));
-	assertLength("String", 8, sizeof(String));
+	assertLength("String", 14, sizeof(String));
 	assertLength("StackFrame",20, sizeof(StackFrame));
 	assertLength("JLONG", 8, sizeof(JLONG));
+
+	getchar();
 #if SEGMENTED_HEAP
 		assertLength("MemoryRegion", 12, sizeof(MemoryRegion));
 #else
@@ -129,5 +147,6 @@ int main(int argc, char *argv[])
 
 		// TODO: dai un occhio a AuxStackUnion e altre conversion unions/structs
 
-	getc(stdin);
+
+		getchar();
 }

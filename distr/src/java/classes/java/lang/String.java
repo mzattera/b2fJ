@@ -13,6 +13,7 @@ public final class String implements CharSequence, Comparable<String> {
 	// Their sizes and location can only be changed
 	// if classes.h is changed accordingly. Needless
 	// to say, they are read-only (and useless from Java).
+	// THESE ARE ONLY STORAGE AND THEIR VALUE IS NOT PROPERLY SET FOR USE IN JAVA 
 	@SuppressWarnings("unused")
 	private String _TVM_next;
 	@SuppressWarnings("unused")

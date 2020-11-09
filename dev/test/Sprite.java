@@ -65,7 +65,7 @@ public class Sprite extends Thread {
 
      // Factory method.
     public static synchronized Sprite getSprite (int idx) {
-        if (_sprites[idx] == NULL)
+        if (_sprites[idx] == null)
             _sprites[idx] = new Sprite(idx);
         return _sprites[idx];
     }

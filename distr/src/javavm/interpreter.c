@@ -93,6 +93,8 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	TWOBYTES i;
 
 	/* Maxi: We chcek first if there is already a String for this constant */
+	/* !!! NOTE !!! To have these values accessible form Java we should use get_word() and set_word() */
+	/* !!! NOTE !!! We don't do this for performance, as these values are useless from Java */
 	String *sp = stringList;
 	while (sp != JNULL) {
 		if (sp->constantOffset == constantRecord->offset) return (Object*)sp;
@@ -109,15 +111,11 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 		return JNULL;
 	}
 
-	//  printf ("char array at %d\n", (int) arr);
-
 	store_word((byte *) &(((String *)ref)->characters), 4, obj2word(arr));
 
 	for (i = 0; i < constantRecord->constantSize; i++)
 	{
 		jchar_array(arr)[i] = (JCHAR)get_constant_ptr(constantRecord)[i];
-
-		// printf ("char %lx %d: %c\n", jchar_array(arr), i, (char) (jchar_array(arr)[i]));
 	}
 
 	sp = (String *)ref;

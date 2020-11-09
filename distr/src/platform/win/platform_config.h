@@ -22,11 +22,17 @@ typedef int32_t		JINT;		/* Java int (32 bit signed) */
 typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
 typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
-/* Compiler directives */
-
 #define __INLINED			inline		/* Used to mark a method "inline" */
-#define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
+/* To align with Java, the C structures we use must be packed. */
+#ifdef __GNUC__
+	#define __PACKED(DEC)	DEC __attribute__((__packed__))
+#endif
+#ifdef _MSC_VER
+	#define __PACKED(DEC)	__pragma(pack(push, 1)) DEC __pragma(pack(pop))
+#endif
+
+#define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
 /***********************************************************************************************************
 * Platform specific settings.
@@ -40,12 +46,12 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 ***********************************************************************************************************/
 
 /* Max size (in TWOBYTES words) for Java Heap. The JVM will try to allocate this much memory for heap at startup. */
-#define MAX_HEAP_SIZE	((size_t)(65536 / sizeof(TWOBYTES)))
+#define MAX_HEAP_SIZE		((size_t)(65536 / sizeof(TWOBYTES)))
 
-#define SEGMENTED_HEAP	1	/* If not 0 allow multiple heap segments (heap split in pieces) */
-#define COALESCE		1	/* If not 0, coalesce adjacent free blocks in the heap */
+#define SEGMENTED_HEAP		0	/* If not 0 allow multiple heap segments (heap split in pieces) */
+#define COALESCE			0	/* If not 0, coalesce adjacent free blocks in the heap */
 
-#define FIXED_STACK_SIZE				0
+#define FIXED_STACK_SIZE	0
 #if FIXED_STACK_SIZE
 	/**
 	* Initial level of recursion.
