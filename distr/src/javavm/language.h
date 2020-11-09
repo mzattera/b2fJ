@@ -1,6 +1,7 @@
 #ifndef _LANGUAGE_H
 #define _LANGUAGE_H
 
+#include <stdbool.h>
 #include "classes.h"
 #include "platform_config.h"
 
@@ -127,10 +128,10 @@ extern void dispatch_virtual (Object *obj, TWOBYTES signature, byte *rAddr);
 extern MethodRecord *find_method (ClassRecord *classRec, TWOBYTES signature);
 extern STACKWORD instance_of (Object *obj, byte classIndex);
 extern void do_return (byte numWords);
-extern boolean dispatch_static_initializer (ClassRecord *aRec, byte *rAddr);
-extern boolean dispatch_special (MethodRecord *methodRecord, byte *retAddr);
+extern bool dispatch_static_initializer (ClassRecord *aRec, byte *rAddr);
+extern bool dispatch_special (MethodRecord *methodRecord, byte *retAddr);
 void dispatch_special_checked (byte classIndex, byte methodIndex, byte *retAddr, byte *btAddr);
-extern void handle_field (byte hiByte, byte loByte, boolean doPut, boolean aStatic, byte *btAddr);
+extern void handle_field (byte hiByte, byte loByte, bool doPut, bool aStatic, byte *btAddr);
 
 #define install_binary(PTR_)        (installedBinary=(PTR_))
 #define get_master_record()         ((MasterRecord *) installedBinary)

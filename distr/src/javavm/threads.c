@@ -1,15 +1,17 @@
-#include "configure.h"
+#include <stddef.h>
+#include <stdbool.h>
 #include "constants.h"
-#include "debug.h"
+#include "conversion.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "platform_config.h"
+#include "platform_hooks.h"
 #include "specialsignatures.h"
 #include "stack.h"
 #include "threads.h"
 #include "trace.h"
 
-#if DEBUG_MY_MAIN
+#if DEBUG_STARTUP
 extern byte javaClassFileContent[];
 #endif
 
@@ -44,7 +46,7 @@ StackFrame *current_stackframe()
 
   arraySize = currentThread->stackFrameArraySize;
   if (arraySize == 0)
-    return null;
+    return NULL;
   return stackframe_array() + (arraySize - 1);
 }
 
@@ -94,12 +96,12 @@ __INLINED void set_monitor_count (Object *obj, byte count)
  * Insert into run list
  * Mark thread as STARTED
  */
-boolean init_thread (Thread *thread)
+bool init_thread (Thread *thread)
 {
   thread->threadId = gThreadCounter + 1;
   
   // Catch the primordial thread
-  if (currentThread == null)
+  if (currentThread == NULL)
     thread->priority = NORM_PRIORITY;
   
   #if DEBUG_THREADS
@@ -128,14 +130,14 @@ boolean init_thread (Thread *thread)
   
   gThreadCounter++;
   
-  #if VERIFY
+  #if ASSERTIONS_ENABLED
   assert (is_array (word2obj (thread->stackFrameArray)), THREADS0);
   assert (is_array (word2obj (thread->stackArray)), THREADS1);
   #endif
 
   thread->stackFrameArraySize = 0;
   thread->state = STARTED;
-  if (currentThread == null)
+  if (currentThread == NULL)
     currentThread = thread;
     
   enqueue_thread(thread);
@@ -158,19 +160,19 @@ boolean init_thread (Thread *thread)
  *         to switch to.
  */
  
-boolean switch_thread()
+bool switch_thread()
 {
   Thread *anchorThread, *previousThread, *candidate;
   Thread **pThreadQ;
-  boolean nonDaemonRunnable = false;
-  StackFrame *stackFrame = null;
+  bool nonDaemonRunnable = false;
+  StackFrame *stackFrame = NULL;
   short i;
 
   #if DEBUG_THREADS || DEBUG_BYTECODE
   printf ("------ switch_thread: currentThread at %d\n", (int) currentThread);
   #endif
 
-  if (currentThread != null)
+  if (currentThread != NULL)
   {
     // Only current threads can die. Tidy up dead threads
     if (currentThread->state == DEAD)
@@ -184,7 +186,7 @@ boolean switch_thread()
       free_array ((Object *) word2ptr (currentThread->stackArray));
       free_array ((Object *) word2ptr (currentThread->stackFrameArray));
 
-      #ifdef SAFE
+      #if SAFE
       currentThread->stackFrameArray = JNULL;
       currentThread->stackArray = JNULL;
       #endif // SAFE
@@ -200,13 +202,13 @@ boolean switch_thread()
       printf ("switchThread: current stack frame: %d\n", (int) stackFrame);
 #endif
   
-      if (stackFrame != null) {
+      if (stackFrame != NULL) {
         update_stack_frame (stackFrame);
       }
     }
   }
 
-  currentThread = null;
+  currentThread = NULL;
   
   // Loop until a frame is found that can be made to run.
   for (i=MAX_PRIORITY-1; i >= 0; i--) {
@@ -258,7 +260,7 @@ boolean switch_thread()
             byte threadId = get_thread_id(pObj);
 
             // We are waiting to enter a synchronized block
-            #if VERIFY
+            #if ASSERTIONS_ENABLED
             assert (pObj != JNULL, THREADS6);
             #endif
              
@@ -273,13 +275,13 @@ boolean switch_thread()
               // Let the thread run.
               candidate->state = RUNNING;
   
-              #ifdef SAFE
+              #if SAFE
               candidate->waitingOn = JNULL;
               #endif
             }
 #if PI_AVOIDANCE
             // Only avoid priority inversion if we don't already have a thread to run.
-            else if (currentThread == null)
+            else if (currentThread == NULL)
             {
             	Thread *pOwner;
             	int j;
@@ -336,13 +338,13 @@ done_pi:
             candidate->state = RUNNING;
             if (candidate->interruptState != INTERRUPT_CLEARED)
           	candidate->interruptState = INTERRUPT_GRANTED;
-            #ifdef SAFE
+            #if SAFE
   	    candidate->sleepUntil = JNULL;
             #endif // SAFE
           }
           break;
         case STARTED:
-          if (currentThread == null)
+          if (currentThread == NULL)
           {      
             // Put stack ptr at the beginning of the stack so we can push arguments
             // to entry methods. This assumes set_top_word or set_top_ref will
@@ -358,7 +360,7 @@ done_pi:
               MethodRecord *mRec;
               ClassRecord *classRecord;
 
-#if DEBUG_MY_MAIN
+#if DEBUG_STARTUP
 			  printf("javaClassFileContent %5d\n", (int)javaClassFileContent);
 			  printf("installedBinary %5d\n", (int)installedBinary);
 			  printf("get_binary_base() %5d\n", (int)get_binary_base());
@@ -377,18 +379,18 @@ done_pi:
               // Push stack frame for main method:
               mRec= find_method (classRecord, main_4_1Ljava_3lang_3String_2_5V);
 
-			  #if DEBUG_MY_MAIN
+			  #if DEBUG_STARTUP
 			  printMethodRecord(mRec);
 			  #endif
 
-              dispatch_special (mRec, null);
+              dispatch_special (mRec, NULL);
               // Push another if necessary for the static initializer:
               dispatch_static_initializer (classRecord, pc);
             }
             else
             {
               set_top_ref (ptr2word (candidate));
-              dispatch_virtual ((Object *) candidate, run_4_5V, null);
+              dispatch_virtual ((Object *) candidate, run_4_5V, NULL);
             }
             // The following is needed because the current stack frame
             // was just created
@@ -407,7 +409,7 @@ done_pi:
 
       // Do we now have a thread we want to run?
       // Note we may later decide not to if all non-daemon threads have died        
-      if (currentThread == null && candidate->state == RUNNING)
+      if (currentThread == NULL && candidate->state == RUNNING)
       {
         currentThread = candidate;
         // Move thread to end of queue
@@ -444,7 +446,7 @@ printf ("currentThread=%d, ndr=%d\n", (int) currentThread, (int)nonDaemonRunnabl
   if (nonDaemonRunnable)
   {
     // There is at least one non-daemon thread left alive
-    if (currentThread != null)
+    if (currentThread != NULL)
     {
       // If we found a running thread and there is at least one
       // non-daemon thread left somewhere in the queue...
@@ -473,7 +475,7 @@ printf ("currentThread=%d, ndr=%d\n", (int) currentThread, (int)nonDaemonRunnabl
   }
 
   schedule_request(REQUEST_EXIT);
-  currentThread = null;
+  currentThread = NULL;
   
   return false;
 }
@@ -525,7 +527,7 @@ void monitor_wait(Object *obj, const FOURBYTES time)
  * Current thread owns object's monitor (we hope) and wishes to wake up
  * any other threads waiting on it. (by calling Object.notify()).
  */
-void monitor_notify(Object *obj, const boolean all)
+void monitor_notify(Object *obj, const bool all)
 {
 #if DEBUG_MONITOR
   printf("monitor_notify of %d, thread %d(%d)\n",(int)obj, (int)currentThread, currentThread->threadId);
@@ -542,7 +544,7 @@ void monitor_notify(Object *obj, const boolean all)
 /*
  * wake up any objects waiting on the passed object.
  */
-void monitor_notify_unchecked(Object *obj, const boolean all)
+void monitor_notify_unchecked(Object *obj, const bool all)
 {
   short i;
   Thread *pThread;
@@ -627,7 +629,7 @@ void exit_monitor (Thread *pThread, Object* obj)
     return;
   }
 
-  #if VERIFY
+  #if ASSERTIONS_ENABLED
   assert (get_thread_id(obj) == pThread->threadId, THREADS7);
   assert (get_monitor_count(obj) > 0, THREADS8);
   #endif
@@ -669,7 +671,7 @@ void dequeue_thread(Thread *thread)
   #if DEBUG_THREADS
   printf("No more threads of priority %d\n", thread->priority);
   #endif
-    *pThreadQ = null;
+    *pThreadQ = NULL;
   }
   else
   {
@@ -684,7 +686,7 @@ void enqueue_thread(Thread *thread)
   byte cIndex = thread->priority-1;
   Thread *previous = threadQ[cIndex];
   threadQ[cIndex] = thread;
-  if (previous == null)
+  if (previous == NULL)
     thread->nextThread = ptr2word(thread);
   else {
     Thread *pNext = word2ptr(previous->nextThread);

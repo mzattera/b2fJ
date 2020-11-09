@@ -2,20 +2,20 @@
  * nativeemul.c
  * Native method handling for unix_impl (emulation).
  */
+#include <stddef.h>
 #include <stdio.h>
 #include "classes.h"
-#include "constants.h"
+#include "conversion.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "types.h"
 #include "memory.h"
-#include "debug.h"
+#include "nativeemul.h"
 #include "platform_config.h"
 #include "platform_hooks.h"
 #include "specialsignatures.h"
 #include "stack.h"
 #include "threads.h"
-#include "trace.h"
 
 
 /**
@@ -124,7 +124,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
 		{
 			String* s = (String*)word2obj(paramBase[1]);
-			if ((s != null) && (s->characters)) {
+			if ((s != NULL) && (s->characters)) {
 				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
 				JCHAR *pA = jchar_array(obj);
 				int length = get_array_length(obj);
@@ -136,7 +136,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		}
 		return;
 	default:
-		#ifdef DEBUG_METHODS
+		#if DEBUG_METHODS
 			printf("Received bad native method code: %d\n", signature);
 		#endif
 		throw_exception(noSuchMethodError);

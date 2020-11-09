@@ -1,44 +1,77 @@
 /**
- * tvmemul.c
- * Entry source file for TinyVM emulator.
+ * main() for b2fJ; should handle command line parameters, including loading of Java bytecode.
  */
 
+#include <fcntl.h>
+#include <io.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "constants.h"
-#include "load.h"
+#include "java_code.h"
+#include "language.h"
+#include "platform_config.h"
 #include "platform_hooks.h"
 #include "tvmemul.h"
 #include "version.h"
 
-/***************************************************************************
- * int main
- * Parses command line. Format is:
- *	argv[0] [-v] bin_file
- *
- * options:
- *	-v	Verbose mode. Prints text output rather than raw output.
- *
- *--------------------------------------------------------------------------
- * To go into man page:
- * Name:	emu-lejosrun - Emulate lejos RCX code in Unix
- *
- * Synosis:	emu-lejosrun [-v] bin_file
- *
- * Description:	Executes a binary file created by the lejos compiler within
- *		Unix rather than in the RCX environment. The Java byte-codes
- *		are executed here, and their actions are listed rather than
- *		executed as they would be on the real RCX device.
- *
- * Options:	-v	Verbose mode. Normally the output is printed in raw
- *			mode. The actual hex values are printed. Using this
- *			option displays more user-friendly output.
- *--------------------------------------------------------------------------
- ***************************************************************************/
+
+/**
+ * Read Java bytecode from given file.
+ * If the file name is NULL, it means bytecode is linked directly in a byte[].
+ */
+void readBinary(char *fileName)
+{
+	byte *pBinary;
+
+	if (fileName == NULL) {
+		pBinary = javaClassFileContent;
+	}
+	else {
+		int pDesc;
+		int pLength;
+		int pTotal;
+		int pNumRead;
+
+		pDesc = open(fileName, O_RDONLY | O_BINARY);
+		if (pDesc == -1) {
+			printf("Unable to open %s\n", fileName);
+			exit_tool(NULL, -1);
+		}
+		pLength = lseek(pDesc, 0, SEEK_END);
+		lseek(pDesc, 0, SEEK_SET);
+		pBinary = (void *)malloc(pLength);
+		pTotal = 0;
+		while (pTotal < pLength)
+		{
+			pNumRead = read(pDesc, pBinary + pTotal, pLength - pTotal);
+			if (pNumRead == -1)
+			{
+				exit_tool("Unexpected EOF", -1);
+			}
+			pTotal += pNumRead;
+		}
+	}
+
+#if DEBUG_STARTUP
+	printf("Installing binary %d\n", (int)pBinary);
+#endif
+	install_binary(pBinary);
+
+#if DEBUG_STARTUP
+	printf("Checking validity of magic number ^^^^\n");
+#endif
+	if (get_master_record()->magicNumber != MAGIC_MASK)
+	{
+		printf("Bad magic number: 0x%X", get_master_record()->magicNumber);
+		exit_tool(NULL, -1);
+	}
+}
+
+
 int main (int argc, char *argv[])
 {
-	// Name of the file to use. Leave null to use code linked directly in memory.
-	char *file = null;
+	// Name of the file to use. Leave NULL to use code linked directly in memory.
+	char *file = NULL;
 
 	if (argc == 2) {
 		file = argv[1];

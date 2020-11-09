@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "classes.h"
-#include "constants.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "memory.h"
@@ -14,7 +13,6 @@
 #include "platform_hooks.h"
 #include "specialclasses.h"
 #include "threads.h"
-#include "trace.h"
 #include "tvmemul.h"
 
 byte *region;

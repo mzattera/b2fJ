@@ -4,51 +4,43 @@
 */
 
 #include <malloc.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "constants.h"
+#include "memory.h"
 #include "platform_config.h"
 #include "platform_hooks.h"
 #include "trace.h"
 #include "types.h"
 
-
-/*
- * Execute platform-specific native methods.
- */
-int dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
+/* Called before engine() is started and Java program executed */
+void engine_start_hook()
 {
-	/* Fallback to default native implementation */
-	return false;
+	system("cls");
+	printf("****   b2fJ v.%s   ****\n", VERSION);
+	printf("  %5d Java bytes free\n\n", getHeapFree());
 }
 
 
 /*
- * Returns size of maximum free memory heap block available (as TWOBYTES words).
- */
-size_t get_max_block_size() {
-	/* The below code is very Visual Studio specifc.
-	   It walks through the heap to get size of biggest free block. 
-	   
-	   It seems to be walking only over allocated bloks thoug...
-
-	_HEAPINFO hinfo;
-	hinfo._pentry = NULL;
-	size_t maxSize = 0;
-
-	while (_heapwalk(&hinfo) == _HEAPOK)
-	{
-		if ((hinfo._useflag == _FREEENTRY) && (hinfo._size > maxSize))
-			maxSize = hinfo._size;
+* Called to exit the program.
+* As last step, this should call exit() passing given exit code.
+*/
+void exit_tool(char* exitMessage, int exitCode)
+{
+	if (exitMessage)
+		printf(exitMessage);
+	if (exitCode) {
+		printf("Press any key...");
+		getchar();
 	}
-	
-	return maxSize;
-	*/
-
-	return MAX_HEAP_SIZE;
+	exit(exitCode);
 }
 
 
+/*
+* Called when thread is about to die due to an uncaught exception.
+*/
 void handle_uncaught_exception(Object *exception,
 	const Thread *thread,
 	const MethodRecord *methodRecord,
@@ -62,22 +54,13 @@ void handle_uncaught_exception(Object *exception,
 	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
 	printf("--  Bytecode offset   : %u\n", (unsigned)pc -
 		(int)get_code_ptr(methodRecord));
-}
-
-
-void exit_tool(char* exitMessage, int exitCode)
-{
-	if (exitMessage)
-		printf(exitMessage);
-//	if (exitCode)
 	printf("Press any key...");
-		getchar();
-	exit(exitCode);
+	getchar();
 }
 
 
 /* Called by assert(aCond,aCode) */
-void assert_hook(boolean aCond, int aCode)
+void assert_hook(bool aCond, int aCode)
 {
 	if (aCond)
 		return;

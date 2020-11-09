@@ -23,13 +23,13 @@ case OP_PUTSTATIC:
   // Stack: +1 or +2 for GETSTATIC, -1 or -2 for PUTSTATIC
   {
     STATICFIELD fieldRecord;
-    byte *fbase1 = null;
+    byte *fbase1 = NULL;
     byte fieldType;
 #if RECORD_REFERENCES
     byte isRef;
 #endif
     byte fieldSize;
-    boolean wideWord;
+    bool wideWord;
 
     #if DEBUG_FIELDS
     printf ("---  GET/PUTSTATIC --- (%d, %d)\n", (int) pc[0], (int) pc[1]);
@@ -89,10 +89,10 @@ case OP_PUTSTATIC:
   goto LABEL_ENGINELOOP;
 case OP_GETFIELD:
   {
-    byte *fbase2 = null;
+    byte *fbase2 = NULL;
     byte fieldType;
     byte fieldSize;
-    boolean wideWord;
+    bool wideWord;
 
     tempStackWord = get_top_ref();
     if (tempStackWord == JNULL)
@@ -111,7 +111,7 @@ case OP_GETFIELD:
     fbase2 = ((byte *) word2ptr (tempStackWord)) + 
                 get_pgfield_offset(pc[0], pc[1]);
 
-    #ifdef DEBUG_FIELDS
+    #if DEBUG_FIELDS
     printf ("--- GETFIELD ---\n");
     printf ("fieldType: %d\n", (int) fieldType);
     printf ("fieldSize: %d\n", (int) fieldSize);
@@ -120,23 +120,23 @@ case OP_GETFIELD:
     printf ("stackTop: %d\n", (int) stackTop);
     #endif
 
-    #ifdef DEBUG_FIELDS
+    #if DEBUG_FIELDS
     printf ("### get_field base=%d size=%d pushed=%d\n", (int) fbase2, (int) fieldSize, (int) tempStackWord);
     #endif
 
     make_word (fbase2, fieldSize, &tempStackWord);
    
-    #ifdef DEBUG_FIELDS
+    #if DEBUG_FIELDS
     printf ("### get_field base=%d size=%d pushed=%d\n", (int) fbase2, (int) fieldSize, (int) tempStackWord);
     #endif
 
-#ifdef RECORD_REFERENCES
+#if RECORD_REFERENCES
     if (fieldType == T_REFERENCE)
       set_top_ref (tempStackWord);
     else
 #endif
     set_top_word (tempStackWord);
-    #ifdef DEBUG_FIELDS
+    #if DEBUG_FIELDS
     printf("Set top word done\n");
     if (wideWord)
     	printf("Wide word\n");
@@ -148,7 +148,7 @@ case OP_GETFIELD:
     }
     pc += 2;
   }
-#ifdef DEBUG_FIELDS
+#if DEBUG_FIELDS
 	printf("Going home\n");
 #endif
   goto LABEL_ENGINELOOP;
@@ -157,7 +157,7 @@ case OP_PUTFIELD:
     byte *fbase3;
     byte fieldType;
     byte fieldSize;
-    boolean wideWord;
+    bool wideWord;
 
     fieldType = get_pgfield_type(pc[0]);
     fieldSize = typeSize[fieldType];
@@ -166,7 +166,7 @@ case OP_PUTFIELD:
       fieldSize = 4;
     tempStackWord = get_ref_at (wideWord ? 2 : 1);
 
-    #ifdef DEBUG_FIELDS
+    #if DEBUG_FIELDS
     printf ("--- PUTFIELD ---\n");
     printf ("fieldType: %d\n", (int) fieldType);
     printf ("fieldSize: %d\n", (int) fieldSize);
@@ -189,7 +189,7 @@ case OP_PUTFIELD:
     printf ("### put_field base=%d size=%d stored=%d\n", (int) fbase3, (int) fieldSize, (int) get_top_word());
     #endif
 
-#ifdef RECORD_REFERENCES
+#if RECORD_REFERENCES
     if (fieldType == T_REFERENCE)
       store_word (fbase3, fieldSize, pop_ref());
     else

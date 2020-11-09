@@ -1,7 +1,8 @@
 #include <stddef.h>
+#include <stdbool.h>
 #include "classes.h"
 #include "constants.h"
-#include "debug.h"
+#include "conversion.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "language.h"
@@ -21,7 +22,7 @@ extern char *OPCODE_NAME[];
 
 // Interpreter globals:
 
-volatile boolean gMakeRequest;
+volatile bool gMakeRequest;
 byte    gRequestCode;
 
 byte *pc;
@@ -43,7 +44,7 @@ JSHORT tempInt;
 /**
  * Assumes pc points to 2-byte offset, and jumps.
  */
-void do_goto(boolean aCond)
+void do_goto(bool aCond)
 {
 	if (aCond)
 	{
@@ -95,7 +96,7 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	String *sp = stringList;
 	while (sp != JNULL) {
 		if (sp->constantOffset == constantRecord->offset) return (Object*)sp;
-		sp = (String*)ref2ptr(sp->next); /* leJos code uses word2ptr() instead of ref2ptr() in code for Thread */
+		sp = (String*)ref2obj(sp->next); /* leJos code uses word2ptr() instead of ref2ptr() in code for Thread */
 	}
 
 	ref = new_object_checked(JAVA_LANG_STRING, btAddr);
@@ -120,7 +121,7 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	}
 
 	sp = (String *)ref;
-	sp->next = ptr2ref(stringList);
+	sp->next = obj2ref(stringList);
 	sp->constantOffset = constantRecord->offset;
 	stringList = sp;
 
@@ -130,11 +131,11 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 /**
  * Pops the array index off the stack, assigns
  * both tempInt and tempBytePtr, and checks
- * bounds and null reference. The array reference
+ * bounds and NULL reference. The array reference
  * is the top word on the stack after this operation.
  * @return True if successful, false if an exception has been scheduled.
  */
-boolean array_load_helper()
+bool array_load_helper()
 {
 	tempInt = word2jshort(pop_word());
 	tempBytePtr = word2ptr(get_top_ref());
@@ -151,7 +152,7 @@ boolean array_load_helper()
  * Same as array_load_helper, except that it pops
  * the reference from the stack.
  */
-boolean array_store_helper()
+bool array_store_helper()
 {
 	if (array_load_helper())
 	{
@@ -166,8 +167,8 @@ boolean array_store_helper()
  *
  * To be able use only a single fast test on each instruction
  * several assumptions are made:
- * - currentThread is initialized and non-null and
- *   it is not set to null by any bytecode instruction.
+ * - currentThread is initialized and non-NULL and
+ *   it is not set to NULL by any bytecode instruction.
  * - Thus it is not allowed to call schedule_thread() in instructions,
  *   use schedule_request( REQUEST_SWITCH_THREAD) instead.
  * - Whenever gMakeRequest is false, gRequestCode is REQUEST_TICK.
@@ -182,14 +183,14 @@ void engine()
 {
 	byte ticks_until_switch = TICKS_PER_TIME_SLICE;
 
-	assert(currentThread != null, INTERPRETER0);
+	assert(currentThread != NULL, INTERPRETER0);
 
 	schedule_request(REQUEST_SWITCH_THREAD);
 
 LABEL_ENGINELOOP:
 	instruction_hook();
 
-	assert(currentThread != null, INTERPRETER1);
+	assert(currentThread != NULL, INTERPRETER1);
 
 	while (gMakeRequest)
 	{
@@ -220,7 +221,7 @@ LABEL_ENGINELOOP:
 #endif
 			switch_thread_hook();
 		}
-		if (currentThread == null   /* no runnable thread */
+		if (currentThread == NULL   /* no runnable thread */
 			&& gRequestCode == REQUEST_TICK) { /* no important request */
 			idle_hook();
 			schedule_request(REQUEST_SWITCH_THREAD);
@@ -228,7 +229,7 @@ LABEL_ENGINELOOP:
 	}
 
 	assert(gRequestCode == REQUEST_TICK, INTERPRETER2);
-	assert(currentThread != null, INTERPRETER3);
+	assert(currentThread != NULL, INTERPRETER3);
 
 	//-----------------------------------------------
 	// SWITCH BEGINS HERE
@@ -258,7 +259,7 @@ LABEL_ENGINELOOP:
 #include "op_methods.hc"
 
 		/*
-		#if VERIFY
+		#if ASSERTIONS_ENABLED
 			default:
 				assert(false, (TWOBYTES)(pc-1) % 10000);
 				break;
@@ -278,9 +279,9 @@ LABEL_ENGINELOOP:
 
 // This point should never be reached
 
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	assert(false, 1000 + *pc);
-#endif // VERIFY
+#endif // ASSERTIONS_ENABLED
 
 #endif // FP_ARITHMETIC
 }

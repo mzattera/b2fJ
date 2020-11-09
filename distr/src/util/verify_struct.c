@@ -1,6 +1,7 @@
 /**
  * Maxi: Util to validate length and alignment of structures.
  */
+#include <stdbool.h>
 #include <stdio.h>
 #include "classes.h"
 #include "configure.h"
@@ -22,7 +23,7 @@ int determine_little_endian()
 	return -1;
 }
 
-void assert0(boolean aCond, char* msg) {
+void assert0(bool aCond, char* msg) {
 		if (aCond)
 			return;
 		printf("Assertion failed: %s\n", msg);

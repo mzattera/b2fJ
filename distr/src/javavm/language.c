@@ -2,13 +2,15 @@
  * Runtime data structures for loaded program.
  */
 
+#include <stddef.h>
+#include <stdbool.h>
 #include "constants.h"
 #include "classes.h"
-#include "configure.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "language.h"
 #include "memory.h"
+#include "nativeemul.h"
 #include "platform_config.h"
 #include "specialclasses.h"
 #include "specialsignatures.h"
@@ -43,7 +45,7 @@ void initialize_binary()
 	zero_mem((TWOBYTES *)(get_binary_base() + mrec->staticStateOffset),
 		mrec->staticStateLength);
 
-#if DEBUG_MY_INITBINARY
+#if DEBUG_STARTUP
 	printMasterRecord();
 #endif
 
@@ -51,7 +53,7 @@ void initialize_binary()
 	{
 		set_uninitialized(get_class_record(i));
 
-#if DEBUG_MY_INITBINARY
+#if DEBUG_STARTUP
 		printClassRecord(get_class_record(i));
 #endif
 	}
@@ -68,7 +70,7 @@ byte get_class_index(Object *obj)
 }
 
 /**
- * @return Method record or null.
+ * @return Method record or NULL.
  */
 MethodRecord *find_method(ClassRecord *classRecord, TWOBYTES methodSignature)
 {
@@ -76,7 +78,7 @@ MethodRecord *find_method(ClassRecord *classRecord, TWOBYTES methodSignature)
 	while (tempByte--)
 	{
 
-#if DEBUG_MY_MAIN
+#if DEBUG_STARTUP
 		//#define get_method_record(CR_,I_)   (get_method_table(CR_) + (I_)) 
 		//#define get_method_table(CREC_)     ((MethodRecord *) (get_binary_base() + (CREC_)->methodTableOffset))
 
@@ -91,10 +93,10 @@ MethodRecord *find_method(ClassRecord *classRecord, TWOBYTES methodSignature)
 		if (tempMethodRecord->signatureId == methodSignature)
 			return tempMethodRecord;
 	}
-	return null;
+	return NULL;
 }
 
-boolean dispatch_static_initializer(ClassRecord *aRec, byte *retAddr)
+bool dispatch_static_initializer(ClassRecord *aRec, byte *retAddr)
 {
 	if (is_initialized(aRec))
 		return false;
@@ -126,7 +128,7 @@ void dispatch_virtual(Object *ref, TWOBYTES signature, byte *retAddr)
 LABEL_METHODLOOKUP:
 	tempClassRecord = get_class_record(auxByte);
 	auxMethodRecord = find_method(tempClassRecord, signature);
-	if (auxMethodRecord == null)
+	if (auxMethodRecord == NULL)
 	{
 #if SAFE
 		if (auxByte == JAVA_LANG_OBJECT)
@@ -177,7 +179,7 @@ void dispatch_special_checked(byte classIndex, byte methodIndex,
  * @param retAddr What the PC should be upon return.
  * @return true iff the stack frame was pushed.
  */
-boolean dispatch_special(MethodRecord *methodRecord, byte *retAddr)
+bool dispatch_special(MethodRecord *methodRecord, byte *retAddr)
 {
 #if DEBUG_METHODS
 	int debug_ctr;
@@ -269,7 +271,7 @@ boolean dispatch_special(MethodRecord *methodRecord, byte *retAddr)
 	currentThread->stackFrameArraySize++;
 	// Initialize rest of new stack frame
 	stackFrame->methodRecord = methodRecord;
-	stackFrame->monitor = null;
+	stackFrame->monitor = NULL;
 	stackFrame->localsBase = get_stack_ptr() + 1;
 	// Initialize auxiliary global variables (registers)
 	pc = get_code_ptr(methodRecord);
@@ -352,10 +354,10 @@ void do_return(byte numWords)
 		stackFrame->methodRecord->signatureId, numWords);
 #endif
 
-#if VERIFY
-	assert(stackFrame != null, LANGUAGE3);
+#if ASSERTIONS_ENABLED
+	assert(stackFrame != NULL, LANGUAGE3);
 #endif
-	if (stackFrame->monitor != null)
+	if (stackFrame->monitor != NULL)
 		exit_monitor(currentThread, stackFrame->monitor);
 
 #if DEBUG_THREADS || DEBUG_METHODS
@@ -398,7 +400,7 @@ STACKWORD instance_of(Object *obj, byte classIndex)
 {
 	byte rtType;
 
-	if (obj == null)
+	if (obj == NULL)
 		return 0;
 	rtType = get_class_index(obj);
 	// TBD: support for interfaces

@@ -2,7 +2,6 @@
 #define _MEMORY_H
 
 #include "classes.h"
-#include "configure.h"
 #include "platform_config.h"
 #include "types.h"
 

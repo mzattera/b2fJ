@@ -167,18 +167,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\distr\src\javavm\classes.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\configure.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\constants.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\exceptions.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\fields.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\interpreter.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\java_code.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\nativeemul.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\types.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\language.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\limits.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\load.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\memory.h" />
-    <ClInclude Include="..\..\..\distr\src\javavm\debug.h" />
+    <ClInclude Include="..\..\..\distr\src\javavm\conversion.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\opcodes.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\specialclasses.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\specialsignatures.h" />
@@ -187,7 +185,6 @@
     <ClInclude Include="..\..\..\distr\src\javavm\trace.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\tvmemul.h" />
     <ClInclude Include="..\..\..\distr\src\javavm\version.h" />
-    <ClInclude Include="..\..\..\distr\src\platform\win\compiler_config.h" />
     <ClInclude Include="..\..\..\distr\src\platform\win\platform_config.h" />
     <ClInclude Include="..\..\..\distr\src\platform\win\platform_hooks.h" />
   </ItemGroup>
@@ -196,11 +193,10 @@
     <ClCompile Include="..\..\..\distr\src\javavm\interpreter.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\language.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\memory.c" />
-    <ClCompile Include="..\..\..\distr\src\javavm\debug.c" />
+    <ClCompile Include="..\..\..\distr\src\javavm\trace.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\nativeemul.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\threads.c" />
     <ClCompile Include="..\..\..\distr\src\javavm\tvmemul.c" />
-    <ClCompile Include="..\..\..\distr\src\platform\win\load.c" />
     <ClCompile Include="..\..\..\distr\src\platform\win\main.c" />
     <ClCompile Include="..\..\..\distr\src\platform\win\platform_native.c" />
   </ItemGroup>

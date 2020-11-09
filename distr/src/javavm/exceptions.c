@@ -1,10 +1,10 @@
+#include <stddef.h>
 #include "classes.h"
-#include "constants.h"
+#include "conversion.h"
 #include "exceptions.h"
 #include "interpreter.h"
 #include "language.h"
 #include "memory.h"
-#include "debug.h"
 #include "platform_config.h"
 #include "platform_hooks.h"
 #include "specialclasses.h"
@@ -28,11 +28,11 @@ Object *error;
 // Temporary globals:
 
 static TWOBYTES tempCurrentOffset;
-static MethodRecord *tempMethodRecord = null;
+static MethodRecord *tempMethodRecord = NULL;
 static StackFrame *tempStackFrame;
 static ExceptionRecord *gExceptionRecord;
 static byte gNumExceptionHandlers;
-static MethodRecord *gExcepMethodRec = null;
+static MethodRecord *gExcepMethodRec = NULL;
 static byte *gExceptionPc;
 
 
@@ -59,14 +59,14 @@ void throw_exception (Object *exception)
 {
   Thread *auxThread;
   
-#if VERIFY
-  assert (exception != null, EXCEPTIONS0);
-#endif // VERIFY
+#if ASSERTIONS_ENABLED
+  assert (exception != NULL, EXCEPTIONS0);
+#endif // ASSERTIONS_ENABLED
 
 #if DEBUG_EXCEPTIONS
   printf("Throw exception\n");
 #endif
-  if (currentThread == null)
+  if (currentThread == NULL)
   {
     // No threads have started probably
     return;
@@ -77,12 +77,12 @@ void throw_exception (Object *exception)
     currentThread->interruptState = INTERRUPT_CLEARED;
   }
   
-  #if VERIFY
+  #if ASSERTIONS_ENABLED
   assert (currentThread->state > DEAD, EXCEPTIONS1);
-  #endif // VERIFY
+  #endif // ASSERTIONS_ENABLED
   
   gExceptionPc = pc;
-  gExcepMethodRec = null;
+  gExcepMethodRec = NULL;
 
   #if 0
   trace (-1, get_class_index(exception), 3);
@@ -92,7 +92,7 @@ void throw_exception (Object *exception)
   tempStackFrame = current_stackframe();
   tempMethodRecord = tempStackFrame->methodRecord;
 
-  if (gExcepMethodRec == null)
+  if (gExcepMethodRec == NULL)
     gExcepMethodRec = tempMethodRecord;
   gExceptionRecord = (ExceptionRecord *) (get_binary_base() + tempMethodRecord->exceptionTable);
   tempCurrentOffset = ptr2word(pc) - ptr2word(get_binary_base() + tempMethodRecord->codeOffset);

@@ -6,7 +6,6 @@
 #ifndef _CLASSES_H
 #define _CLASSES_H
 
-#include "compiler_config.h"
 #include "platform_config.h"
 #include "types.h"
 
@@ -147,7 +146,7 @@ typedef struct S_String
 } String;
 
 
-#ifdef WIMPY_MATH
+#if WIMPY_MATH
 
 static __INLINED TWOBYTES get_array_length (Object *obj)
 {

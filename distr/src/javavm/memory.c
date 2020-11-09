@@ -1,19 +1,18 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "classes.h"
-#include "configure.h"
 #include "constants.h"
+#include "conversion.h"
 #include "exceptions.h"
 #include "memory.h"
-#include "debug.h"
-#include "compiler_config.h"
 #include "platform_config.h"
 #include "platform_hooks.h"
 #include "threads.h"
 #include "trace.h"
 
-#if VERIFY
+#if ASSERTIONS_ENABLED
 static boolean memoryInitialized = false;
 #endif
 
@@ -71,12 +70,12 @@ void zero_mem(register TWOBYTES *ptr, register TWOBYTES numWords)
 
 static __INLINED void set_array(Object *obj, const byte elemType, const TWOBYTES length)
 {
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	assert(elemType <= (ELEM_TYPE_MASK >> ELEM_TYPE_SHIFT), MEMORY0);
 	assert(length <= (ARRAY_LENGTH_MASK >> ARRAY_LENGTH_SHIFT), MEMORY1);
 #endif
 	obj->flags.all = IS_ALLOCATED_MASK | IS_ARRAY_MASK | ((TWOBYTES)elemType << ELEM_TYPE_SHIFT) | length;
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	/*
 	union _flags
 	{
@@ -130,8 +129,8 @@ Object *memcheck_allocate(const TWOBYTES size)
 	ref = (Object *)allocate(size);
 	if (ref == JNULL)
 	{
-#if VERIFY
-		assert(outOfMemoryError != null, MEMORY5);
+#if ASSERTIONS_ENABLED
+		assert(outOfMemoryError != NULL, MEMORY5);
 #endif
 		throw_exception(outOfMemoryError);
 		return JNULL;
@@ -151,7 +150,7 @@ Object *memcheck_allocate(const TWOBYTES size)
  *
  * @param btAddr Back-track PC address, in case
  *               a static initializer needs to be invoked.
- * @return Object reference or <code>null</code> iff
+ * @return Object reference or <code>NULL</code> iff
  *         NullPointerException had to be thrown or
  *         static initializer had to be invoked.
  */
@@ -163,7 +162,7 @@ Object *new_object_checked(const byte classIndex, byte *btAddr)
 	if (dispatch_static_initializer(get_class_record(classIndex), btAddr))
 	{
 #if DEBUG_MEMORY
-		printf("New object checked returning null\n");
+		printf("New object checked returning NULL\n");
 #endif
 		return JNULL;
 	}
@@ -185,10 +184,10 @@ Object *new_object_for_class(const byte classIndex)
 #endif
 	instanceSize = get_class_record(classIndex)->classSize;
 	ref = memcheck_allocate(instanceSize);
-	if (ref == null)
+	if (ref == NULL)
 	{
 #if DEBUG_MEMORY
-		printf("New object for class returning null\n");
+		printf("New object for class returning NULL\n");
 #endif
 		return JNULL;
 	}
@@ -237,7 +236,7 @@ Object *new_primitive_array(const byte primitiveType, STACKWORD length)
 #if DEBUG_MEMORY
 	printf("Array ptr=%d\n", (int)ref);
 #endif
-	if (ref == null)
+	if (ref == NULL)
 		return JNULL;
 	set_array(ref, primitiveType, length);
 	initialize_state(ref, allocSize);
@@ -252,9 +251,9 @@ TWOBYTES get_array_size(Object *obj)
 
 void free_array(Object *objectRef)
 {
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	assert(is_array(objectRef), MEMORY7);
-#endif // VERIFY
+#endif // ASSERTIONS_ENABLED
 
 	deallocate((TWOBYTES *)objectRef, get_array_size(objectRef));
 }
@@ -290,12 +289,12 @@ Object *new_multi_array(byte elemType, byte totalDimensions,
 {
 	Object *ref;
 
-#ifdef WIMPY_MATH
+#if WIMPY_MATH
 	Object *aux;
 	TWOBYTES ne;
 #endif
 
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	assert(totalDimensions >= 1, MEMORY6);
 	assert(reqDimensions <= totalDimensions, MEMORY8);
 #endif
@@ -321,7 +320,7 @@ Object *new_multi_array(byte elemType, byte totalDimensions,
 
 	while ((*numElemPtr)--)
 	{
-#ifdef WIMPY_MATH
+#if WIMPY_MATH
 
 		aux = new_multi_array(elemType, totalDimensions - 1, reqDimensions - 1,
 			numElemPtr + 1);
@@ -339,7 +338,7 @@ Object *new_multi_array(byte elemType, byte totalDimensions,
 	return ref;
 }
 
-#ifdef WIMPY_MATH
+#if WIMPY_MATH
 
 void store_word(byte *ptr, byte aSize, STACKWORD aWord)
 {
@@ -410,10 +409,10 @@ void make_word(byte *ptr, byte aSize, STACKWORD *aWordPtr)
 	case 2:
 		*aWordPtr = (JINT)(JSHORT)(((TWOBYTES)ptr[0] << 8) | (ptr[1]));
 		return;
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	default:
 		assert(aSize == 4, MEMORY9);
-#endif // VERIFY
+#endif // ASSERTIONS_ENABLED
 	}
 #if LITTLE_ENDIAN
 	((AuxStackUnion *)aWordPtr)->st.byte3 = *ptr++;
@@ -442,12 +441,12 @@ void memory_init()
 
 	memory_init_hook();
 
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	memoryInitialized = true;
 #endif
 
 #if SEGMENTED_HEAP
-	memory_regions = null;
+	memory_regions = NULL;
 #endif
 	memory_size = 0;
 	memory_free = 0;
@@ -495,7 +494,7 @@ void memory_add_region(byte *start, byte *end)
 #endif
 	TWOBYTES contents_size;
 
-#if DEBUG_MY_ALLOCMEM
+#if DEBUG_MEMORY
 	printf("memory_add_region(%lu, %lu)\n", start, end);
 #endif
 
@@ -531,7 +530,7 @@ void memory_add_region(byte *start, byte *end)
 	printf("  contents_size:  %5d\n", (int)contents_size);
 #endif
 #endif
-#if DEBUG_MY_ALLOCMEM
+#if DEBUG_MEMORY
 	printf("Exit memory_add_region()\n");
 	printf("  start:          %5d\n", (int)start);
 	printf("  end:            %5d\n", (int)end);
@@ -561,7 +560,7 @@ TWOBYTES *allocate(TWOBYTES size)
 #endif
 
 #if SEGMENTED_HEAP
-	for (region = memory_regions; region != null; region = region->next)
+	for (region = memory_regions; region != NULL; region = region->next)
 #endif
 	{
 		TWOBYTES *ptr = &(region->contents);
@@ -637,7 +636,7 @@ TWOBYTES *allocate(TWOBYTES size)
  */
 void deallocate(TWOBYTES *p, TWOBYTES size)
 {
-#if VERIFY
+#if ASSERTIONS_ENABLED
 	assert(size <= (FREE_BLOCK_SIZE_MASK >> FREE_BLOCK_SIZE_SHIFT), MEMORY3);
 #endif
 

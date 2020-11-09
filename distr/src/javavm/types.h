@@ -3,8 +3,6 @@
 
 #include "platform_config.h"
 
-typedef byte boolean;
-
 /*
  * The following types must be defined in platform_config.h:
  * JBYTE

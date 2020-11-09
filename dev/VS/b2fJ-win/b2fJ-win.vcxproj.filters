@@ -59,9 +59,6 @@
     <ClInclude Include="..\..\..\distr\src\javavm\classes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\javavm\configure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\distr\src\javavm\constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\distr\src\javavm\language.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\javavm\limits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\distr\src\javavm\memory.h">
@@ -104,16 +98,7 @@
     <ClInclude Include="..\..\..\distr\src\javavm\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\javavm\load.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\distr\src\javavm\tvmemul.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\platform\win\compiler_config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\platform\win\platform_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\distr\src\platform\win\platform_hooks.h">
@@ -122,10 +107,16 @@
     <ClInclude Include="..\..\..\distr\src\javavm\types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\javavm\debug.h">
+    <ClInclude Include="..\..\..\distr\src\javavm\java_code.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\distr\src\javavm\java_code.h">
+    <ClInclude Include="..\..\..\distr\src\platform\win\platform_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\nativeemul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\conversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -154,13 +145,10 @@
     <ClCompile Include="..\..\..\distr\src\platform\win\platform_native.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\distr\src\platform\win\load.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\distr\src\platform\win\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\distr\src\javavm\debug.c">
+    <ClCompile Include="..\..\..\distr\src\javavm\trace.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
