@@ -1,6 +1,7 @@
 #ifndef _TRACE_H
 #define _TRACE_H
 
+#include <stdbool.h>
 #include "platform_config.h"
 
 #if ASSERTIONS_ENABLED
@@ -58,7 +59,7 @@
 
 #define assert( cond, code)  assert_hook( cond, code);
 
-extern void assert_hook (boolean aCond, int aCode);
+extern void assert_hook (bool aCond, int aCode);
 
 #else
 

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +14,7 @@
 #include "trace.h"
 
 #if ASSERTIONS_ENABLED
-static boolean memoryInitialized = false;
+static bool memoryInitialized = false;
 #endif
 
 #define NULL_OFFSET 0xFFFF

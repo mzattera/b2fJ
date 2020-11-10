@@ -41,9 +41,6 @@ void readBinary()
 
 int main ()
 {
-#if DEBUG_STARTUP
-	printf ("Reading binary %s\n", file);
-#endif
 	readBinary ();
 
 #if DEBUG_STARTUP

@@ -53,6 +53,8 @@ if ERRORLEVEL 1 goto end
 if ERRORLEVEL 1 goto end
 %CC_CLI% javavm\tvmemul.c
 if ERRORLEVEL 1 goto end
+%CC_CLI% javavm\trace.c
+if ERRORLEVEL 1 goto end
 
 %CC_CLI% platform\c64\platform_native.c
 if ERRORLEVEL 1 goto end
@@ -74,7 +76,7 @@ set "CL_PARAMS="
 set "CL_CLI=%CL% %CL_PARAMS%"
 
 @echo Linking btfJ.prg
-%CL_CLI% -t c64 -o b2fJ.prg exceptions.o interpreter.o language.o main.o memory.o nativeemul.o platform_native.o threads.o tvmemul.o c64.lib
+%CL_CLI% -t c64 -o b2fJ.prg exceptions.o interpreter.o language.o main.o memory.o nativeemul.o platform_native.o threads.o tvmemul.o trace.o c64.lib
 @if not exist b2fJ.prg (
 	echo Some compilation error happened.
 	goto end
