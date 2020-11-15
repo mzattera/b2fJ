@@ -18,9 +18,9 @@
 #include "threads.h"
 
 
-/**
- * NOTE: The technique is not the same as that used in TinyVM.
- */
+ /**
+  * NOTE: The technique is not the same as that used in TinyVM.
+  */
 void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	/* ClassRecord	*classRecord; */
@@ -28,7 +28,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 	/* Maxi: First check wether there is a specific plantform implementation for a method. */
 	if (dispatch_platform_native(signature, paramBase))
 		return;
-	
+
 	/* If not, use standard code */
 	switch (signature)
 	{
@@ -119,26 +119,50 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		push_word(paramBase[0]);
 		return;
 	case putCharToStdout0_4I_5V:
-		putc((int)paramBase[1], stdout);
+		putc((int)paramBase[0], stdout);
+		return;
+	case getCharFromStdin0_4_5I:
+		push_word(getc(stdin));
 		return;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
-		{
-			String* s = (String*)word2obj(paramBase[1]);
-			if ((s != NULL) && (s->characters)) {
-				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
-				JCHAR *pA = jchar_array(obj);
-				int length = get_array_length(obj);
-				int i = 0;
-				for (; i<length; ++i) {
-					putc((int)pA[i], stdout);
-				}
+	{
+		String* s = (String*)word2obj(paramBase[0]);
+		if ((s != NULL) && (s->characters)) {
+			Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
+			JCHAR *pA = jchar_array(obj);
+			int length = get_array_length(obj);
+			int i = 0;
+			for (; i < length; ++i) {
+				putc((int)pA[i], stdout);
 			}
 		}
-		return;
+	}
+	return;
+#if DEBUG_JAVA
+	case dump0_4Ljava_3lang_3Object_2_5V:
+	{
+		Object* o = (Object*)word2obj(paramBase[0]);
+		printf("adr %p %u \n", o, ((unsigned int)o + HEADER_SIZE));
+		printf("all %x \n", o->flags.all);
+		printf("siz %x \n", o->flags.freeBlock.size);
+		printf("alo %x \n", o->flags.freeBlock.isAllocated);
+		printf("cls %x \n", o->flags.objects.class);
+		printf("pad %x \n", o->flags.objects.padding);
+		printf("mrk %x \n", o->flags.objects.mark);
+		printf("arr %x \n", o->flags.objects.isArray);
+		printf("alo %x \n", o->flags.objects.isAllocated);
+		printf("len %x \n", o->flags.arrays.length);
+		printf("typ %x \n", o->flags.arrays.type);
+		printf("mrk %x \n", o->flags.arrays.mark);
+		printf("arr %x \n", o->flags.arrays.isArray);
+		printf("alo %x \n", o->flags.arrays.isAllocated);
+	}
+	return;
+#endif
 	default:
-		#if DEBUG_METHODS
-			printf("Received bad native method code: %d\n", signature);
-		#endif
+#if DEBUG_METHODS
+		printf("Received bad native method code: %d\n", signature);
+#endif
 		throw_exception(noSuchMethodError);
 	}
 }

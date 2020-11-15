@@ -587,6 +587,8 @@ void monitor_notify_unchecked(Object *obj, const bool all)
 void enter_monitor (Thread *pThread, Object* obj)
 {
 #if DEBUG_MONITOR
+
+
   printf("enter_monitor of %d\n",(int)obj);
 #endif
 

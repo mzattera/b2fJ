@@ -3,8 +3,8 @@
  * different platform b2fJ is ported to.
  *
 */
-#ifndef _PLATFORM_H_
-#define _PLATFORM_H_
+#ifndef _PLATFORM_CONFIG_H_
+#define _PLATFORM_CONFIG_H_
 
 #include <stddef.h>
 #include <stdint.h>
@@ -25,12 +25,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define __INLINED			inline		/* Used to mark a method "inline" */
 
 /* To align with Java, the C structures we use must be packed. */
-#ifdef __GNUC__
-	#define __PACKED(DEC)	DEC __attribute__((__packed__))
-#endif
-#ifdef _MSC_VER
-	#define __PACKED(DEC)	__pragma(pack(push, 1)) DEC __pragma(pack(pop))
-#endif
+#define __PACKED(DEC)		__pragma(pack(push, 1)) DEC __pragma(pack(pop))
 
 #define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
@@ -86,16 +81,17 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 /* VM debug settings */
 
-#define ASSERTIONS_ENABLED			0	/* If false, disables all assertions */
+#define ASSERTIONS_ENABLED			1	/* If false, disables all assertions */
 
-#define DEBUG_STARTUP     0
-#define DEBUG_MEMORY      0
-#define DEBUG_THREADS     0
-#define DEBUG_METHODS     0
-#define DEBUG_BYTECODE    0
-#define DEBUG_FIELDS      0
-#define DEBUG_OBJECTS     0
-#define DEBUG_EXCEPTIONS  0
-#define DEBUG_MONITOR     0
+#define DEBUG_STARTUP		0
+#define DEBUG_MEMORY		0
+#define DEBUG_THREADS		0
+#define DEBUG_METHODS		0
+#define DEBUG_BYTECODE		0
+#define DEBUG_FIELDS		0
+#define DEBUG_OBJECTS		0
+#define DEBUG_EXCEPTIONS	0
+#define DEBUG_MONITOR		0
+#define DEBUG_JAVA			1
 
-#endif // _PLATFORM_H_
+#endif // _PLATFORM_CONFIG_H_

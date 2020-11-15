@@ -57,11 +57,20 @@ getMessage()Ljava/lang/String;
 floatToRawIntBits(F)I
 intBitsToFloat(I)F
 
+# b2fj.io.ConsoleInputStream
+getCharFromStdin0()I
+
 # b2fj.io.ConsoleOutputStream
 putCharToStdout0(I)V
+
+# b2fj.io.ConsolePrintStream
 putStringToStdout0(Ljava/lang/String;)V
 
 # b2fj.memory.Memory
 peek(I)I
 poke(II)V
+
+# b2fj.util.Debug
+dump0(Ljava/lang/Object;)V
+
 

@@ -90,13 +90,13 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 	switch (signature)
 	{
 	case putCharToStdout0_4I_5V:
-		putc(int2nativeChar((int)paramBase[1]), stdout);
+		putc(int2nativeChar((int)paramBase[0]), stdout);
 		return true;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
 		{
 			int length = 0;
 			int i = 0;
-			String* s = (String*)word2obj(paramBase[1]);
+			String* s = (String*)word2obj(paramBase[0]);
 			if ((s != NULL) && (s->characters)) {
 				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
 				JCHAR *pA = jchar_array(obj);

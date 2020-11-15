@@ -18,7 +18,10 @@ package java.io;
  * must always provide a method that returns the next byte of input.
  *
  * @author  Arthur van Hoff
- * @version 1.36, 02/02/00
+ * @author 	Massimiliano "Maxi" Zattera
+ * 
+ * @version 1.37, 10/11/20
+ * 
  * @see	 java.io.BufferedInputStream
  * @see	 java.io.ByteArrayInputStream
  * @see	 java.io.DataInputStream
@@ -29,8 +32,6 @@ package java.io;
  */
 public abstract class InputStream implements Closeable
 {
-	private static final int SKIP_BUF_LEN = 32;
-
 	/**
 	 * Reads the next byte of data from the input stream. The value byte is
 	 * returned as an <code>int</code> in the range <code>0</code> to
@@ -196,20 +197,11 @@ public abstract class InputStream implements Closeable
 	 */
 	public int skip(int n) throws IOException
 	{
-		byte[] buffer = new byte[SKIP_BUF_LEN];
-		int nbackup = n;
+		int i = 0;
+		while ((i < n) && (read() != -1))
+			++i;
 		
-		while (n > 0)
-		{
-			int readlen = (n >= SKIP_BUF_LEN) ? SKIP_BUF_LEN : (int)n; 			
-			int len = this.read(buffer, 0, readlen);
-			if (len < 0)
-				break;
-			
-			n -= len;
-		}
-		
-		return nbackup - n;
+		return i;
 	}
 
 	/**
@@ -268,7 +260,7 @@ public abstract class InputStream implements Closeable
 	 *					  the mark position becomes invalid.
 	 * @see	 java.io.InputStream#reset()
 	 */
-	public synchronized void mark(int readlimit) {
+	public void mark(int readlimit) {
 		//nothing
 	}
 
@@ -317,8 +309,8 @@ public abstract class InputStream implements Closeable
 	 * @see	 java.io.InputStream#mark(int)
 	 * @see	 java.io.IOException
 	 */
-	public synchronized void reset() throws IOException {
-		throw new IOException("mark/reset not supported");
+	public void reset() throws IOException {
+		throw new IOException("reset not supported");
 	}
 
 	/**
@@ -334,5 +326,4 @@ public abstract class InputStream implements Closeable
 	public boolean markSupported() {
 		return false;
 	}
-
 }

@@ -27,7 +27,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 /* To align with Java, the C structures we use must be packed. */
 #define __PACKED(DEC)		DEC
 
-#define __TWOBYTE_BITFIELD	int	/* A 16 bits bitfield */
+#define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
 /***********************************************************************************************************
 * Platform specific settings.
@@ -83,14 +83,15 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 #define ASSERTIONS_ENABLED			0	/* If false, disables all assertions */
 
-#define DEBUG_STARTUP     0
-#define DEBUG_MEMORY      0
-#define DEBUG_THREADS     0
-#define DEBUG_METHODS     0
-#define DEBUG_BYTECODE    0
-#define DEBUG_FIELDS      0
-#define DEBUG_OBJECTS     0
-#define DEBUG_EXCEPTIONS  0
-#define DEBUG_MONITOR     0
+#define DEBUG_STARTUP     	0
+#define DEBUG_MEMORY      	0
+#define DEBUG_THREADS     	0
+#define DEBUG_METHODS     	0
+#define DEBUG_BYTECODE    	0
+#define DEBUG_FIELDS      	0
+#define DEBUG_OBJECTS     	0
+#define DEBUG_EXCEPTIONS  	0
+#define DEBUG_MONITOR     	0
+#define DEBUG_JAVA     		1
 
 #endif // _PLATFORM_H_

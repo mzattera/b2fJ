@@ -33,8 +33,10 @@
 #define getMessage_4_5Ljava_3lang_3String_2 26
 #define floatToRawIntBits_4F_5I 27
 #define intBitsToFloat_4I_5F 28
-#define putCharToStdout0_4I_5V 29
-#define putStringToStdout0_4Ljava_3lang_3String_2_5V 30
-#define peek_4I_5I 31
-#define poke_4II_5V 32
+#define getCharFromStdin0_4_5I 29
+#define putCharToStdout0_4I_5V 30
+#define putStringToStdout0_4Ljava_3lang_3String_2_5V 31
+#define peek_4I_5I 32
+#define poke_4II_5V 33
+#define dump0_4Ljava_3lang_3Object_2_5V 34
 #endif // _SPECIALSIGNATURES_H
