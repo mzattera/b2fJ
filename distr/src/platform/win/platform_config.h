@@ -81,7 +81,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 /* VM debug settings */
 
-#define ASSERTIONS_ENABLED			1	/* If false, disables all assertions */
+#define ASSERTIONS_ENABLED	0	/* If false, disables all assertions */
 
 #define DEBUG_STARTUP		0
 #define DEBUG_MEMORY		0
@@ -92,6 +92,6 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define DEBUG_OBJECTS		0
 #define DEBUG_EXCEPTIONS	0
 #define DEBUG_MONITOR		0
-#define DEBUG_JAVA			1
+#define DEBUG_JAVA			0
 
 #endif // _PLATFORM_CONFIG_H_
