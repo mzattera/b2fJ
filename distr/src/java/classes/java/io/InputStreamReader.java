@@ -25,6 +25,8 @@
 
 package java.io;
 
+import b2fj.io.ConsoleInputStream;
+
 /**
  * An InputStreamReader is a bridge from byte streams to character streams: It
  * reads bytes and decodes them into characters using a specified
@@ -68,7 +70,9 @@ public class InputStreamReader extends Reader {
 	 */
 	public InputStreamReader(InputStream in) {
 		super(in);
-		lock = in;
+		// Only Hitch knows why the below is needed, but if it is omitted, lock is not
+		// properly set here (but it is in superclass)
+		lock = ConsoleInputStream.getInstance();
 	}
 
 	/**
@@ -146,35 +150,10 @@ public class InputStreamReader extends Reader {
 	 *
 	 * @exception IOException If an I/O error occurs
 	 */
+	@Override
 	public int read() throws IOException {
-		return ((InputStream) lock).read();
-	}
-
-	/**
-	 * Reads characters into a portion of an array.
-	 *
-	 * @param cbuf   Destination buffer
-	 * @param offset Offset at which to start storing characters
-	 * @param length Maximum number of characters to read
-	 *
-	 * @return The number of characters read, or -1 if the end of the stream has
-	 *         been reached
-	 *
-	 * @exception IOException If an I/O error occurs
-	 */
-	public int read(char cbuf[], int offset, int length) throws IOException {
 		synchronized (lock) {
-			int i;
-			for (i = offset; i < (offset + length); ++i) {
-				char c = (char) ((InputStream) lock).read();
-				if (c == -1)
-					break;
-				cbuf[i] = c;
-			}
-			if (i > offset || length == 0)
-				return i - offset;
-			else
-				return -1;
+			return ((InputStream) lock).read();
 		}
 	}
 
@@ -185,11 +164,25 @@ public class InputStreamReader extends Reader {
 	 *
 	 * @exception IOException If an I/O error occurs
 	 */
+	@Override
 	public boolean ready() throws IOException {
-		return (((InputStream) lock).available() > 0);
+		synchronized (lock) {
+			return (((InputStream) lock).available() > 0);
+		}
 	}
 
+	/**
+	 * Closes the stream and releases any system resources associated with it. Once
+	 * the stream has been closed, further read(), ready(), mark(), reset(), or
+	 * skip() invocations will throw an IOException. Closing a previously closed
+	 * stream has no effect.
+	 *
+	 * @exception IOException If an I/O error occurs
+	 */
+	@Override
 	public void close() throws IOException {
-		((InputStream) lock).close();
+		synchronized (lock) {
+			((InputStream) lock).close();
+		}
 	}
 }

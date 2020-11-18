@@ -156,7 +156,14 @@ public final class System {
 		return Runtime.getRuntime();
 	}
 
-	public static InputStream in = ConsoleInputStream.getInstance();
+	public static InputStream in = null;
+	static {
+		if (in == null) {
+			synchronized (Class.lock) {
+				in = ConsoleInputStream.getInstance();
+			}
+		}
+	}
 
 	/**
 	 * Redirect System.in
@@ -167,7 +174,12 @@ public final class System {
 		System.in = in;
 	}
 
-	public static PrintStream out = ConsolePrintStream.getInstance();
+	public static PrintStream out = null;
+	static {
+		synchronized (Class.lock) {
+			out = ConsolePrintStream.getInstance();
+		}
+	}
 
 	/**
 	 * Redirect System.out

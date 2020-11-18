@@ -15,9 +15,14 @@ import java.io.PrintStream;
  */
 public final class ConsolePrintStream extends PrintStream {
 
-	private static final ConsolePrintStream instance = new ConsolePrintStream();
+	private static ConsolePrintStream instance = null;
 
 	public static ConsolePrintStream getInstance() {
+		if (instance == null) {
+			synchronized (Class.lock) {
+				instance = new ConsolePrintStream();
+			}
+		}
 		return instance;
 	}
 

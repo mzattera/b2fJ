@@ -16,9 +16,14 @@ import java.io.OutputStream;
  */
 public class ConsoleOutputStream extends OutputStream {
 
-	private static final ConsoleOutputStream instance = new ConsoleOutputStream();
+	private static ConsoleOutputStream instance = null;
 
 	public static ConsoleOutputStream getInstance() {
+		if (instance == null) {
+			synchronized (Class.lock) {
+				instance = new ConsoleOutputStream();
+			}
+		}
 		return instance;
 	}
 

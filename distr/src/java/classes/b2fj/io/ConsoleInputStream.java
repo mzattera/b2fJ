@@ -26,9 +26,14 @@ import java.io.InputStream;
  */
 public class ConsoleInputStream extends InputStream {
 
-	private static final ConsoleInputStream instance = new ConsoleInputStream();
+	private static ConsoleInputStream instance = null;
 
 	public static ConsoleInputStream getInstance() {
+		if (instance == null) {
+			synchronized (Class.lock) {
+				instance = new ConsoleInputStream();
+			}
+		}
 		return instance;
 	}
 
@@ -41,7 +46,7 @@ public class ConsoleInputStream extends InputStream {
 	 * @return the next byte of data, or <code>-1</code> if the end of the stream is
 	 *         reached.
 	 */
-	private native int readCharFromStdin0();
+	private native int getCharFromStdin0();
 
 	/**
 	 * Reads the next byte of data from the input stream. The value byte is returned
@@ -59,7 +64,7 @@ public class ConsoleInputStream extends InputStream {
 	 */
 	@Override
 	public synchronized int read() {
-		return readCharFromStdin0();
+		return getCharFromStdin0();
 	}
 
 	/**
@@ -103,6 +108,7 @@ public class ConsoleInputStream extends InputStream {
 	 *         there is no more data because the end of the stream has been reached.
 	 * @see java.io.InputStream#read(byte[], int, int)
 	 */
+	@Override
 	public synchronized int read(byte b[]) {
 		try {
 			return super.read(b, 0, b.length);
@@ -176,6 +182,7 @@ public class ConsoleInputStream extends InputStream {
 	 *         there is no more data because the end of the stream has been reached.
 	 * @see java.io.InputStream#read()
 	 */
+	@Override
 	public synchronized int read(byte b[], int off, int len) {
 		try {
 			return super.read(b, off, len);
