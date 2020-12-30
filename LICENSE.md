@@ -9,7 +9,7 @@ b2fJ is distributed under [MOZILLA PUBLIC LICENSE Version 1.0](http://website-ar
 b2fJ is based on the [leJOS](http://www.lejos.org/) project  which is also distributed under MPL 1.0.
 At present, b2fJ shares most of its code with leJOX RCX JVM and jtool library, being mainly a port of 
 leJOS under 8-bit architectures (most notably the Commodore 64). Java class library is taken from
-leJOS NXJ class library, with minor adaptation.
+leJOS NXJ class library, with minor adaptations and additions from OpenJDK (see below).
 
 leJOS is a tiny Java Virtual Machine targeting different Lego Mindstorms (RCX, NXJ & EV3); the project has many contributors, among them, Brian Bagnall, Jürgen Stuber and Paul Andrews.
 
