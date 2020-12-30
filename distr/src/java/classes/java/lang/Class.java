@@ -4,10 +4,14 @@ package java.lang;
  * Not functional. It's here to satisfy javac and jikes.
  */
 public class Class {
+
 	/**
 	 * Used to lock at class level, as sometime we need in static methods.
 	 */
-	public final static Object lock = new Object();
+	public static Object lock = null;
+	static {
+		lock = new Object();
+	}
 
 	/**
 	 * @exception java.lang.ClassNotFoundException Thrown always in TinyVM.

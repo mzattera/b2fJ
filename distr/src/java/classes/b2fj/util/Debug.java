@@ -69,6 +69,36 @@ public final class Debug {
 	 */
 	public static void exit (String msg, int error) {
 		putStringToStdout0(msg);
+		putStringToStdout0("\nError: " + error + "\n");
 		System.exit(error);
 	}	
+	
+	/**
+	 * Tests a condition and shows an error message on failure.
+	 * 
+	 * @return the condition, as it is evaluated. 
+	 */
+	public static boolean check (boolean cond, String msg) {
+		if (!cond) print (msg);
+		return cond;
+	}
+	
+	/**
+	 * Tests a condition and shows an error message on failure, or an OK message on success.
+	 * 
+	 * @return the condition, as it is evaluated. 
+	 */
+	public static boolean check (boolean cond, String msg, String okMsg) {
+		if (!cond) print (msg); else print (okMsg);
+		return cond;
+	}
+	
+	/**
+	 * Tests a condition and exits with an error message and code on failure.
+	 * 
+	 * @return the condition, as it is evaluated. 
+	 */
+	public static void check (boolean cond, String msg, int error) {
+		if (!cond) exit (msg, error);
+	}
 }

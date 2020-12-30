@@ -175,9 +175,13 @@ public final class System {
 	}
 
 	public static PrintStream out = null;
+	public static PrintStream err = null;
 	static {
-		synchronized (Class.lock) {
-			out = ConsolePrintStream.getInstance();
+		if (out == null) {
+			synchronized (Class.lock) {
+				out = ConsolePrintStream.getInstance();
+				err = out;
+			}
 		}
 	}
 
@@ -189,8 +193,6 @@ public final class System {
 	public static void setOut(PrintStream out) {
 		System.out = out;
 	}
-
-	public static PrintStream err = ConsolePrintStream.getInstance();
 
 	/**
 	 * Redirect System.err

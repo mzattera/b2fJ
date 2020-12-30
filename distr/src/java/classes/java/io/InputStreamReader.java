@@ -25,8 +25,6 @@
 
 package java.io;
 
-import b2fj.io.ConsoleInputStream;
-
 /**
  * An InputStreamReader is a bridge from byte streams to character streams: It
  * reads bytes and decodes them into characters using a specified
@@ -70,9 +68,9 @@ public class InputStreamReader extends Reader {
 	 */
 	public InputStreamReader(InputStream in) {
 		super(in);
-		// Only Hitch knows why the below is needed, but if it is omitted, lock is not
-		// properly set here (but it is in superclass)
-		lock = ConsoleInputStream.getInstance();
+
+		// The below is a temporary patch for  https://github.com/mzattera/b2fJ/issues/8
+		lock = in;
 	}
 
 	/**

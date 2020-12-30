@@ -28,7 +28,8 @@ public final class ConsolePrintStream extends PrintStream {
 
 	private ConsolePrintStream() {
 		super(ConsoleOutputStream.getInstance());
-		// Hitch only knows why the below is necessary, otherwise out won't be set properly
+		
+		// The below is a temporary patch for  https://github.com/mzattera/b2fJ/issues/8
 		out = ConsoleOutputStream.getInstance();
 	}
 
@@ -63,7 +64,7 @@ public final class ConsolePrintStream extends PrintStream {
 	protected void writeln(String s) {
 		synchronized (out) {
 			putStringToStdout0(s);
-			((ConsoleOutputStream)out).write('\n');
+			((ConsoleOutputStream) out).write('\n');
 		}
 	}
 }

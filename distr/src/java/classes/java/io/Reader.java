@@ -143,10 +143,12 @@ public abstract class Reader implements Readable, Closeable {
 	 * @exception IOException If an I/O error occurs
 	 */
 	public int read(char cbuf[], int off, int len) throws IOException {
-		synchronized (lock) {
+		synchronized (this.lock) {
 			int i;
 			for (i = off; i < (off + len); ++i) {
-				char c = (char) ((InputStream) lock).read();
+				
+				char c = (char) ((InputStream) this.lock).read();
+
 				if (c == -1)
 					break;
 				cbuf[i] = c;

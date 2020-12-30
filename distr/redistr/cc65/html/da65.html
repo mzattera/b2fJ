@@ -151,15 +151,17 @@ output file in form of comments.</P>
 <UL>
 <LI>6502</LI>
 <LI>6502x</LI>
+<LI>6502dtv</LI>
 <LI>65sc02</LI>
 <LI>65c02</LI>
 <LI>huc6280</LI>
 <LI>4510</LI>
 </UL>
 </P>
-<P>6502x is for the NMOS 6502 with unofficial opcodes. huc6280 is the CPU of
-the PC engine. 4510 is the CPU of the Commodore C65. Support for the 65816
-currently is not available.</P>
+<P>6502x is for the NMOS 6502 with unofficial opcodes. 6502dtv is for the 
+emulated CPU of the C64DTV device. huc6280 is the CPU of the PC engine. 
+4510 is the CPU of the Commodore C65. Support for the 65816 currently 
+is not available.</P>
 
 <P>
 <A NAME="option--formfeeds"></A> </P>
@@ -286,7 +288,10 @@ for this CPU. Invalid opcodes are translated into <CODE>.byte</CODE> commands.</
 <A HREF="#option--cpu">--cpu</A></CODE>, the
 disassembler may be told to recognize either the 65SC02 or 65C02 CPUs. The
 latter understands the same opcodes as the former, plus 16 additional bit
-manipulation and bit test-and-branch commands.</P>
+manipulation and bit test-and-branch commands. Using 6502x as CPU the illegal 
+opcodes of 6502 CPU are detected and displayed. 6502dtv setting recognizes the 
+emulated CPU instructons of the C64DTV device.</P>
+
 <P>When disassembling 4510 code, due to handling of 16-bit wide branches, da65
 can produce output that can not be re-assembled, when one or more of those
 branches point outside of the disassembled memory. This can happen when text

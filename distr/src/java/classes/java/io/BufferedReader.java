@@ -14,7 +14,12 @@ public class BufferedReader extends Reader {
 		this(reader, DEFAULT_BUFFERSIZE);
 	}
 
-	public BufferedReader(Reader reader, int size) {
+	public BufferedReader(Reader reader, int size) {		
+		super(reader);
+
+		// The below is a temporary patch for  https://github.com/mzattera/b2fJ/issues/8
+		lock = reader;
+
 		if (size < MIN_BUFFERSIZE)
 			size = MIN_BUFFERSIZE;
 
@@ -43,8 +48,9 @@ public class BufferedReader extends Reader {
 				if (this.offset >= this.limit) {
 					int len = 0;
 					// some Reader may be return 0, which is bad behavior actually
-					while (len == 0)
-						len = this.reader.read(this.buffer, 0, this.buffer.length);
+					while (len == 0) {
+						len = reader.read(this.buffer, 0, this.buffer.length);
+					}
 					if (len < 0)
 						return false;
 
@@ -111,20 +117,20 @@ public class BufferedReader extends Reader {
 
 	public String readLine() throws IOException {
 		synchronized (lock) {
-			int c = this.read();
+			int c = read();
 			if (c < 0)
 				return null;
 
 			StringBuilder sb = new StringBuilder();
 			while (c != '\n' && c != '\r') {
 				sb.append((char) c);
-				c = this.read();
+				c = read();
 
 				if (c < 0)
 					break;
 			}
 
-			this.skipLF = c == '\r';
+			skipLF = (c == '\r');
 			return sb.toString();
 		}
 	}

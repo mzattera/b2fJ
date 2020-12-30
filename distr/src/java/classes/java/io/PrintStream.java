@@ -25,6 +25,8 @@
 
 package java.io;
 
+import b2fj.io.ConsoleOutputStream;
+
 /**
  * A <code>PrintStream</code> adds functionality to another output stream,
  * namely the ability to print representations of various data values
@@ -92,6 +94,9 @@ public class PrintStream extends FilterOutputStream implements Appendable, Close
 	private PrintStream(boolean autoFlush, OutputStream out) {
 		super(out);
 		this.autoFlush = autoFlush;
+		
+		// The below is a temporary patch for  https://github.com/mzattera/b2fJ/issues/8
+		out = ConsoleOutputStream.getInstance();		
 	}
 
 	/*

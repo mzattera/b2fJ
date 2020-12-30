@@ -678,9 +678,9 @@ disk. Otherwise they will be lost. Operating area is the <CODE>curDirHead</CODE>
 <P>This function returns the number of free blocks on the current disk. It is counted using data in
 <CODE>curDirHead</CODE> so you must initialize the disk before calling it.</P>
 
-<H3>ChkDskGEOS</H3>
+<H3>ChkDkGEOS</H3>
 
-<P><CODE>char ChkDskGEOS (void)</CODE></P>
+<P><CODE>char ChkDkGEOS (void)</CODE></P>
 <P>This functions checks <CODE>curDirHead</CODE> for the GEOS Format identifier. It returns either true or false,
 and also sets <CODE>isGEOS</CODE> properly. You must initialize the disk before using this.</P>
 
@@ -801,19 +801,20 @@ checked with <CODE>ChkDkGEOS</CODE> and the disk name is updated in the internal
 
 <P><CODE>struct filehandle *Get1stDirEntry (void)</CODE></P>
 <P><CODE>struct filehandle *GetNxtDirEntry (void)</CODE></P>
-<P>These two functions are best suited for scanning the whole directory for particular files. Note that
-the returned filehandles describe all file slots in the directory - even those with deleted files.
-The return value can be obtained by casting both sides to <CODE>unsigned</CODE> - as in the <CODE>SetNextFree</CODE>
-function or read directly after a call to those two functions from <CODE>r5</CODE>. The current sector number
-is in <CODE>r1</CODE> and the sector data itself is in <CODE>diskBlkBuf</CODE>.</P>
+<P>Those two functions are best suited for scanning the whole directory for particular files. Note that
+the returned filehandles describe all file slots in the directory -- even those with deleted files.
+The return value is <CODE>NULL</CODE> if there are no more slots, or if there was a disk error.  The
+<CODE>_oserror</CODE> variable is non-zero if it was a disk error (see <CODE>geos/gdisk.h</CODE>).  The current
+directory track and sector numbers are in <CODE>r1L</CODE> and <CODE>r1H</CODE>.  The sector data itself is in
+<CODE>diskBlkBuf</CODE>.</P>
 
 <H3>FindFile</H3>
 
 <P><CODE>char FindFile (char *fName)</CODE></P>
-<P>This function scans the whole directory for the given filename. It returns either 0 (success) or 5
-(FILE_NOT_FOUND, defined in <CODE>gdisk.h</CODE>) or any other fatal disk read error. After a successful
-<CODE>FindFile</CODE> you will have <CODE>struct filehandle</CODE> at <CODE>dirEntryBuf</CODE> filled with the file's data and
-other registers set as described in <CODE>GetNxtDirEntry</CODE>.</P>
+<P>This function scans the whole directory for the given filename. It returns either 0 (success), 5
+(FILE_NOT_FOUND, defined in <CODE>geos/gdisk.h</CODE>), or any other fatal disk read error. After a successful
+<CODE>FindFile()</CODE>, you will have <CODE>struct filehandle</CODE> at <CODE>dirEntryBuf</CODE> filled with the file's data, and
+other registers set as described in <CODE>GetNxtDirEntry()</CODE>.</P>
 
 <H3>FindFTypes</H3>
 
@@ -914,7 +915,7 @@ or even non-exist (<CODE>{NULL,NULL}</CODE>). Any other numbers represent the st
 a particular file.</P>
 <P>In GEOS there can be only one file opened at a time. Upon opening a VLIR file some information
 about it is copied into memory. You can retrieve the records table at <CODE>fileTrScTab</CODE> (table of
-128 <CODE>struct tr_se</CODE>) and from <CODE>VLIRInfo</CODE> (<CODE>struct VLIR_info</CODE>.
+128 <CODE>struct tr_se</CODE>) and from <CODE>VLIRInfo</CODE> (<CODE>struct VLIR_info</CODE>).
 E.g. the size of whole VLIR file can be retrieved by reading <CODE>VLIRInfo.fileSize</CODE>.</P>
 
 <H3>OpenRecordFile</H3>
