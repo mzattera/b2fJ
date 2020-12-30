@@ -15,9 +15,13 @@ leJOS is a tiny Java Virtual Machine targeting different Lego Mindstorms (RCX, N
 
 leJOS was originally based on [TinyVM](http://tinyvm.sourceforge.net/) by Jose H. Solorzano.
 
+
 ## Dependencies
 
-Please note that files in "`.\redistr`" folder are *neither* developed *nor* modified by the author of b2fJ and are only re-distributed accordingly to what is permitted by correspinding licenses.
+Some of the classes in the standard library come from [OpenJDK](http://hg.openjdk.java.net/); their copyright belongs to Oracle and/or its affiliates. They are 
+redistributed under [General Public License version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
+
+Please note that files in "`.\redistr`" folder are *neither* developed *nor* modified by the author of b2fJ and are only re-distributed accordingly to what is permitted by corresponding licenses.
 
 * [cc65](https://cc65.github.io/) is a C cross-assembler for various 6502-based target systems, including the Commodore 64; it is  used to compile the JVM for the target platform.
 Initially developed by [Ullrich von Bassewitz](http://www.cc65.org/), it is now maintained by Oliver Schmidt.
@@ -26,7 +30,7 @@ Initially developed by [Ullrich von Bassewitz](http://www.cc65.org/), it is now 
 
 * [Apache Commons BCEL](http://commons.apache.org/bcel/) and [Apache Commons CLI](https://commons.apache.org/cli/) libraries (`.jar`) are distributed under the [Apache license](http://www.apache.org/licenses/).
 
-## Thanks
+## Acknowledgments
 
 *** WARM THANKS *** to all the people that contributed to the above mentioned projects, whithout whom b2fJ would not have been possible.
 
