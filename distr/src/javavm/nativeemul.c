@@ -25,7 +25,7 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	/* ClassRecord	*classRecord; */
 
-	/* Maxi: First check wether there is a specific plantform implementation for a method. */
+	/* Maxi: First check wether there is a specific platform implementation for a method. */
 	if (dispatch_platform_native(signature, paramBase))
 		return;
 

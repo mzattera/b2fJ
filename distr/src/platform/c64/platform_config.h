@@ -67,7 +67,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 /* If not 0, threads in the DEAD state are  removed from the circular list. Recommended. */
 #define REMOVE_DEAD_THREADS			1	
 
-/* Set to non-zero if we want the scheduler to perform priority inversion avoidance */
+/* Set to non-zero if we want the scheduler to perform priority inversion avoidance (???) */
 #define PI_AVOIDANCE				1
 
 #define TICKS_PER_TIME_SLICE		16	/* After this number of instructions, switch thread */
@@ -77,7 +77,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 #define RECORD_REFERENCES			1	/* ??? leave this 1 */
 
-#define SAFE                        1	/* Slightly safer code (???) */
+#define SAFE                        1	/* Slightly safer code (???) leave this 1 */
 
 /* VM debug settings */
 

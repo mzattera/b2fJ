@@ -145,10 +145,18 @@ emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you
 
 # Expanding b2fJ
 
-Under `src\java\classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes 
-that replace the default Java library and some custom classes to support features of the target platform (e.g. C64 sprites).
+## Porting to other platforms
+
+Under `src\platform` there is one folder for each of the supported platforms. Each folder contains (hopefully) all the code that is dependant on a 
+particular (cross)compiler or platfrom.
+
+To port b2fJ to a new platform, just create a new folder by copying an existing one, then change the source files contained therein. The code
+comments explain what needs to be implemented.
 
 ## Building the library
+
+Under `src\java\classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes 
+that replace the default Java library and some custom classes to support features of the target platform (e.g. C64 sprites).
 
 You can improve the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
 `classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an Ant script that serves this purpose.
@@ -180,5 +188,14 @@ constants corresponding to native methods. Add a `case:` statement for you new n
 
   * If the method is an instance method, `paramBase[0]` will contain a reference to the calling object (`this`) while the
   method parameters are stored in `paramBase[1...n]`.
+  
+  * Some "special" classes (like String) have a C implementtion counterpart. If you are reading/writing fields for these classes that
+  should also be accessible from Java, use `get_word()` and `set_word()`.
+
+  * Notice that the first thing `dispatch_native()` does is to call `dispatch_platform_native()`, which is a platform specific function.
+  If you are implementing a native method which is only available for some platforms, implement it in `dispatch_platform_native()`
+  following the above guidelines. If `dispatch_platform_native()` returns `false`, then `dispatch_native()` continues execution 
+  (possibly providing a generic implementation for the native method), otherwise it assumes the native implementation of the 
+  method has been exectued properly in `dispatch_platform_native()`.
   
 
