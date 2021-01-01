@@ -38,6 +38,8 @@ The result should be this:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7iwj2B4PHE4" frameborder="0" allowfullscreen></iframe>
 
+If you prefer, a [.prg version](./Sprite.prg) is also available (to run it on an emulator).
+
 # Installation and Set Up
 
 ## JDK
