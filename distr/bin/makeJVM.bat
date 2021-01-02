@@ -34,7 +34,7 @@ if exist util\*.o del /S /Q /F util\*.o
 @echo.
 
 set "CC=..\redistr\cc65\bin\cl65"
-set "CC_PARAMS=-c -t c64 -I .\javavm -I .\platform\c64 -I .\util -Oi "
+set "CC_PARAMS=-c -t c64 -I .\javavm -I .\platform\c64 -I .\util -Oi -W -unused-param,-unused-var"
 set "CC_CLI=%CC% %CC_PARAMS%"
 
 echo on
