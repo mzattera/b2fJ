@@ -31,7 +31,7 @@ However, the current implementation shows that running Java on an 8-bit machine 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 
 
-Note: bsfJ is now used to run Java on brainfuck inside [FuckBench](https://github.com/mzattera/FuckBench) 
+Note: bsfJ is now used to run Java on brainfuck inside the [FuckBench](https://github.com/mzattera/FuckBench) project.
 
 ## A small demo
 
