@@ -30,6 +30,9 @@ However, the current implementation shows that running Java on an 8-bit machine 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 
+
+Note: bsfJ is now used to compile Java to brainfuck inside [FuckBench](https://github.com/mzattera/FuckBench) 
+
 ## A small demo
 
 [Here](./Sprite.java) you can download the code for a tiny demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
