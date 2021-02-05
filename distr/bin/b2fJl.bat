@@ -6,11 +6,13 @@ setlocal
 @echo.
 
 rem home of the b2fJ installation
-set "B2FJ_HOME=%~dp0.."
+set "B2FJ_HOME=%~dp0"
+if not "%B2FJ_HOME:~-1%"=="\" set "FB_BIN=%B2FJ_HOME%\"
+set "B2FJ_HOME=%B2FJ_HOME%.."
 @echo   b2fJ Home: "%B2FJ_HOME%"
 
 rem home of the jdk to use for compiling
-if [%JAVA_HOME%] == [] (
+if ["%JAVA_HOME%"] == [] (
     @echo   Java Home empty; javac must be in your CLASSPATH
     set "JC=java"
 ) else (
@@ -26,11 +28,11 @@ set "LINK_CLASSPATH=.;%CLASSPATH%;%B2FJ_HOME%\redistr\lib\bcel-5.1.jar;%B2FJ_HOM
 @echo.
 @echo on
 
-%JC% -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o java_code.h "%~n1"
+"%JC%" -classpath "%LINK_CLASSPATH%" js.tinyvm.TinyVM --writeorder LE --classpath "%LINK_CLASSPATH%" -o java_code.h "%~n1"
 @echo off
 if ERRORLEVEL 1 goto end
 
-MOVE /Y java_code.h "%B2FJ_HOME%"\src\platform\c64
+MOVE /Y java_code.h "%B2FJ_HOME%"\src\javavm
 
 :end
 @echo off

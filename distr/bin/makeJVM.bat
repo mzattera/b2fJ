@@ -13,6 +13,8 @@ set "B2FJ_HOME=%~dp0.."
 @echo Cleaning up:
 @echo.
 
+if exist *.prg del /S /Q /F javavm\*.o
+
 rem moves into C source folder, this saves us from issues with spaces in folder names and cc65
 set "CURRENT_FOLDER=%CD%"
 cd "%B2FJ_HOME%\src"
@@ -23,17 +25,19 @@ rmdir /S /Q %BUILD_HOME%
 mkdir %BUILD_HOME%
 
 rem Remove old .o files
-del /S /Q /F javavm\*.o
-del /S /Q /F platform\c64\*.o
-del /S /Q /F util\*.o
+if exist javavm\*.o del /S /Q /F javavm\*.o
+if exist platform\c64\*.o del /S /Q /F platform\c64\*.o
+if exist util\*.o del /S /Q /F util\*.o
 
 @echo.
 @echo Compiling JVM:
 @echo.
 
 set "CC=..\redistr\cc65\bin\cl65"
-set "CC_PARAMS=-c -t c64 -I .\javavm -I .\platform\c64 -I .\util -O -Or -r --codesize 100"
+set "CC_PARAMS=-c -t c64 -I .\javavm -I .\platform\c64 -I .\util -Oi -W -unused-param,-unused-var"
 set "CC_CLI=%CC% %CC_PARAMS%"
+
+echo on
 
 %CC_CLI% javavm\exceptions.c
 if ERRORLEVEL 1 goto end
@@ -45,19 +49,16 @@ if ERRORLEVEL 1 goto end
 if ERRORLEVEL 1 goto end
 %CC_CLI% javavm\memory.c
 if ERRORLEVEL 1 goto end
-%CC_CLI% javavm\mydebug.c
+%CC_CLI% javavm\nativeemul.c
+if ERRORLEVEL 1 goto end
+%CC_CLI% javavm\tvmemul.c
+if ERRORLEVEL 1 goto end
+%CC_CLI% javavm\trace.c
 if ERRORLEVEL 1 goto end
 
-%CC_CLI% platform\c64\load.c
+%CC_CLI% platform\c64\platform_native.c
 if ERRORLEVEL 1 goto end
-%CC_CLI% platform\c64\nativeemul.c
-if ERRORLEVEL 1 goto end
-%CC_CLI% platform\c64\traceemul.c
-if ERRORLEVEL 1 goto end
-%CC_CLI% platform\c64\tvmemul.c
-if ERRORLEVEL 1 goto end
-
-%CC_CLI% util\verify_struct.c
+%CC_CLI% platform\c64\main.c
 if ERRORLEVEL 1 goto end
 
 move /Y javavm\*.o %BUILD_HOME%
@@ -75,10 +76,11 @@ set "CL_PARAMS="
 set "CL_CLI=%CL% %CL_PARAMS%"
 
 @echo Linking btfJ.prg
-%CL_CLI% -t c64 -o b2fJ.prg exceptions.o interpreter.o language.o load.o memory.o mydebug.o nativeemul.o threads.o traceemul.o tvmemul.o c64.lib
-
-rem @echo Linking utilities
-rem %CL_CLI% -t c64 -o verify_struct.prg verify_struct.o  c64.lib
+%CL_CLI% -t c64 -o b2fJ.prg exceptions.o interpreter.o language.o main.o memory.o nativeemul.o platform_native.o threads.o tvmemul.o trace.o c64.lib
+@if not exist b2fJ.prg (
+	echo Some compilation error happened.
+	goto end
+)	
 
 rem moves back all prg files into original folder and goes back there
 @echo Copying binaries

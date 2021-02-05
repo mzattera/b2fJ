@@ -58,7 +58,7 @@ public class Sprite extends Thread {
         _xStretch = ((Memory.peek(SPRITE_EXPAND_X) >> _idx) & 1) == 1;
         _yStretch = ((Memory.peek(SPRITE_EXPAND_Y) >> _idx) & 1) == 1;
 
-        // By default, the sprite definition is in the casssette buffer.
+        // By default, the sprite definition is in the cassette buffer.
         // TODO: make this relocable.
         Memory.poke(2040+_idx, 13);
     }

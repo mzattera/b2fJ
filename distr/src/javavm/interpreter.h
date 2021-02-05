@@ -1,16 +1,15 @@
-
-#include "types.h"
-#include "constants.h"
-#include "classes.h"
-
 #ifndef _INTERPRETER_H
 #define _INTERPRETER_H
+
+#include <stdbool.h>
+#include "platform_config.h"
+#include "types.h"
 
 #define REQUEST_TICK          0
 #define REQUEST_SWITCH_THREAD 1
 #define REQUEST_EXIT          2
 
-extern volatile boolean gMakeRequest;
+extern volatile bool gMakeRequest;
 extern byte    gRequestCode;
 
 extern byte *pc;

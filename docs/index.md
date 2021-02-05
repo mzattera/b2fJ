@@ -2,7 +2,7 @@
 
 **Back to the Future Java (b2fJ)** is a Java Virtual Machine intended to run on the 8-bit home computers of the 80s.
 
-It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest).
+It can be downloaded from [here](https://github.com/mzattera/b2fJ/releases/latest) (distributed un der MOZILLA PUBLIC LICENSE Version 1.0.).
 
 It is based on the [leJOS](http://www.lejos.org) JVM for the LEGO Mindstorms RCX brick.
 
@@ -30,6 +30,9 @@ However, the current implementation shows that running Java on an 8-bit machine 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4An1BrG2u_4" frameborder="0" allowfullscreen></iframe>
 
+
+Note: bsfJ is now used to run Java on brainfuck inside the [FuckBench](https://github.com/mzattera/FuckBench) project.
+
 ## A small demo
 
 [Here](./Sprite.java) you can download the code for a tiny demo showing how multi-thread programming can be used to move C64 sprites. See below for instructions about how to compile and run it.
@@ -38,11 +41,14 @@ The result should be this:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7iwj2B4PHE4" frameborder="0" allowfullscreen></iframe>
 
+If you prefer, a [.prg version](./Sprite.prg) is also available (to run it inside an emulator).
+
 # Installation and Set Up
 
 ## JDK
 
-In order to compile and run your Java programs, you need first of all to have a [Java Development Kit 1.8](https://www.google.ch/search?q=JDK+1.8+download) installed.
+In order to compile and run your Java programs, you need first of all to have a [Java Development Kit](https://www.google.ch/search?q=JDK+1.8+download) installed.
+b2fJ uses 1.8 as target for the generated code, it has been tested with Java 15, but it shoudl work with JDK 9 or later (as it uses `--release` parameter for compilation).
 
 Make sure that the JDK folder is in your path or that you have [set `JAVA_HOME`](https://www.google.ch/search?q=set+JAVA_HOME+Windows) properly.
 
@@ -59,15 +65,17 @@ The below steps explain how to compile and run a simple Java program on your C64
 For our example, we will use a simple `HelloWorld.java` file. 
 You can paste the code below into a file named `HelloWorld.java`, or create the file with your favorite Java editor.
 
-	public class HelloWorld {
-
-		public static void main(String[] args) throws InterruptedException {
-			while (true) {            
-				System.out.print("Hello World! ");
-				Thread.sleep(500);
-			}
-		}
+```java
+public class HelloWorld {
+	
+	public static void main(String[] args) throws InterruptedException {
+		while (true) {            
+			System.out.print("Hello World. ");
+			Thread.sleep(1000);
+	   }
 	}
+}
+```
 
 
 ## The easy way
@@ -142,10 +150,18 @@ emulator that is (re)distributed with b2fJ, under `redistr\WinVICE-3.1-x86`; you
 
 # Expanding b2fJ
 
-Under `src\java\classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes 
-that replace the default Java library and some custom classes to support features of the target platform (e.g. C64 sprites).
+## Porting to other platforms
+
+Under `src\platform` there is one folder for each of the supported platforms. Each folder contains (hopefully) all the code that is dependant on a 
+particular (cross)compiler or platfrom.
+
+To port b2fJ to a new platform, just create a new folder by copying an existing one, then change the source files contained therein. The code
+comments explain what needs to be implemented.
 
 ## Building the library
+
+Under `src\java\classes` you can find the source code for the class library distributed together with b2fJ; this is made up of several classes 
+that replace the default Java library and some custom classes to support features of the target platform (e.g. C64 sprites).
 
 You can improve the library by adding your classes or extending the existing ones; afterwards, the classes need to be compiled and put in a file
 `classes.jar` under `lib` folder. The file `build.xml` that you can find in the `src` folder is an Ant script that serves this purpose.
@@ -177,5 +193,14 @@ constants corresponding to native methods. Add a `case:` statement for you new n
 
   * If the method is an instance method, `paramBase[0]` will contain a reference to the calling object (`this`) while the
   method parameters are stored in `paramBase[1...n]`.
+  
+  * Some "special" classes (like String) have a C implementtion counterpart. If you are reading/writing fields for these classes that
+  should also be accessible from Java, use `get_word()` and `set_word()`.
+
+  * Notice that the first thing `dispatch_native()` does is to call `dispatch_platform_native()`, which is a platform specific function.
+  If you are implementing a native method which is only available for some platforms, implement it in `dispatch_platform_native()`
+  following the above guidelines. If `dispatch_platform_native()` returns `false`, then `dispatch_native()` continues execution 
+  (possibly providing a generic implementation for the native method), otherwise it assumes the native implementation of the 
+  method has been exectued properly in `dispatch_platform_native()`.
   
 

@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>Commodore VIC20 (aka VC20 aka VIC1001) specific information for cc65</TITLE>
 </HEAD>
 <BODY>
@@ -10,7 +10,7 @@
 
 <H2>
 <A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A>,<BR>
-<A HREF="mailto:polluks@sdf.lonestar.org">Stefan A. Haubenthal</A></H2>2017-05-18
+<A HREF="mailto:polluks@sdf.lonestar.org">Stefan A. Haubenthal</A></H2>
 <HR>
 <EM>An overview over the VIC20 runtime system as it is implemented for the cc65 C
 compiler.</EM>
@@ -127,7 +127,6 @@ common to all CBM platforms.</P>
 <P>There are currently no special VIC20 functions.</P>
 
 
-
 <H2><A NAME="ss4.2">4.2</A> <A HREF="#toc4.2">CBM-specific functions</A>
 </H2>
 
@@ -152,6 +151,8 @@ declaration and usage.</P>
 <LI>cbm_k_basin</LI>
 <LI>cbm_k_bsout</LI>
 <LI>cbm_k_clrch</LI>
+<LI>cbm_k_tksa</LI>
+<LI>cbm_k_second</LI>
 <LI>cbm_load</LI>
 <LI>cbm_open</LI>
 <LI>cbm_opendir</LI>
@@ -160,6 +161,7 @@ declaration and usage.</P>
 <LI>cbm_save</LI>
 <LI>cbm_write</LI>
 <LI>get_tv</LI>
+<LI>waitvsync</LI>
 </UL>
 </P>
 
@@ -203,14 +205,57 @@ is explained in <CODE>_6522.h</CODE>.</P>
 </H2>
 
 
-<P>No graphics drivers are currently available for the VIC20.</P>
+<P>
+<DL>
+
+<DT><B><CODE>vic20-hi.tgi (vic20_hi_tgi)</CODE></B><DD>
+<P>This driver features a resolution of 160&times;192 with two colors.  The
+background can be chosen from a sixteen-color palette.  The foreground can
+be chosen from an eight-color palette.</P>
+<P>The driver will use memory from addresses $1000 to $1FFF as a graphics
+buffer.  Therefore, the VIC-20 must have, at least, 8K of expansion RAM.</P>
+<P>Programs that use this driver must be linked by the <CODE>vic20-tgi.cfg</CODE>
+configuration file.  It will link a special header into the program.
+That header will do the housekeeping that's needed by TGI.</P>
+<P>An example command line:
+<BLOCKQUOTE><CODE>
+<PRE>
+  cl65 -D DYN_DRV=0 -t vic20 -C vic20-tgi.cfg samples/mandelbrot.c
+  
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>When the program starts, it will move itself up in RAM, to make room for the
+buffer.  When the program finishes, it will reset the BASIC interpreter.
+That means that graphics pictures won't be preserved between the executions
+of programs.  Also, the graphics buffer shares RAM with the text screen.  If
+a picture must be saved, then a program must put it somewhere else (such as
+a disk file) before returning to the text mode.</P>
+
+</DL>
+</P>
 
 
 <H2><A NAME="ss5.2">5.2</A> <A HREF="#toc5.2">Extended memory drivers</A>
 </H2>
 
 
-<P>No extended memory drivers are currently available for the VIC20.</P>
+<P>
+<DL>
+
+<DT><B><CODE>vic20-rama.emd (vic20_rama_emd)</CODE></B><DD>
+<P>A driver for any RAM at $A000-$BFFF. Supports 32 256 byte pages.
+Written and contributed by Marco van den Heuvel.</P>
+
+<DT><B><CODE>vic20-georam.emd (vic20_georam_emd)</CODE></B><DD>
+<P>A driver for the Berkeley Softworks GeoRam cartridge connected by means of
+the MasC=erade c64 cartridge adapter. The driver will determine the
+available RAM from the connected cartridge. It supports 64KB
+up to 2048KB of RAM.</P>
+
+</DL>
+</P>
+
 
 
 <H2><A NAME="ss5.3">5.3</A> <A HREF="#toc5.3">Joystick drivers</A>
@@ -226,7 +271,7 @@ is explained in <CODE>_6522.h</CODE>.</P>
 
 <DT><B><CODE>vic20-ptvjoy.joy (vic20_ptvjoy_joy)</CODE></B><DD>
 <P>Driver for the Protovision 4-player adapter contributed by Groepaz. See
-<A HREF="http://www.protovision-online.de/hardw/4_player.php?language=en">Protovision shop</A> for prices and building instructions. Up to three
+<A HREF="https://www.protovision.games/hardw/4_player.php">the Protovision shop</A> for prices and building instructions. Up to three
 joysticks are supported.</P>
 
 </DL>
@@ -344,13 +389,13 @@ including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:</P>
 <P>
 <OL>
-<LI>    The origin of this software must not be misrepresented; you must not
+<LI>  The origin of this software must not be misrepresented; you must not
 claim that you wrote the original software. If you use this software
 in a product, an acknowledgment in the product documentation would be
 appreciated but is not required.</LI>
-<LI>    Altered source versions must be plainly marked as such, and must not
+<LI>  Altered source versions must be plainly marked as such, and must not
 be misrepresented as being the original software.</LI>
-<LI>    This notice may not be removed or altered from any source
+<LI>  This notice may not be removed or altered from any source
 distribution.</LI>
 </OL>
 </P>

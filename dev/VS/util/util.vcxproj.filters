@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\distr\src\jvm\util\verify_struct.c">
+    <ClCompile Include="..\..\..\distr\src\util\verify_struct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

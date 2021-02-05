@@ -1,23 +1,17 @@
 package java.io;
 
 /**
- * This is a minimal implementation of BufferedWriter.
- * Normally BufferedWriter extends the abstract class Writer. 
- * The main reason for NXJ including this is to allow the new-line
- * character in text.
- * NOTE: Text writing is not synchronized either like standard Java.
- * 
- * @author BB
- *
+ * This is a minimal implementation of BufferedInputStream.
+ * For the time being, it does not support mark/reset.
  */
 public class BufferedInputStream extends FilterInputStream
 {
 	private static final int DEFAULT_BUFFERSIZE = 64;
 	private static final int MIN_BUFFERSIZE = 1;
 	
-	private final byte[] buffer;
-	private int offset;
-	private int limit;
+	protected final byte[] buf;
+	protected int pos;
+	protected int count;
 	
 	/**
 	 * In the standard Java API the constructor accepts a Writer
@@ -36,14 +30,13 @@ public class BufferedInputStream extends FilterInputStream
 		if (size < MIN_BUFFERSIZE)
 			size = MIN_BUFFERSIZE;
 		
-		this.buffer = new byte[size];
+		this.buf = new byte[size];
 	}
-	
-	@Override
-	public void close() throws IOException
+
+	private void checkOpen() throws IOException
 	{
-		this.limit = -1;
-		this.in.close();
+		if (this.count < 0)
+			throw new IOException("stream is closed");
 	}
 
 	@Override
@@ -51,28 +44,39 @@ public class BufferedInputStream extends FilterInputStream
 	{
 		checkOpen();
 		
-		return this.limit - this.offset + this.in.available();
+		return this.count - this.pos + this.in.available();
+	}
+
+	@Override
+	public void close() throws IOException
+	{
+		this.count = -1;
+		this.in.close();
 	}
 	
-	private void checkOpen() throws IOException
-	{
-		if (this.limit < 0)
-			throw new IOException("stream is closed");
+	@Override
+	public void mark(int readlimit) {
+		//nothing
+	}
+	
+	@Override
+	public boolean markSupported() {
+		return false;
 	}
 	
 	private boolean fillBuffer() throws IOException
 	{
-		if (this.offset >= this.limit)
+		if (this.pos >= this.count)
 		{
 			int len = 0;
 			//some InputStream may be return 0, which is bad behavior actually
 			while (len == 0)
-				len = this.in.read(this.buffer, 0, this.buffer.length);
+				len = this.in.read(this.buf, 0, this.buf.length);
 			if (len < 0)
 				return false;
 			
-			this.offset = 0;
-			this.limit = len;
+			this.pos = 0;
+			this.count = len;
 		}
 		return true;
 	}
@@ -85,7 +89,7 @@ public class BufferedInputStream extends FilterInputStream
 		if (!fillBuffer())
 			return -1;
 		
-		return this.buffer[this.offset++] & 0xFF;
+		return this.buf[this.pos++] & 0xFF;
 	}
 
 	@Override
@@ -96,15 +100,15 @@ public class BufferedInputStream extends FilterInputStream
 		if (!fillBuffer())
 			return -1;
 		
-		int blen = this.limit - this.offset;
+		int blen = this.count - this.pos;
 		// case 1: buffer is not empty
 		if (blen > 0)
 		{
 			if (blen > len)
 				blen = len;
 			
-			System.arraycopy(this.buffer, this.offset, b, off, blen);
-			this.offset += blen;
+			System.arraycopy(this.buf, this.pos, b, off, blen);
+			this.pos += blen;
 			return blen;
 		}
 		// case 2: buffer is empty
@@ -112,14 +116,19 @@ public class BufferedInputStream extends FilterInputStream
 	}
 
 	@Override
+	public synchronized void reset() throws IOException {
+		throw new IOException("reset not supported");
+	}
+	
+	@Override
 	public int skip(int n) throws IOException
 	{
 		checkOpen();
 		
-		int blen = this.limit - this.offset;
+		int blen = this.count - this.pos;
 		if (n <= blen)
 		{
-			this.offset += (int)n;
+			this.pos += (int)n;
 			return n;
 		}
 		
@@ -127,11 +136,11 @@ public class BufferedInputStream extends FilterInputStream
 		
 		//it holds n > blen
 		n -= blen;
-		this.offset = this.limit;
+		this.pos = this.count;
 		
 		while (n > 0)
 		{
-			int len = this.in.read(this.buffer, 0, this.buffer.length);
+			int len = this.in.read(this.buf, 0, this.buf.length);
 			if (len < 0)
 				break;
 			
@@ -140,6 +149,4 @@ public class BufferedInputStream extends FilterInputStream
 		
 		return norig - n;
 	}
-	
-	
 }

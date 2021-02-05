@@ -2,17 +2,18 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>sim65 Users Guide</TITLE>
 </HEAD>
 <BODY>
 <H1>sim65 Users Guide</H1>
 
 <H2>
-<A HREF="mailto:polluks@sdf.lonestar.org">Stefan A. Haubenthal</A></H2>2016-07-05
+<A HREF="mailto:polluks@sdf.lonestar.org">Stefan A. Haubenthal</A>,<BR>
+<A HREF="mailto:bbbradsmith@users.noreply.github.com">Brad Smith</A></H2>
 <HR>
 <EM>sim65 is a simulator for 6502 and 65C02 CPUs. It allows to test target
-independed code.</EM>
+independent code.</EM>
 <HR>
 <P>
 <H2><A NAME="toc1">1.</A> <A HREF="sim65.html#s1">Overview</A></H2>
@@ -27,7 +28,13 @@ independed code.</EM>
 <H2><A NAME="toc3">3.</A> <A HREF="sim65.html#s3">Input and output</A></H2>
 
 <P>
-<H2><A NAME="toc4">4.</A> <A HREF="sim65.html#s4">Copyright</A></H2>
+<H2><A NAME="toc4">4.</A> <A HREF="sim65.html#s4">Creating a Test in C</A></H2>
+
+<P>
+<H2><A NAME="toc5">5.</A> <A HREF="sim65.html#s5">Creating a Test in Assembly</A></H2>
+
+<P>
+<H2><A NAME="toc6">6.</A> <A HREF="sim65.html#s6">Copyright</A></H2>
 
 
 <HR>
@@ -35,8 +42,8 @@ independed code.</EM>
 
 
 
-<P>sim65 is the only solution as part of the toolchain to execute code. The
-binary needs to be compiled with <CODE>--target sim6502</CODE> or <CODE>--target sim65c02</CODE>.</P>
+<P>sim65 is used as part of the toolchain to test 6502 or 65C02 code.
+The binary to test should be compiled with <CODE>--target sim6502</CODE> or <CODE>--target sim65c02</CODE>.</P>
 
 
 <H2><A NAME="s2">2.</A> <A HREF="#toc2">Usage</A></H2>
@@ -52,7 +59,7 @@ binary needs to be compiled with <CODE>--target sim6502</CODE> or <CODE>--target
           -c                    Print amount of executed CPU cycles
           -v                    Increase verbosity
           -V                    Print the simulator version number
-          -x &lt;num>           Exit simulator after &lt;num> cycles
+          -x &lt;num>              Exit simulator after &lt;num> cycles
 
         Long options:
           --help                Help (this text)
@@ -112,7 +119,7 @@ sim65 --verbose --verbose samples/gunzip65
 
 <BLOCKQUOTE><CODE>
 <PRE>
-Loaded `samples/gunzip65' at $0200-$151F
+Loaded 'samples/gunzip65' at $0200-$151F
 PVWrite ($0001, $13C9, $000F)
 GZIP file name:PVWrite ($0001, $151F, $0001)
 
@@ -129,8 +136,69 @@ PVExit ($01)
 </P>
 
 
+<H2><A NAME="s4">4.</A> <A HREF="#toc4">Creating a Test in C</A></H2>
 
-<H2><A NAME="s4">4.</A> <A HREF="#toc4">Copyright</A></H2>
+
+<P>For a C test compiled and linked with <CODE>--target sim6502</CODE> the
+command line arguments to <CODE>sim65</CODE> will be passed to <CODE>main</CODE>,
+and the return value from <CODE>main</CODE> will become sim65's exit code.
+The <CODE>exit</CODE> function may also be used to terminate with an exit code.</P>
+<P>Exit codes are limited to 8 bits.</P>
+<P>The standard C library high level file input and output is functional.
+A sim65 application can be written like a command line application,
+providing arguments to <CODE>main</CODE> and using the <CODE>stdio.h</CODE> interfaces.</P>
+<P>Internally, file input and output is provided at a lower level by
+a set of built-in paravirtualization functions (
+<A HREF="#paravirt-internal">see below</A>).</P>
+
+
+<H2><A NAME="s5">5.</A> <A HREF="#toc5">Creating a Test in Assembly</A></H2>
+
+
+<P>Assembly tests may similarly be assembled and linked with
+<CODE>--target sim6502</CODE> or <CODE>--target sim65c02</CODE>,
+and the sim65 library provides an <CODE>exit</CODE> symbol that the program may <CODE>JMP</CODE>
+to terminate with the current A register value as an exit code.</P>
+<P>The binary file has a 12 byte header:</P>
+<P>
+<UL>
+<LI>5 byte <B>signature</B>: <CODE>$73, $69, $6D, $36, $35</CODE> or <CODE>'sim65'</CODE>
+</LI>
+<LI>1 byte <B>version</B>: <CODE>2</CODE>
+</LI>
+<LI>1 byte <B>CPU type</B>: <CODE>0</CODE> = 6502, <CODE>1</CODE> = 65C02
+</LI>
+<LI>1 byte <B>sp address</B>: the zero page address of the C parameter stack pointer <CODE>sp</CODE> used by the paravirtualization functions
+</LI>
+<LI>1 word <B>load address</B>: where to load the data from the file into memory (default: <CODE>$0200</CODE>)
+</LI>
+<LI>1 word <B>reset address</B>: specifies where to begin execution after loading (default: <CODE>$0200</CODE>)
+</LI>
+</UL>
+</P>
+<P>Other internal details:</P>
+<P>
+<UL>
+<LI>The entire 64 kilobyte address space is writeable RAM.
+Aside from the loaded binary, the reset vector at <CODE>$FFFC</CODE> will be
+pre-loaded with the given <B>reset address</B>.
+</LI>
+<LI>The <CODE>exit</CODE> address is <CODE>$FFF9</CODE>.
+Jumping to this address will terminate execution with the A register value as an exit code.
+
+<A NAME="paravirt-internal"></A> </LI>
+<LI>Several bytes immediately below the vector table are reserved for paravirtualization functions.
+Except for <CODE>exit</CODE>, a <CODE>JSR</CODE> to one of these addresses will return immediately after performing a special function.
+These use cc65 calling conventions, and are intended for use with the sim65 target C library.
+</LI>
+<LI><CODE>IRQ</CODE> and <CODE>NMI</CODE> events will not be generated, though <CODE>BRK</CODE>
+can be used if the IRQ vector at <CODE>$FFFE</CODE> is manually prepared by the test code.
+</LI>
+</UL>
+</P>
+
+
+<H2><A NAME="s6">6.</A> <A HREF="#toc6">Copyright</A></H2>
 
 
 <P>sim65 (and all cc65 binutils) are (C) Copyright 1998-2000 Ullrich von
@@ -144,13 +212,13 @@ including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:</P>
 <P>
 <OL>
-<LI>    The origin of this software must not be misrepresented; you must not
+<LI>  The origin of this software must not be misrepresented; you must not
 claim that you wrote the original software. If you use this software
 in a product, an acknowledgment in the product documentation would be
 appreciated but is not required.</LI>
-<LI>    Altered source versions must be plainly marked as such, and must not
+<LI>  Altered source versions must be plainly marked as such, and must not
 be misrepresented as being the original software.</LI>
-<LI>    This notice may not be removed or altered from any source
+<LI>  This notice may not be removed or altered from any source
 distribution.</LI>
 </OL>
 </P>

@@ -1,10 +1,9 @@
-
-#include "types.h"
-#include "classes.h"
-#include "configure.h"
-
 #ifndef _MEMORY_H
 #define _MEMORY_H
+
+#include "classes.h"
+#include "platform_config.h"
+#include "types.h"
 
 typedef struct MemoryRegion_S {
 #if SEGMENTED_HEAP

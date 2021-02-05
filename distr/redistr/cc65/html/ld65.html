@@ -2,14 +2,14 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>ld65 Users Guide</TITLE>
 </HEAD>
 <BODY>
 <H1>ld65 Users Guide</H1>
 
 <H2>
-<A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A></H2>2014-04-20
+<A HREF="mailto:uz@cc65.org">Ullrich von Bassewitz</A></H2>
 <HR>
 <EM>The ld65 linker combines object files into an executable file. ld65 is highly
 configurable and uses configuration files for high flexibility.</EM>
@@ -42,13 +42,14 @@ configurable and uses configuration files for high flexibility.</EM>
 <LI><A NAME="toc5.1">5.1</A> <A HREF="ld65.html#ss5.1">Memory areas</A>
 <LI><A NAME="toc5.2">5.2</A> <A HREF="ld65.html#ss5.2">Segments</A>
 <LI><A NAME="toc5.3">5.3</A> <A HREF="ld65.html#ss5.3">Output files</A>
-<LI><A NAME="toc5.4">5.4</A> <A HREF="ld65.html#ss5.4">LOAD and RUN addresses (ROMable code)</A>
-<LI><A NAME="toc5.5">5.5</A> <A HREF="ld65.html#ss5.5">Other MEMORY area attributes</A>
-<LI><A NAME="toc5.6">5.6</A> <A HREF="ld65.html#ss5.6">Other SEGMENT attributes</A>
-<LI><A NAME="toc5.7">5.7</A> <A HREF="ld65.html#ss5.7">The FILES section</A>
-<LI><A NAME="toc5.8">5.8</A> <A HREF="ld65.html#ss5.8">The FORMAT section</A>
-<LI><A NAME="toc5.9">5.9</A> <A HREF="ld65.html#ss5.9">The FEATURES section</A>
-<LI><A NAME="toc5.10">5.10</A> <A HREF="ld65.html#ss5.10">The SYMBOLS section</A>
+<LI><A NAME="toc5.4">5.4</A> <A HREF="ld65.html#ss5.4">OVERWRITE segments</A>
+<LI><A NAME="toc5.5">5.5</A> <A HREF="ld65.html#ss5.5">LOAD and RUN addresses (ROMable code)</A>
+<LI><A NAME="toc5.6">5.6</A> <A HREF="ld65.html#ss5.6">Other MEMORY area attributes</A>
+<LI><A NAME="toc5.7">5.7</A> <A HREF="ld65.html#ss5.7">Other SEGMENT attributes</A>
+<LI><A NAME="toc5.8">5.8</A> <A HREF="ld65.html#ss5.8">The FILES section</A>
+<LI><A NAME="toc5.9">5.9</A> <A HREF="ld65.html#ss5.9">The FORMAT section</A>
+<LI><A NAME="toc5.10">5.10</A> <A HREF="ld65.html#ss5.10">The FEATURES section</A>
+<LI><A NAME="toc5.11">5.11</A> <A HREF="ld65.html#ss5.11">The SYMBOLS section</A>
 </UL>
 <P>
 <H2><A NAME="toc6">6.</A> <A HREF="ld65.html#s6">Special segments</A></H2>
@@ -74,17 +75,17 @@ more convenient). The linker was designed to be as flexible as possible.
 It complements the features that are built into the ca65 macroassembler:</P>
 <P>
 <UL>
-<LI>    Accept any number of segments to form an executable module.
+<LI>  Accept any number of segments to form an executable module.
 </LI>
-<LI>    Resolve arbitrary expressions stored in the object files.
+<LI>  Resolve arbitrary expressions stored in the object files.
 </LI>
-<LI>    In case of errors, use the meta information stored in the object files
+<LI>  In case of errors, use the meta information stored in the object files
 to produce helpful error messages. In case of undefined symbols,
 expression range errors, or symbol type mismatches, ld65 is able to
 tell you the exact location in the original assembler source, where
 the symbol was referenced.
 </LI>
-<LI>    Flexible output. The output of ld65 is highly configurable by a config
+<LI>  Flexible output. The output of ld65 is highly configurable by a config
 file. Some more-common platforms are supported by default configurations
 that may be activated by naming the target system. The output
 generation was designed with different output formats in mind, so
@@ -122,28 +123,30 @@ Short options:
   -m name               Create a map file
   -o name               Name the default output file
   -t sys                Set the target system
-  -u sym                Force an import of symbol `sym'
+  -u sym                Force an import of symbol 'sym'
   -v                    Verbose mode
   -vm                   Verbose map file
 
 Long options:
-  --cfg-path path       Specify a config file search path
-  --config name         Use linker config file
-  --dbgfile name        Generate debug information
-  --define sym=val      Define a symbol
-  --end-group           End a library group
-  --force-import sym    Force an import of symbol `sym'
-  --help                Help (this text)
-  --lib file            Link this library
-  --lib-path path       Specify a library search path
-  --mapfile name        Create a map file
-  --module-id id        Specify a module id
-  --obj file            Link this object file
-  --obj-path path       Specify an object file search path
-  --start-addr addr     Set the default start address
-  --start-group         Start a library group
-  --target sys          Set the target system
-  --version             Print the linker version
+  --allow-multiple-definition   Allow multiple definitions
+  --cfg-path path               Specify a config file search path
+  --config name                 Use linker config file
+  --dbgfile name                Generate debug information
+  --define sym=val              Define a symbol
+  --end-group                   End a library group
+  --force-import sym            Force an import of symbol 'sym'
+  --help                        Help (this text)
+  --large-alignment             Don't warn about large alignments
+  --lib file                    Link this library
+  --lib-path path               Specify a library search path
+  --mapfile name                Create a map file
+  --module-id id                Specify a module id
+  --obj file                    Link this object file
+  --obj-path path               Specify an object file search path
+  --start-addr addr             Set the default start address
+  --start-group                 Start a library group
+  --target sys                  Set the target system
+  --version                     Print the linker version
 ---------------------------------------------------------------------------
 </PRE>
 </CODE></BLOCKQUOTE>
@@ -157,6 +160,13 @@ Long options:
 <P>Here is a description of all of the command-line options:</P>
 <P>
 <DL>
+
+<DT><B><CODE>--allow-multiple-definition</CODE></B><DD>
+<P>Normally when a global symbol is defined multiple times, ld65 will
+issue an error and not create the output file. This option lets it
+silently ignore this fact and continue. The first definition of a
+symbol will be used.</P>
+
 <P>
 <A NAME="option--start-group"></A> </P>
 <DT><B><CODE>-(, --start-group</CODE></B><DD>
@@ -229,6 +239,7 @@ systems are currently supported:</P>
 <LI>sim6502</LI>
 <LI>sim65c02</LI>
 <LI>supervision</LI>
+<LI>telestrat</LI>
 <LI>vic20</LI>
 </UL>
 </P>
@@ -331,6 +342,11 @@ written to this file. Using the <CODE>-g</CODE> option for the compiler and asse
 will increase the amount of information available. Please note that debug
 information generation is currently being developed, so the format of the
 file and its contents are subject to change without further notice.</P>
+<P>
+<A NAME="option--large-alignment"></A> </P>
+<DT><B><CODE>--large-alignment</CODE></B><DD>
+<P>Disable warnings about a large combined alignment. See the discussion of the
+<CODE>.ALIGN</CODE> directive in the ca65 Users Guide for further information.</P>
 
 
 <DT><B><CODE>--lib file</CODE></B><DD>
@@ -543,7 +559,7 @@ have looked like this:</P>
 size. Start and size are mandatory attributes, that means, each memory area
 defined <EM>must</EM> have these attributes given (the linker will check that). I
 will cover other attributes later. As you may have noticed, I've used a
-comment in the example above. Comments start with a hash mark (`#'), the
+comment in the example above. Comments start with a hash mark ('#'), the
 remainder of the line is ignored if this character is found.</P>
 
 
@@ -572,14 +588,15 @@ section:</P>
 the linker will first write the <CODE>CODE</CODE> segment, then the <CODE>RODATA</CODE>
 segment, then the <CODE>DATA</CODE> segment - but it will not write the <CODE>BSS</CODE>
 segment. Why? Here enters the segment type: For each segment specified, you may also
-specify a segment attribute. There are four possible segment attributes:</P>
+specify a segment attribute. There are five possible segment attributes:</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
-        ro      means readonly
-        rw      means read/write
-        bss     means that this is an uninitialized segment
-        zp      a zeropage segment
+        ro          means readonly
+        rw          means read/write
+        bss         means that this is an uninitialized segment
+        zp          a zeropage segment
+        overwrite   a segment that overwrites (parts of) another one
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
@@ -613,7 +630,8 @@ segment, where this attribute is true, the linker will export three symbols.</P>
 </CODE></BLOCKQUOTE>
 </P>
 <P>Replace <CODE>NAME</CODE> by the name of the segment, in the example above, this would
-be <CODE>BSS</CODE>. These symbols may be accessed by your code.</P>
+be <CODE>BSS</CODE>. These symbols may be accessed by your code when imported using
+the <CODE>.IMPORT</CODE> directive.</P>
 <P>Now, as we've configured the linker to write the first three segments and
 create symbols for the last one, there's only one question left: Where does
 the linker put the data? It would be very convenient to have the data in a
@@ -633,7 +651,7 @@ assign the default file name. This is "a.out" or the one given with the
 default behaviour is OK for our purposes, I did not use the attribute in the
 example above. Let's have a look at it now.</P>
 <P>The "file" attribute (the keyword may also be written as "FILE" if you like
-that better) takes a string enclosed in double quotes (`&#34;') that specifies the
+that better) takes a string enclosed in double quotes ('&#34;') that specifies the
 file, where the data is written. You may specify the same file several times,
 in that case the data for all memory areas having this file name is written
 into this file, in the order of the memory areas defined in the <CODE>MEMORY</CODE>
@@ -682,7 +700,60 @@ the command line, with "-1.bin" and "-2.bin" appended respectively. Because
 '%' is used as an escape char, the sequence "%%" has to be used if a single
 percent sign is required.</P>
 
-<H2><A NAME="ss5.4">5.4</A> <A HREF="#toc5.4">LOAD and RUN addresses (ROMable code)</A>
+<H2><A NAME="ss5.4">5.4</A> <A HREF="#toc5.4">OVERWRITE segments</A>
+</H2>
+
+
+<P>There are situations when you may wish to overwrite some part (or parts) of a
+segment with another one. Perhaps you are modifying an OS ROM that has its
+public subroutines at fixed, well-known addresses, and you want to prevent them
+from shifting to other locations in memory if your changed code takes less
+space. Or you are updating a block of code available in binary-only form with
+fixes that are scattered in various places. Generally, whenever you want to
+minimize disturbance to an existing code brought on by your updates, OVERWRITE
+segments are worth considering.</P>
+<P>Here is an example:</P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+MEMORY {
+    RAM: file = "", start = $6000, size = $2000, type=rw;
+    ROM: file = %O, start = $8000, size = $8000, type=ro;
+}
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>Nothing unusual so far, just two memory blocks - one RAM, one ROM. Now let's
+look at the segment configuration:</P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+SEGMENTS {
+    RAM:       load = RAM, type = bss;
+    ORIGINAL:  load = ROM, type = ro;
+    FASTCOPY:  load = ROM, start=$9000, type = overwrite;
+    JMPPATCH1: load = ROM, start=$f7e8, type = overwrite;
+    DEBUG:     load = ROM, start=$8000, type = overwrite;
+    VERSION:   load = ROM, start=$e5b7, type = overwrite;
+}
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>Segment named ORIGINAL contains the original code, disassembled or provided in
+a binary form (i.e. using <CODE>.INCBIN</CODE> directive; see the <CODE>ca65</CODE> assembler
+document).  Subsequent four segments will be relocated to addresses specified
+by their "start" attributes ("offset" can also be used) and then will overwrite
+whatever was at these locations in the ORIGINAL segment. In the end, resulting
+binary output file will thus contain original data with the exception of four
+sequences starting at $9000, $f7e8, $8000 and $e5b7, which will sport code from
+their respective segments. How long these sequences will be depends on the
+lengths of corresponding segments - they can even overlap, so think what you're
+doing.</P>
+<P>Finally, note that OVERWRITE segments should be the final segments loaded to a
+particular memory area, and that they need at least one of "start" or "offset"
+attributes specified.</P>
+
+<H2><A NAME="ss5.5">5.5</A> <A HREF="#toc5.5">LOAD and RUN addresses (ROMable code)</A>
 </H2>
 
 
@@ -760,7 +831,7 @@ by the linker, so things will work properly.</P>
 look at it's inner workings before using it!</P>
 
 
-<H2><A NAME="ss5.5">5.5</A> <A HREF="#toc5.5">Other MEMORY area attributes</A>
+<H2><A NAME="ss5.6">5.6</A> <A HREF="#toc5.6">Other MEMORY area attributes</A>
 </H2>
 
 
@@ -777,7 +848,8 @@ useful for things like a software stack, or an I/O area.</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>This will define some external symbols that may be used in your code:</P>
+<P>This will define some external symbols that may be used in your code when
+imported using the <CODE>.IMPORT</CODE> directive:</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -828,13 +900,12 @@ function is the value of the bank attribute for the run memory area of the
 segment.</P>
 
 
-<H2><A NAME="ss5.6">5.6</A> <A HREF="#toc5.6">Other SEGMENT attributes</A>
+<H2><A NAME="ss5.7">5.7</A> <A HREF="#toc5.7">Other SEGMENT attributes</A>
 </H2>
 
 
 <P>Segments may be aligned to some memory boundary. Specify "<CODE>align = num</CODE>" to
-request this feature. Num must be a power of two. To align all segments on a
-page boundary, use</P>
+request this feature. To align all segments on a page boundary, use</P>
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -906,7 +977,7 @@ segment attribute. Be careful when using this attribute, because a missing
 segment may be a sign of a problem, and if you're suppressing the warning,
 there is no one left to tell you about it.</P>
 
-<H2><A NAME="ss5.7">5.7</A> <A HREF="#toc5.7">The FILES section</A>
+<H2><A NAME="ss5.8">5.8</A> <A HREF="#toc5.8">The FILES section</A>
 </H2>
 
 
@@ -925,7 +996,7 @@ look like this:</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>The only other available output format is the o65 format specified by Andre
+<P>There are two other available formats, one is the o65 format specified by Andre
 Fachat (see the 
 <A HREF="http://www.6502.org/users/andre/o65/fileformat.html">6502 binary relocation format specification</A>). It is defined like this:</P>
 <P>
@@ -937,12 +1008,27 @@ Fachat (see the
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
-<P>The necessary o65 attributes are defined in a special section labeled
+<P>The other format available is the Atari (xex) segmented file format, this is
+the standard format used by Atari DOS 2.0 and upward file managers in the Atari
+8-bit computers, and it is defined like this:</P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+        FILES {
+            %O: format = atari;
+        }
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>In the Atari segmented file format, the linker will write each <CODE>MEMORY</CODE> area
+as including a header with the start and end address. If two memory areas are
+contiguous, the headers will be joined if possible.</P>
+<P>The necessary o65 or Atari attributes are defined in a special section labeled
 <A HREF="#FORMAT">FORMAT</A>.</P>
 
 
 
-<H2><A NAME="FORMAT"></A> <A NAME="ss5.8">5.8</A> <A HREF="#toc5.8">The FORMAT section</A>
+<H2><A NAME="FORMAT"></A> <A NAME="ss5.9">5.9</A> <A HREF="#toc5.9">The FORMAT section</A>
 </H2>
 
 
@@ -962,10 +1048,35 @@ has several attributes that may be defined here.</P>
 </PRE>
 </CODE></BLOCKQUOTE>
 </P>
+<P>The Atari file format has two attributes:</P>
+<P>
+<DL>
+
+<DT><B><CODE>RUNAD = symbol</CODE></B><DD>
+<P>Specify a symbol as the run address of the binary, the loader will call this
+address after all the file is loaded in memory. If the attribute is omitted,
+no run address is included in the file.</P>
+
+<DT><B><CODE>INITAD = memory_area : symbol</CODE></B><DD>
+<P>Specify a symbol as the initialization address for the given memory area.
+The binary loader will call this address just after the memory area is loaded
+into memory, before continuing loading the rest of the file.</P>
+
+</DL>
+</P>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+    FORMATS {
+        atari: runad = _start;
+    }
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
 
 
-
-<H2><A NAME="FEATURES"></A> <A NAME="ss5.9">5.9</A> <A HREF="#toc5.9">The FEATURES section</A>
+<H2><A NAME="FEATURES"></A> <A NAME="ss5.10">5.10</A> <A HREF="#toc5.10">The FEATURES section</A>
 </H2>
 
 
@@ -1065,7 +1176,7 @@ mean, that the <CODE>FEATURES</CODE> section has to go to the top of the config 
 
 
 
-<H2><A NAME="SYMBOLS"></A> <A NAME="ss5.10">5.10</A> <A HREF="#toc5.10">The SYMBOLS section</A>
+<H2><A NAME="SYMBOLS"></A> <A NAME="ss5.11">5.11</A> <A HREF="#toc5.11">The SYMBOLS section</A>
 </H2>
 
 
@@ -1173,13 +1284,13 @@ including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:</P>
 <P>
 <OL>
-<LI>    The origin of this software must not be misrepresented; you must not
+<LI>  The origin of this software must not be misrepresented; you must not
 claim that you wrote the original software. If you use this software
 in a product, an acknowledgment in the product documentation would be
 appreciated but is not required.</LI>
-<LI>    Altered source versions must be plainly marked as such, and must not
+<LI>  Altered source versions must be plainly marked as such, and must not
 be misrepresented as being the original software.</LI>
-<LI>    This notice may not be removed or altered from any source
+<LI>  This notice may not be removed or altered from any source
 distribution.</LI>
 </OL>
 </P>

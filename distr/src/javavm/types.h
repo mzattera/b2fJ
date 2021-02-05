@@ -3,8 +3,6 @@
 
 #include "platform_config.h"
 
-typedef byte boolean;
-
 /*
  * The following types must be defined in platform_config.h:
  * JBYTE
@@ -13,7 +11,6 @@ typedef byte boolean;
  * TWOBYTES
  * FOURBYTES
  */
-
 
 typedef float        JFLOAT;
 typedef JBYTE        JBOOLEAN;
@@ -38,5 +35,3 @@ typedef struct
 #endif
 
 #endif // _TYPES_H
-
-

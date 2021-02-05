@@ -7,7 +7,7 @@ case OP_INVOKEVIRTUAL:
   // Arguments: 2
   // Note: pc is updated by dispatch method
   {
-    #ifdef WIMPY_MATH
+    #if WIMPY_MATH
 
     TWOBYTES mr;
     STACKWORD sw;

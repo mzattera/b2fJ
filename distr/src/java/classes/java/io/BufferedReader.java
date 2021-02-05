@@ -14,7 +14,12 @@ public class BufferedReader extends Reader {
 		this(reader, DEFAULT_BUFFERSIZE);
 	}
 
-	public BufferedReader(Reader reader, int size) {
+	public BufferedReader(Reader reader, int size) {		
+		super(reader);
+
+		// The below is a temporary patch for  https://github.com/mzattera/b2fJ/issues/8
+		lock = reader;
+
 		if (size < MIN_BUFFERSIZE)
 			size = MIN_BUFFERSIZE;
 
@@ -24,95 +29,109 @@ public class BufferedReader extends Reader {
 
 	@Override
 	public void close() throws IOException {
-		this.limit = -1;
-		this.reader.close();
+		synchronized (lock) {
+			this.limit = -1;
+			this.reader.close();
+		}
 	}
 
 	private void checkOpen() throws IOException {
-		if (this.limit < 0)
-			throw new IOException("stream is closed");
+		synchronized (lock) {
+			if (this.limit < 0)
+				throw new IOException("stream is closed");
+		}
 	}
 
 	private boolean fillBufferAndSkipLF() throws IOException {
-		do {
-			if (this.offset >= this.limit) {
-				int len = 0;
-				// some Reader may be return 0, which is bad behavior actually
-				while (len == 0)
-					len = this.reader.read(this.buffer, 0, this.buffer.length);
-				if (len < 0)
-					return false;
+		synchronized (lock) {
+			do {
+				if (this.offset >= this.limit) {
+					int len = 0;
+					// some Reader may be return 0, which is bad behavior actually
+					while (len == 0) {
+						len = reader.read(this.buffer, 0, this.buffer.length);
+					}
+					if (len < 0)
+						return false;
 
-				this.offset = 0;
-				this.limit = len;
-			}
-
-			if (skipLF) {
-				skipLF = false;
-				if (this.buffer[this.offset] == '\n') {
-					this.offset++;
+					this.offset = 0;
+					this.limit = len;
 				}
-			}
-		} while (this.offset >= this.limit);
 
-		return true;
+				if (skipLF) {
+					skipLF = false;
+					if (this.buffer[this.offset] == '\n') {
+						this.offset++;
+					}
+				}
+			} while (this.offset >= this.limit);
+
+			return true;
+		}
 	}
 
 	@Override
 	public int read() throws IOException {
-		checkOpen();
+		synchronized (lock) {
+			checkOpen();
 
-		if (!fillBufferAndSkipLF())
-			return -1;
+			if (!fillBufferAndSkipLF())
+				return -1;
 
-		return this.buffer[this.offset++];
+			return this.buffer[this.offset++];
+		}
 	}
 
 	@Override
 	public int read(char[] cbuf, int off, int len) throws IOException {
-		checkOpen();
+		synchronized (lock) {
+			checkOpen();
 
-		if (len == 0)
-			return 0;
+			if (len == 0)
+				return 0;
 
-		if (len > this.buffer.length && !skipLF && this.offset >= this.limit)
-			return this.reader.read(cbuf, off, len);
+			if (len > this.buffer.length && !skipLF && this.offset >= this.limit)
+				return this.reader.read(cbuf, off, len);
 
-		if (!fillBufferAndSkipLF())
-			return -1;
+			if (!fillBufferAndSkipLF())
+				return -1;
 
-		int blen = this.limit - this.offset;
-		if (blen > len)
-			blen = len;
+			int blen = this.limit - this.offset;
+			if (blen > len)
+				blen = len;
 
-		System.arraycopy(this.buffer, this.offset, cbuf, off, blen);
-		this.offset += blen;
-		return blen;
+			System.arraycopy(this.buffer, this.offset, cbuf, off, blen);
+			this.offset += blen;
+			return blen;
+		}
 	}
 
 	@Override
 	public boolean ready() throws IOException {
-		checkOpen();
+		synchronized (lock) {
+			checkOpen();
 
-		return this.offset < this.limit || this.reader.ready();
+			return this.offset < this.limit || this.reader.ready();
+		}
 	}
 
 	public String readLine() throws IOException {
-		int c = this.read();
-		if (c < 0)
-			return null;
-		
-		StringBuilder sb = new StringBuilder();
-		while (c != '\n' && c != '\r')
-		{
-			sb.append((char)c);
-			c = this.read();
-			
+		synchronized (lock) {
+			int c = read();
 			if (c < 0)
-				break;
+				return null;
+
+			StringBuilder sb = new StringBuilder();
+			while (c != '\n' && c != '\r') {
+				sb.append((char) c);
+				c = read();
+
+				if (c < 0)
+					break;
+			}
+
+			skipLF = (c == '\r');
+			return sb.toString();
 		}
-		
-		this.skipLF = c == '\r';
-		return sb.toString();
 	}
 }

@@ -1,13 +1,12 @@
-
-#include "configure.h"
-#include "threads.h"
-#include "interpreter.h"
-#include "memory.h"
-#include "language.h"
-#include "mydebug.h"
-
 #ifndef _STACK_H
 #define _STACK_H
+
+#include <stdbool.h>
+#include "conversion.h"
+#include "fields.h"
+#include "memory.h"
+#include "platform_hooks.h"
+#include "threads.h"
 
 #define get_local_word(IDX_)       (localsBase[(IDX_)])
 #define get_local_ref(IDX_)        (localsBase[(IDX_)])
@@ -47,7 +46,7 @@ static __INLINED void init_sp_pv (void)
 /**
  * With stack cleared, checks for stack overflow in given method.
  */
-static __INLINED boolean is_stack_overflow (MethodRecord *methodRecord)
+static __INLINED bool is_stack_overflow (MethodRecord *methodRecord)
 {
   return (stackTop + methodRecord->maxOperands) >= (stack_array() + get_array_length((Object *) word2ptr (currentThread->stackArray)));
 }

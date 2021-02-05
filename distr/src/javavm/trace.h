@@ -1,10 +1,10 @@
-
 #ifndef _TRACE_H
 #define _TRACE_H
 
-#include "types.h"
+#include <stdbool.h>
+#include "platform_config.h"
 
-#ifdef VERIFY
+#if ASSERTIONS_ENABLED
 
 #define INTERPRETER0   10
 #define INTERPRETER1   11
@@ -59,53 +59,17 @@
 
 #define assert( cond, code)  assert_hook( cond, code);
 
-extern void assert_hook (boolean aCond, int aCode);
+extern void assert_hook (bool aCond, int aCode);
 
 #else
 
 #define assert(x,y)  ;
 
-#endif /* VERIFY */
+#endif /* ASSERTIONS_ENABLED */
 
-//#define DEBUG_MEMORY      1
-
-#if 0
-
-#define DEBUG_STARTUP     1
-#define DEBUG_MEMORY      1
-#define DEBUG_THREADS     1
-#define DEBUG_METHODS     1
-#define DEBUG_BYTECODE    1
-#define DEBUG_FIELDS      1
-#define DEBUG_OBJECTS     1
-#define DEBUG_EXCEPTIONS  1
-#define DEBUG_MONITOR     1
-
-#endif
-
-#ifndef DEBUG_EXCEPTIONS
-# define DEBUG_EXCEPTIONS 0
-#endif
-
-#ifndef DEBUG_MONITOR
-# define DEBUG_MONITOR 0
-#endif
-
-#ifndef DEBUG_METHODS
-# define DEBUG_METHODS 0
-#endif
-
-#ifndef DEBUG_BYTECODE
-# define DEBUG_BYTECODE 0
-#endif
-
-#ifndef DEBUG_THREADS
-# define DEBUG_THREADS  0
-#endif
-
-#ifndef DEBUG_MEMORY
-# define DEBUG_MEMORY  0
-#endif
+extern void printMasterRecord(void);
+extern void printClassRecord(ClassRecord *cls);
+extern void printMethodRecord(MethodRecord *m);
 
 #endif // _TRACE_H
 

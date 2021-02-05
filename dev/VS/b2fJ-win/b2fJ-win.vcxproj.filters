@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\distr\src\javavm\op_arithmetic.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_arrays.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_control.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_conversions.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_locals.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_logical.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_methods.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_objects.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_other.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_skip.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\op_stack.hc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\classes.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\distr\src\javavm\signatures.db">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\distr\src\javavm\classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\fields.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\interpreter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\language.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\specialclasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\specialsignatures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\threads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\tvmemul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\platform\win\platform_hooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\java_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\platform\win\platform_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\nativeemul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\distr\src\javavm\conversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\distr\src\javavm\exceptions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\interpreter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\language.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\threads.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\nativeemul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\tvmemul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\platform\win\platform_native.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\platform\win\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\distr\src\javavm\trace.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

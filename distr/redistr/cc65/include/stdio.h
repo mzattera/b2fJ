@@ -38,12 +38,8 @@
 
 
 
-#ifndef _STDDEF_H
-#  include <stddef.h>
-#endif
-#ifndef _STDARG_H
-#  include <stdarg.h>
-#endif
+#include <stddef.h>
+#include <stdarg.h>
 
 
 
@@ -75,6 +71,8 @@ extern FILE* stderr;
 #  define FILENAME_MAX  (12+1)
 #elif defined(__LUNIX__)
 #  define FILENAME_MAX  (80+1)
+#elif defined(__TELESTRAT__)
+#  define FILENAME_MAX  (50+1)
 #else
 #  define FILENAME_MAX  (16+1)
 #endif
@@ -145,6 +143,3 @@ void __fastcall__ _poserror (const char* msg);          /* cc65 */
 
 /* End of stdio.h */
 #endif
-
-
-

@@ -34,9 +34,11 @@ public interface SpecialSignatureConstants {
     "getMessage()Ljava/lang/String;",
     "floatToRawIntBits(F)I",
     "intBitsToFloat(I)F",
+    "getCharFromStdin0()I",
     "putCharToStdout0(I)V",
     "putStringToStdout0(Ljava/lang/String;)V",
     "peek(I)I",
-    "poke(II)V"
+    "poke(II)V",
+    "dump0(Ljava/lang/Object;)V"
   };
 }

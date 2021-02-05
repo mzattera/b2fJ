@@ -2,14 +2,14 @@
 <HTML>
 <HEAD>
  <LINK REL="stylesheet" TYPE="text/css" HREF="doc.css">
- <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.66">
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.71">
  <TITLE>cc65 internals</TITLE>
 </HEAD>
 <BODY>
 <H1>cc65 internals</H1>
 
 <H2>
-<A HREF="mailto:bbbradsmith@users.noreply.github.com">Brad Smith</A></H2>2016-02-27
+<A HREF="mailto:bbbradsmith@users.noreply.github.com">Brad Smith</A></H2>
 <HR>
 <EM>Internal details of cc65 code generation,
 such as calling assembly functions from C.</EM>
@@ -54,7 +54,7 @@ The standard compliant variations <CODE>__cdecl__</CODE> and <CODE>__fastcall__<
 <P>If a function has a prototype, parameters are pushed to the C-stack as their respective types
 (i.e. a <CODE>char</CODE> parameter will push 1 byte), but if a function has no prototype, default
 promotions will apply. This means that with no prototype, <CODE>char</CODE> will be promoted
-to <CODE>int</CODE> and be pushed as 2 bytes. K &amp; R style function prototypes may be used,
+to <CODE>int</CODE> and be pushed as 2 bytes. "K &amp; R"-style forward declarations may be used,
 but they will function the same as if no prototype was used.</P>
 
 <H2><A NAME="ss1.2">1.2</A> <A HREF="#toc1.2">Prologue, before the function call</A>
@@ -80,8 +80,8 @@ the <CODE>A/X/sreg</CODE> registers:</P>
 The rightmost parameter will have the lowest address on the stack,
 and multi-byte parameters will have their least significant byte at the lower address.</P>
 <P>The <CODE>sp</CODE> pseudo-register is a zeropage pointer to the base of the C-stack.
-If the function has no prototype or is variadic
-the <CODE>Y</CODE> register will contain the number of bytes pushed to the stack for this function.</P>
+If the function is variadic, the <CODE>Y</CODE> register will contain the number of
+bytes pushed to the stack for this function.</P>
 <P>Example:
 <BLOCKQUOTE><CODE>
 <PRE>
@@ -130,8 +130,9 @@ of <CODE>A/X/sreg</CODE>, so these may be clobbered by the function.</P>
 function call prologue. It may pop all of its parameters from the C-stack
 (e.g. using the <CODE>runtime</CODE> function <CODE>popa</CODE>),
 or it could adjust <CODE>sp</CODE> directly.
-If the function has no prototype, or is variadic the <CODE>Y</CODE> register contains the
-number of bytes pushed to the stack on entry, which may be added to <CODE>sp</CODE> to restore its original state.</P>
+If the function is variadic, the <CODE>Y</CODE> register contains the number of bytes
+pushed to the stack on entry, which may be added to <CODE>sp</CODE> to restore its
+original state.</P>
 <P>The internal pseudo-register <CODE>regbank</CODE> must not be changed by the function.</P>
 
 <H3>Clobbered state</H3>
