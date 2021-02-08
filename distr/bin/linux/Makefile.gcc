@@ -1,4 +1,4 @@
-LEJOS_HOME=../../
+LEJOS_HOME=../..
 CURRENT_DIR=$(shell pwd)
 VMSRC=$(LEJOS_HOME)/src/javavm
 PLATFORMSRC=$(LEJOS_HOME)/src/platform/linux

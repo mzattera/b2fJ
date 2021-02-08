@@ -25,11 +25,11 @@ CURRENT_DIR=`pwd`
 
 echo "  b2fJ Home: $B2FJ_HOME"
 
-b2fjc $1.java
+b2fj-compiler $1.java
 exit_on_error $? !!
-b2fjl $1
+b2fj-linker $1
 exit_on_error $? !!
-b2fji-linux
+b2fj-native-linux
 exit_on_error $? !!
 mv b2fj $1
 exit_on_error $? !!
