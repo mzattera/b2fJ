@@ -1,0 +1,51 @@
+#!/bin/bash
+
+exit_on_error() {
+    exit_code=$1
+    last_command=${@:2}
+    if [ $exit_code -ne 0 ]; then
+        >&2 echo "\"${last_command}\" command failed with exit code ${exit_code}."
+        exit $exit_code
+    fi
+}
+
+# enable !! command completion
+set -o history -o histexpand
+
+echo
+echo ===== b2fj .class to C =====
+echo
+
+# home of the b2fj installation
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+FB_BIN="$B2FJ_HOME/bin"
+echo "  b2fJ Home: $B2FJ_HOME"
+
+# home of the jdk to use for compiling
+if [ -z "$JAVA_HOME" ];
+then
+    echo "  Java Home empty; javac must be in your CLASSPATH"
+    JC="java"
+else
+    echo "  Java Home: $JAVA_HOME"
+    JC="$JAVA_HOME/bin/java"
+fi
+
+echo "  Java CLASSPATH: $CLASSPATH"
+
+LINK_CLASSPATH=".:$CLASSPATH:$B2FJ_HOME/redistr/lib/bcel-5.1.jar:$B2FJ_HOME/redistr/lib/commons-cli-1.0.jar:$B2FJ_HOME/lib/jtools.jar:$B2FJ_HOME/lib/classes.jar"
+B2FJ_CLASSPATH=".:$B2FJ_HOME/lib/classes.jar"
+
+echo
+echo Linking classes - creating C bytecode array:
+echo
+
+"$JC" -classpath "$LINK_CLASSPATH" js.tinyvm.TinyVM --writeorder LE --classpath "$B2FJ_CLASSPATH" -o java_code.h "$1"
+
+exit_on_error $? !!
+
+mv java_code.h "$B2FJ_HOME"/src/javavm
+
+echo ============================
+echo DONE.

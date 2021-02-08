@@ -1,0 +1,29 @@
+#!/bin/bash
+echo
+echo ===== b2fJ .java to .class =====
+echo
+
+# home of the b2fJ installation
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+
+# if not "%B2FJ_HOME:~-1%"=="\" set "FB_BIN=%B2FJ_HOME%\"
+# set "B2FJ_HOME=%B2FJ_HOME%.."
+echo "Home: $B2FJ_HOME"
+
+# home of the jdk to use for compiling
+JC=javac
+echo "  Java CLASSPATH: $CLASSPATH"
+
+echo
+echo Launching compilaton:
+echo
+
+set -x
+
+$JC -source 1.8 -target 1.8 -bootclasspath "$B2FJ_HOME/lib/classes.jar" -classpath ".;$CLASSPATH" "$@"
+
+set +x
+
+echo
+echo ============================
