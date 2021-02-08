@@ -26,10 +26,15 @@ CURRENT_DIR=`pwd`
 echo "  b2fJ Home: $B2FJ_HOME"
 
 cd "$B2FJ_HOME"/bin/linux
-make clean
-make
+make -f Makefile.gcc clean
+make -f Makefile.gcc
 exit_on_error $? !!
 mv b2fj "$CURRENT_DIR"
 
+rm *.o
+
 echo ============================
 echo DONE.
+
+
+
