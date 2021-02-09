@@ -47,11 +47,12 @@ The utilities has been tested on Ubuntu and Raspbian
 sudo apt install vice
 sudo apt install cc65
 sudo apt install build-essential gcc-multilib
-# on 64-bit linux
-sudo apt install gcc-multilib # for 64-bit linux to build 32-bit binaries
+# Step for 64-bit linux
 sudo dpkg --add-architecture i386 # add packages to run 32-bit binaries
+sudo apt update
 sudo apt-get install libc6-i386
 sudo apt install libc6:i386 libstdc++6:i386
+sudo apt install gcc-multilib # for 64-bit linux to build 32-bit binaries
 
 # OSX
 
