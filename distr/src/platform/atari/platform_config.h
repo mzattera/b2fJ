@@ -60,7 +60,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	4
+	#define INITIAL_STACK_FRAMES	2
 	#define INITIAL_STACK_SIZE		10
 #endif
 

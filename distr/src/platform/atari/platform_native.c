@@ -22,7 +22,7 @@
 /* Called before engine() is started and Java program executed */
 void engine_start_hook()
 {
-	clrscr();
+	// clrscr();
 	printf("\n      ****   b2fJ v.%s   ****\n", VERSION);
 	printf("\n  64K RAM system %5d Java bytes free\n\n", getHeapFree());
 }
@@ -30,8 +30,10 @@ void engine_start_hook()
 
 void exit_tool(char* exitMessage, int exitCode)
 {
-	if (exitMessage) 
+	if (exitMessage) {
 		printf(exitMessage);
+		getchar();
+	}
 	exit(exitCode);
 }
 
@@ -48,38 +50,21 @@ void handle_uncaught_exception(Object *exception,
 	printf("--  Method signature  : %u\n", (unsigned)methodRecord->signatureId);
 	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
 	printf("--  Bytecode offset   : %u\n", (unsigned)pc - (int)get_code_ptr(methodRecord));
+	getchar();
 }
 
 
 /**
- * Converts a Java char into corresponding platform-dependent char (PETSCII).
+ * Converts a Java char into corresponding platform-dependent char (ATASCII).
  */
 char int2nativeChar(int c)
 {
 
 	/* must swap upper / lower case letters */
-	if (c >= 65 && c <= 90)
-		return (c + 32);
-	if (c >= 97 && c <= 122)
-		return (c - 32);
 
-	/* Special chars; represented with graphical PETSCII chars */
+	/* Special chars; represented with graphical ATASCII chars */
 	if (c == 10) // New line
-		return 13;
-	if (c == 92) // backslash
-		return 191;
-	if (c == 95) // _
-		return 164;
-	if (c == 96) // `
-		return 173;
-	if (c == 123) // {
-		return 179;
-	if (c == 124) // |
-		return 221;
-	if (c == 125) // }
-		return 171;
-	if (c == 126) // ~
-		return 177;
+		return 155;
 
 	return c;
 }

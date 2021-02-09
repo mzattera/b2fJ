@@ -48,7 +48,7 @@ int main ()
 #endif
 
 	run();
-	exit_tool (NULL, 0);
+	exit_tool ("Done,any key.", 0);
 	
 	return 0;
 } 

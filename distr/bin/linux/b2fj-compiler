@@ -21,7 +21,7 @@ echo
 
 set -x
 
-"$JC" -source 1.8 -target 1.8 -bootclasspath "$B2FJ_HOME/lib/classes.jar" -classpath ".:$CLASSPATH" "$@"
+"$JC" -g:none -source 1.8 -target 1.8 -bootclasspath "$B2FJ_HOME/lib/classes.jar" -classpath ".:$CLASSPATH" "$@"
 
 set +x
 
