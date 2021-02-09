@@ -1,11 +1,12 @@
-
 # Utilities
 
 Utilities to create B2JF binaries on linux and macosx.
 
 The utilities can be used to create c64 binaries that run any platform that supports VICE 3.5 or real C64.
 
-The linux generated binaries only can run on 32-bits platforms.
+You can also generate b2fj.prg binary and but it on a online C64 emulator (https://c64emulator.111mb.de/)
+
+The linux generated binaries can only run on 32-bits platforms, or 64-bit with 32-bit libraries installed.
 
 ## b2fj-go-c64 <File>
 
@@ -35,13 +36,22 @@ Generates a 32-bit binary native image that can run on linux and debbuged with g
 
 It is possible to use the linux utilities to create a C64 native image and run it on the VICE emulator. 
 
-If the linux OS 32-bit support, is possible run the native images for testing and debug previous to run on a real device. The VM requires 32-bit supports as it assumes that the host machine has 32-bit addresses, in a 64-bit machine the VM crash due the addresses are truncated.
+If the linux has OS 32-bit support, is possible run the native images for testing and debug previous to run on a real device.
+
+The linux binaries requires 32-bit supports as it assumes that the host machine has 32-bit addresses, in a 64-bit environment the binaries crash due the addresses are truncated.
+
+The utilities has been tested on Ubuntu and Raspbian
 
 ## Prerrequisites
 
 sudo apt install vice
 sudo apt install cc65
-sudo apt install build-essential gcc-multilib make
+sudo apt install build-essential gcc-multilib
+# on 64-bit linux
+sudo apt install gcc-multilib # for 64-bit linux to build 32-bit binaries
+sudo dpkg --add-architecture i386 # add packages to run 32-bit binaries
+sudo apt-get install libc6-i386
+sudo apt install libc6:i386 libstdc++6:i386
 
 # OSX
 
