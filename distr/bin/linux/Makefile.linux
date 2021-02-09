@@ -1,0 +1,40 @@
+LEJOS_HOME=../..
+CURRENT_DIR=$(shell pwd)
+VMSRC=$(LEJOS_HOME)/src/javavm
+PLATFORMSRC=$(LEJOS_HOME)/src/platform/linux
+BIN_TARGET=.
+
+LD=ld
+
+CC=gcc
+
+# No -O2 option below because gcc 2.95.2 crashes!
+#CFLAGS=-I../vmsrc -I. -Wall -Wno-unused -DDEBUG_BYTECODE=1
+
+CFLAGS=-I$(LEJOS_HOME)/src/javavm -I$(PLATFORMSRC) -m32 -g3 -ggdb3 # -Wall -Wno-unused -DDEBUG_METHODS=1 -DDEBUG_BYTECODE=1
+
+VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \
+	   memory.o nativeemul.o  \
+           threads.o trace.o tvmemul.o
+
+IMAGE_TARGET=$(BIN_TARGET)/b2fj
+
+default: programs
+
+programs: ${IMAGE_TARGET}
+
+platform_native.o: ${PLATFORMSRC}/platform_native.c
+	${CC} ${CFLAGS} -c ${PLATFORMSRC}/platform_native.c
+
+main.o: ${PLATFORMSRC}/main.c
+	${CC} ${CFLAGS} -c ${PLATFORMSRC}/main.c
+
+%.o: $(VMSRC)/%.c
+	${CC} ${CFLAGS} -c $(VMSRC)/$*.c
+
+${IMAGE_TARGET}: ${VMEMUL_OBJ}
+	${CC} -m32 ${VMEMUL_OBJ} -o ${IMAGE_TARGET}
+
+clean:
+	rm -rf ${VMSRC}/*.o *.o $(BIN_TARGET)/emu-*.exe core ${DUMP_TARGET} ${VMEMUL_TARGET}
+
