@@ -1,4 +1,4 @@
-LEJOS_HOME=../../
+LEJOS_HOME=../..
 CURRENT_DIR=$(shell pwd)
 VMSRC=$(LEJOS_HOME)/src/javavm
 PLATFORMSRC=$(LEJOS_HOME)/src/platform/atari
@@ -8,8 +8,8 @@ LD=cl65
 CC=cl65
 TARGET=atarixl
 
-CFLAGS=-t ${TARGET} -C ${TARGET}-xex.cfg -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -O -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
-LDFLAGS=${CFLAGS}
+CC-FLAGS=-t ${TARGET} -C ${TARGET}-xex.cfg -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -O -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
+LD-FLAGS=${CC-FLAGS}
 
 VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \
 	   memory.o nativeemul.o  \
@@ -22,16 +22,16 @@ default: programs
 programs: ${IMAGE_TARGET}
 
 platform_native.o: ${PLATFORMSRC}/platform_native.c
-	${CC} ${CFLAGS} -o $(BIN_TARGET)/platform_native.o -c ${PLATFORMSRC}/platform_native.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/platform_native.o -c ${PLATFORMSRC}/platform_native.c
 
 main.o: ${PLATFORMSRC}/main.c
-	${CC} ${CFLAGS} -o $(BIN_TARGET)/main.o -c ${PLATFORMSRC}/main.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/main.o -c ${PLATFORMSRC}/main.c
 
 %.o: $(VMSRC)/%.c
-	${CC} ${CFLAGS} -o $(BIN_TARGET)/$*.o -c $(VMSRC)/$*.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/$*.o -c $(VMSRC)/$*.c
 
 ${IMAGE_TARGET}: ${VMEMUL_OBJ}
-	${LD} ${LDFLAGS} -o ${IMAGE_TARGET} ${VMEMUL_OBJ} 
+	${LD} ${LD-FLAGS} -o ${IMAGE_TARGET} ${VMEMUL_OBJ} 
 
 clean:
 	rm -rf ${VMSRC}/*.o *.o ${IMAGE_TARGET}
