@@ -25,6 +25,8 @@ void engine_start_hook()
 	// clrscr();
 	printf("\n      ****   b2fJ v.%s   ****\n", VERSION);
 	printf("\n  64K RAM system %5d Java bytes free\n\n", getHeapFree());
+	printf( " Heap Size: %5d\n", getHeapSize()); 
+
 }
 
 

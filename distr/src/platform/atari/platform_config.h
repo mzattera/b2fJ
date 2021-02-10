@@ -43,7 +43,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 /* Max size (in TWOBYTES words) for Java Heap. The JVM will try to allocate this much memory for heap at startup. */
 #define MAX_HEAP_SIZE	((size_t)(65536 / sizeof(TWOBYTES)))
 
-#define SEGMENTED_HEAP				0	/* If not 0 allow multiple heap segments (heap split in pieces) */
+#define SEGMENTED_HEAP				1	/* If not 0 allow multiple heap segments (heap split in pieces) */
 #define COALESCE					0	/* If not 0, coalesce adjacent free blocks in the heap */
 
 #define FIXED_STACK_SIZE			0
@@ -60,7 +60,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	2
+	#define INITIAL_STACK_FRAMES	4
 	#define INITIAL_STACK_SIZE		10
 #endif
 

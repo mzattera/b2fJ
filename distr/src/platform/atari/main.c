@@ -12,7 +12,6 @@
 #include "tvmemul.h"
 #include "version.h"
 
-
 /**
 * Read Java bytecode from given file.
 * If the file name is NULL, it means bytecode is linked directly in a byte[].
@@ -20,8 +19,9 @@
 void readBinary()
 {
 #if DEBUG_STARTUP
-	printf("Installing binary %d\n");
+	printf("Installing binary \n");
 #endif
+	printf("Code Size:%d",sizeof(javaClassFileContent));
 	install_binary(javaClassFileContent);
 
 #if DEBUG_STARTUP
@@ -48,7 +48,8 @@ int main ()
 #endif
 
 	run();
-	exit_tool ("Done,any key.", 0);
+	exit_tool ("Press any key...", 0);
 	
 	return 0;
 } 
+

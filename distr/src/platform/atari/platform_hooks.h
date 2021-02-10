@@ -45,7 +45,7 @@ extern bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase);
 /* Returns size of maximum free memory heap block available (in TWOBYTES words) */
 /* If your platform has no way to provide this, return MAX_HEAP_SIZE */
 /* extern size_t get_max_block_size(void); */
-#define get_max_block_size() (_heapmaxavail() / sizeof(TWOBYTES))
+#define get_max_block_size() ( _heapmaxavail()  / sizeof(TWOBYTES))
 
 /* Called before Java heap is initialized, in case the platform needs to reserve some memory */
 /* static __INLINED void memory_init_hook() */
