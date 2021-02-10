@@ -1,4 +1,21 @@
 #!/bin/bash
+set -e
+
+abort()
+{
+    echo >&2 '
+***************
+*** ABORTED ***
+***************
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+trap 'abort' 0
+
+set -e
+
 echo
 echo ===== b2fJ .java to .class =====
 echo
@@ -19,11 +36,10 @@ echo
 echo Launching compilaton:
 echo
 
-set -x
-
 "$JC" -g:none -source 1.8 -target 1.8 -bootclasspath "$B2FJ_HOME/lib/classes.jar" -classpath ".:$CLASSPATH" "$@"
 
-set +x
 
-echo
-echo ============================
+trap : 0
+echo >&2 '
+*** DONE *** 
+'

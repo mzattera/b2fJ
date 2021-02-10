@@ -1,4 +1,3 @@
-  GNU nano 4.8                                                              /home/eahumada/Projects/GitHub/eahumada/b2fJ/distr/bin/linux/b2fjl.sh                                                                         
 #!/bin/bash
 
 exit_on_error() {
@@ -26,8 +25,8 @@ CURRENT_DIR=`pwd`
 echo "  b2fJ Home: $B2FJ_HOME"
 
 cd "$B2FJ_HOME"/bin/linux
-make -f Makefile.gcc clean
-make -f Makefile.gcc
+make -f Makefile.linux clean
+make -f Makefile.linux
 exit_on_error $? !!
 mv b2fj "$CURRENT_DIR"
 

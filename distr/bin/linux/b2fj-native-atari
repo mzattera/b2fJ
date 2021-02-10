@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo
+echo ===== b2fj .class to C =====
+echo
+
+# home of the b2fj installation
+
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+CURRENT_DIR=`pwd`
+
+echo "  b2fJ Home: $B2FJ_HOME"
+
+cd "$B2FJ_HOME/bin/linux"
+
+if [ -f "b2fj.xex" ]; then rm -f "b2fj.xex"; fi;
+if [ -f "$CURRENT_DIR/b2fj.xex" ]; then rm -f "$CURRENT_DIR/b2fj.xex"; fi;
+
+make -f Makefile.atari clean default 
+rm *.o
+
+if [ ! -f "$CURRENT_DIR/b2fj.xex" ]; then mv b2fj.xex "$CURRENT_DIR"; fi;
+
+echo ============================
+echo DONE.
