@@ -10,7 +10,7 @@
 #include <stdint.h>
 // #include <stdio.h>
 // #include <string.h>
-// #include <stdlib.h>
+#include <stdlib.h>
 
 /***********************************************************************************************************
  * Compiler specific settings.
@@ -28,7 +28,8 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define __INLINED				/* Used to mark a method "inline" */
 
 /* To align with Java, the C structures we use must be packed. */
-#define __PACKED(DEC)		DEC
+#define __PACKED(DEC) DEC
+// #define __PACKED(DEC) DEC __attribute__((__packed__)) // There is no __pragma(pack(push,1)) on GCC, this show warning if switchs comments.
 
 #define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
