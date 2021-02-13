@@ -23,10 +23,9 @@
 void engine_start_hook()
 {
 	// clrscr();
-	printf("\n      ****   b2fJ v.%s   ****\n", VERSION);
-	printf("\n  64K system %5d Java bytes free\n\n", getHeapFree());
-	printf( " Heap: %5d\n", getHeapSize()); 
-
+	printf("\n    **** ATARI - b2fJ v.%s   ****\n", VERSION);
+	printf("\n  64K RAM %5d Java bytes free\n\n", getHeapFree());
+	// printf( " Heap: %5d\n", getHeapSize()); 
 }
 
 
@@ -92,7 +91,7 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 					putc(int2nativeChar((int)pA[i]), stdout);
 				}
 			}
-		}		
+		}
 		return true;
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
