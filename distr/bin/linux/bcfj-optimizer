@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Pre-requisites:
+# ProGuard, the most popular optimizer for Java bytecode
+# Linux: apt install proguard
+# Macosx: brew install proguard
+
+set -e
+
+abort()
+{
+    echo >&2 '
+*** ABORTED ***
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+trap 'abort' 0
+
+set -e
+
+echo ===== b2fJ .java to .class =====
+
+# home of the b2fJ installation
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+
+echo "HOME: $B2FJ_HOME"
+
+echo
+echo Optimizing classes.jar
+echo
+
+cd $B2FJ_HOME/distr/lib
+cp -n classes.jar classes.jar.bak
+proguard @$B2FJ_HOME/distr/bin/linux/config.pro
+cp -u classes_out.jar classes.jar
+
+trap : 0
+echo >&2 '
+*** DONE *** 
+'

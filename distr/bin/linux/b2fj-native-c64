@@ -26,8 +26,8 @@ CURRENT_DIR=`pwd`
 echo "  b2fJ Home: $B2FJ_HOME"
 
 cd "$B2FJ_HOME"/bin/linux
-make clean
-make
+make -f Makefile.c64 clean
+make -f Makefile.c64 all
 exit_on_error $? !!
 rm *.o
 
