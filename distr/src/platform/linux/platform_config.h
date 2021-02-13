@@ -92,11 +92,11 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define DEBUG_MEMORY      	0
 #define DEBUG_THREADS     	0
 #define DEBUG_METHODS     	0
-#define DEBUG_BYTECODE    	1
+#define DEBUG_BYTECODE    	0
 #define DEBUG_FIELDS      	0
 #define DEBUG_OBJECTS     	0
 #define DEBUG_EXCEPTIONS  	1
 #define DEBUG_MONITOR     	0
-#define DEBUG_JAVA     		1
+#define DEBUG_JAVA     		0
 
 #endif // _PLATFORM_H_

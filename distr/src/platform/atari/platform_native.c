@@ -25,7 +25,7 @@ void engine_start_hook()
 	// clrscr();
 	printf("\n      ****   b2fJ v.%s   ****\n", VERSION);
 	printf("\n  64K RAM system %5d Java bytes free\n\n", getHeapFree());
-	printf( " Heap Size: %5d\n", getHeapSize()); 
+	printf( " Heap: %5d\n", getHeapSize()); 
 
 }
 
@@ -46,12 +46,12 @@ void handle_uncaught_exception(Object *exception,
 	const MethodRecord *rootMethod,
 	byte *pc)
 {
-	printf("*** UNCAUGHT EXCEPTION/ERROR: \n");
-	printf("--  Exception class   : %u\n", (unsigned)get_class_index(exception));
-	printf("--  Thread            : %u\n", (unsigned)thread->threadId);
-	printf("--  Method signature  : %u\n", (unsigned)methodRecord->signatureId);
-	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
-	printf("--  Bytecode offset   : %u\n", (unsigned)pc - (int)get_code_ptr(methodRecord));
+	printf("*** UNCAUGHT EXCEPTION/ERROR:\n");
+	printf("- Exception class  : %u\n", (unsigned)get_class_index(exception));
+	printf("- Thread           : %u\n", (unsigned)thread->threadId);
+	printf("- Method signature : %u\n", (unsigned)methodRecord->signatureId);
+	printf("- Root method sig. : %u\n", (unsigned)rootMethod->signatureId);
+	printf("- Bytecode offset  : %u\n", (unsigned)pc - (int)get_code_ptr(methodRecord));
 	getchar();
 }
 
@@ -92,7 +92,7 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 					putc(int2nativeChar((int)pA[i]), stdout);
 				}
 			}
-		}		
+		}
 		return true;
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
