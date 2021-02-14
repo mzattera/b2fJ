@@ -8,7 +8,7 @@ LD=cl65
 CC=cl65
 TARGET=atarixl
 
-CC-FLAGS=-t ${TARGET} -C ${TARGET}-xex.cfg -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -O -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
+CC-FLAGS=-t ${TARGET} -C ${TARGET}-xex.cfg -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -Osr --codesize 100 -Cl -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
 LD-FLAGS=${CC-FLAGS}
 
 VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \

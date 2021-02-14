@@ -53,7 +53,6 @@ void handle_uncaught_exception(Object *exception,
 	getchar();
 }
 
-
 /**
  * Converts a Java char into corresponding platform-dependent char (ATASCII).
  */
@@ -63,12 +62,13 @@ char int2nativeChar(int c)
 	/* must swap upper / lower case letters */
 
 	/* Special chars; represented with graphical ATASCII chars */
-	if (c == 10) // New line
-		return 155;
+	if(c==10)
+	    return 155;
+	else if(c==9)
+	    return 127;
 
 	return c;
 }
-
 
 bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {

@@ -90,4 +90,7 @@ brew install atari800
 
 cd ./distr/bin/linux
 export PATH=$(pwd):$PATH
-b2fj-go-c64 Iterate # Build the binary and run in the emulator
+b2fj-go-c64 HelloWorld # Build the binary and run in the emulator
+
+# Related projects
+https://github.com/Guardsquare/proguard
