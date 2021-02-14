@@ -60,8 +60,8 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	2
-	#define INITIAL_STACK_SIZE		5
+	#define INITIAL_STACK_FRAMES	3
+	#define INITIAL_STACK_SIZE		10
 #endif
 
 /* If not 0, threads in the DEAD state are  removed from the circular list. Recommended. */

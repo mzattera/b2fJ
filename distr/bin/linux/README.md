@@ -8,9 +8,23 @@ You can also generate b2fj.prg binary and but it on a online C64 emulator (https
 
 The linux generated binaries can only run on 32-bits platforms, or 64-bit with 32-bit libraries installed.
 
+## b2fj-go-optimizer
+
+Optimizes the classes.jar file, using proguard opensource java optimization tools.
+
+This optimization give us 2k extra room (aprox.) for our applications running on the device.
+
 ## b2fj-go-c64 <File>
 
 Compile source, link, create binary native image and run on C64 VICE 3.5
+
+## b2fj-go-atari <File>
+
+Compile source, link, create binary native image and run on Atari800 emulator.
+
+try:
+$ cd <B2FJ_HOME>/dev/test
+$ b2fj-go-atari b2fJ/test/atari/PlayerMissileTest
 
 ## b2fj-go-linux <File>
 
@@ -46,6 +60,8 @@ The utilities has been tested on Ubuntu and Raspbian
 
 sudo apt install vice
 sudo apt install cc65
+sudo apt install atari800
+
 sudo apt install build-essential gcc-multilib
 # Step for 64-bit linux
 sudo dpkg --add-architecture i386 # add packages to run 32-bit binaries
@@ -64,6 +80,7 @@ OSX does not have 32-bit support, the is not possible run the native images on t
 
 brew install vice
 brew install cc65
+brew install atari800
 
 # Quick Start
 

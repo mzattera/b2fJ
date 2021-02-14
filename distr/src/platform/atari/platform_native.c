@@ -23,11 +23,10 @@
 void engine_start_hook()
 {
 	// clrscr();
-	printf("\n    **** ATARI - b2fJ v.%s   ****\n", VERSION);
-	printf("\n  64K RAM %5d Java bytes free\n\n", getHeapFree());
-	// printf( " Heap: %5d\n", getHeapSize()); 
+	printf("\n    ****  b2fJ v.%s  ****\n", VERSION);
+	printf("\n  64K RAM system %5d Java bytes free\n", getHeapFree());
+	// printf( "  Heap:%5d\n", getHeapSize()); 
 }
-
 
 void exit_tool(char* exitMessage, int exitCode)
 {

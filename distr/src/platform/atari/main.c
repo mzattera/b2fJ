@@ -21,7 +21,6 @@ void readBinary()
 #if DEBUG_STARTUP
 	printf("Installing binary \n");
 #endif
-	printf("Codesize:%d",sizeof(javaClassFileContent));
 	install_binary(javaClassFileContent);
 
 #if DEBUG_STARTUP
