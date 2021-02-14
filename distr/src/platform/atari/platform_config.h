@@ -60,12 +60,12 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	3
+	#define INITIAL_STACK_FRAMES	2
 	#define INITIAL_STACK_SIZE		10
 #endif
 
 /* If not 0, threads in the DEAD state are  removed from the circular list. Recommended. */
-#define REMOVE_DEAD_THREADS			1	
+#define REMOVE_DEAD_THREADS			0	
 
 /* Set to non-zero if we want the scheduler to perform priority inversion avoidance (???) */
 #define PI_AVOIDANCE				1
@@ -75,7 +75,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define FP_ARITHMETIC				0	/* Used to enable/disable floating point math */
 #define WIMPY_MATH					0	/* ??? leave this 0 */
 
-#define RECORD_REFERENCES			1	/* ??? leave this 1 */
+#define RECORD_REFERENCES			0	/* ??? leave this 1 */
 
 #define SAFE                        0	/* Slightly safer code (???) leave this 1 */
 
