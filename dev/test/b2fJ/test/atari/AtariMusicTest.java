@@ -26,7 +26,7 @@ public class AtariMusicTest {
 
         // Test kernel
         while (true) {
-			out.print("The ");
+			out.print("\n\tThe ");
 			Thread.sleep(1000);
 			out.print("Music ");
 			Thread.sleep(1000);
