@@ -8,6 +8,7 @@ public class ArchonSongTest {
     public static void main(String[] args) throws InterruptedException {
         // Start the sound loop
         SoundLoop soundLoop1 = (new SoundLoop((short) 8));
+        // soundLoop1.printSong();
         soundLoop1.run();
 
     }
@@ -30,7 +31,7 @@ public class ArchonSongTest {
             poke(AUDC[voice], (16 * distortion) + volume);
         }
 
-        static void chorusSound(int pitch, int pitch2,int distortion, int volume) {
+        static void chorusSound(int pitch, int pitch2, int distortion, int volume) {
             dv = (16 * distortion) + volume;
             poke(AUDF[0], pitch);
             poke(AUDF[1], pitch2);
@@ -42,8 +43,143 @@ public class ArchonSongTest {
 
     public static class SoundLoop {
 
-        // Note + Duration
+        static final int RETURN = '\uFC00';
+
+        // Note/Instruction + Duration/Parameter
         static final int[] song1 = {
+                '\uFF71', // 000: Goto position 6, start
+                '\u7901', // 001: Sub-rutine 1
+                '\u8001', // 002
+                '\u8801', // 003
+                '\u9001', // 004
+                RETURN,   // 005
+                '\u6C01', // 006: Sub-routine 2
+                '\u6601',
+                '\u6001',
+                '\u5B01',
+                '\u5518',
+                '\u0001',
+                '\u7209',
+                '\u6604',
+                '\u7201',
+                '\u7901',
+                '\u9902',
+                '\u4C24',
+                '\u0001',
+                '\u5512',
+                '\u7209',
+                '\u6604',
+                '\u7201',
+                '\u7901',
+                '\u9902',
+                '\u4C26',
+                '\u5B01',
+                '\u5B01',
+                '\u4C01',
+                '\u4C01',
+                '\u4401',
+                '\u4401',
+                '\u3C01',
+                '\u3C01',
+                '\u4401',
+                '\u4401',
+                '\u4C01',
+                '\u4C01',
+                '\u5B01',
+                '\u5B01',
+                '\u4401',
+                '\u4401',
+                '\u5B01',
+                '\u5B01',
+                '\u4C01',
+                '\u4C01',
+                '\u5B01',
+                '\u5B01',
+                '\u7901',
+                '\u7901',
+                '\u5B01',
+                '\u5B01',
+                '\uB601',
+                '\uB601',
+                '\u7901',
+                '\u7903',
+                '\u5501',
+                '\u5501',
+                '\u4401',
+                '\u4401',
+                '\u3C01',
+                '\u3C01',
+                '\u3901',
+                '\u3901',
+                '\u3C01',
+                '\u3C01',
+                '\u4401',
+                '\u4401',
+                '\u5501',
+                '\u5501',
+                '\u3C01',
+                '\u3C01',
+                '\u5501',
+                '\u5501',
+                '\u4401',
+                '\u4401',
+                '\u5501',
+                '\u5501',
+                '\u7201',
+                '\u7201',
+                '\u5501',
+                '\u5501',
+                '\uAC01',
+                '\uAC01',
+                '\u7201',
+                '\u7203',
+                '\u8001',
+                '\u7901',
+                '\u4C01',
+                '\u5101',
+                '\u6001',
+                '\u5B01',
+                '\u5101',
+                '\u4C01',
+                '\u4401',
+                '\u4001',
+                '\u3C01',
+                '\u4C01',
+                '\u5B04',
+                '\u8001',
+                '\u7901',
+                '\u4C01',
+                '\u5101',
+                '\u6001',
+                '\u5B01',
+                '\u5101',
+                '\u4C01',
+                '\u4401',
+                '\u4001',
+                '\u3C01',
+                '\u4C01',
+                '\u5B02',
+                RETURN,
+                '\uFD01', // 113: jumpSubrutine(1)
+                '\uFD01', // 114: jumpSubrutine(1)
+                '\uFD01', // 115: jumpSubrutine(1)
+                '\uFD06', // 116: jumpSubrutine(6)
+                '\uFD01', // 117: jumpSubrutine(1)
+                '\uFD01', // 118: jumpSubrutine(1)
+                '\uFD01', // 119: jumpSubrutine(1)
+
+                '\uFE74', // 120: loop(position: 113,
+                '\u0002', // 121: times: 2)
+
+                // End
+                '\u6C01', // 122:
+                '\u6601', // 123:
+                '\u6002', // 124:
+                '\u5B03', // 125:
+                '\u0001', // 126: Silence, 2 ticks
+                '\u5520', // 127:
+                '\u0040'
+                /*
                 Notes.C4 << 8 | 1,
                 Notes.B3 << 8 | 1,
                 Notes.A$3 << 8 | 1,
@@ -179,7 +315,7 @@ public class ArchonSongTest {
                 Notes.E4 << 8 | 2,
                 Notes.F4 << 8 | 2,
                 Notes.F$4 << 8 | 32,
-                64
+                64 */
         };
         final short volume;
 
@@ -197,29 +333,79 @@ public class ArchonSongTest {
 
         public void run() {
             try {
+                int HPOS0=53248;
+                int BITS0=53261;
+                int COL0=704;
+                int SIZE0=53256;
 
+                // Set colors
                 poke(712, 144 );
                 poke(710, 144 );
+                poke(709, 15 );
 
-                short i = 0, j = 0;
-                short elapse[] = new short[song1.length];
+                int i = 0, j = 0;
+                short parameter[] = new short[song1.length];
                 short pitch[] = new short[song1.length];
-                int color;
+                int color=16;
+                int start = 0;
+                int count = 0;
+                int returnPosition = 0;
+                boolean inLoop = false;
 
-                for(i=0;i<song1.length;i++) {
-                    pitch[i]=(short)(song1[i] >> 8);
-                    elapse[i]=(short)(song1[i] % '\uFF00');
+                // REM **** SET COLOR
+                poke(COL0,0); // REM B,GRN,INTEN=10
+                // REM **** SET SIZE
+                poke(SIZE0,0);
+                // REM **** SET HORIZ POSITION
+                poke(HPOS0,120);
+                // REM **** SET DATA
+                poke(BITS0,127);
+
+                for (i = 0; i < song1.length; i++) {
+                    pitch[i] = (short) (song1[i] >> 8);
+                    parameter[i] = (short) (song1[i] % '\uFF00');
+                    poke(COL0, 32 + (15*i/song1.length));
                 }
 
-                i=0;
+                i = 0;
                 for (; ; ) {
-                    // Pause at the end of a note and before start th next
-                    Atari.chorusSound(0, 0, 10, 1);
-                    //Thread.sleep(1);
 
                     if (i >= song1.length) {
                         i = 0;
                     }
+
+                    if (pitch[i] > 0xFA) {
+                        if (pitch[i] == 0xFF) { // Jump (position)
+                            i = parameter[i];
+                            continue;
+                        } else if (pitch[i] == 0xFE) { // Loop (position,times)
+                            if (inLoop) {
+                                if (--count == 0) {
+                                    //out.println("end");
+                                    inLoop = false;
+                                    i += 2;
+                                } else {
+                                    // out.println("again");
+                                    i = start;
+                                    continue;
+                                }
+                            } else {
+                                inLoop = true;
+                                count = parameter[i + 1]-1;
+                                i = start = parameter[i];
+                                // out.println("first");
+                                continue;
+                            }
+                        } else if (pitch[i] == 0xFD) { // Jump Sub-Rutine (position)
+                            returnPosition = i + 1;
+                            i = parameter[i];
+                            continue;
+                        } else if (pitch[i] == 0xFC) { // Return from sub-rutine
+                            i = returnPosition;
+                            continue;
+                        }
+                    }
+
                     //out.println("note:"+(int)note);
                     //out.println("pitch1:"+(int)pitch1);
                     //out.println("elapse1:"+(int)elapse1);
@@ -227,17 +413,33 @@ public class ArchonSongTest {
 
                     //Atari.sound(0, 0, 0, 0);
                     //Atari.sound(1, 0, 0, 0);
+                    // Pause at the end of a note and before start th next
+                    //Atari.chorusSound(0, 0, 10, 1);
+
+                    //Atari.chorusSound(0, 0, 10, 1);
 
                     if (pitch[i] > 0) {
-                        Atari.chorusSound(pitch[i], pitch[i]+1, 10, volume);
+                        Atari.chorusSound(pitch[i], pitch[i] + 1, 10, volume);
+
+                        if (parameter[i] > 1) {
+                            poke(HPOS0,32+ (120-pitch[i]/2));
+                            poke(COL0, 32 + (pitch[i] / 15));
+                            Thread.sleep(60 * (parameter[i] - 1));
+                            Atari.chorusSound(pitch[i], pitch[i] + 1, 10, 0);
+                            //color = 15 - ((pitch[i] + 1) / 15);
+                            //poke(710, 144+color);
+                            //poke(712, 144+color);
+                        } else {
+                            int color2 = 32 + (pitch[i] / 15);
+                            poke(COL0, color2);
+                            Atari.chorusSound(pitch[i], pitch[i] + 1, 10, 2);
+                            poke(COL0, color2+2);
+                        }
+
                     } else {
                         Atari.chorusSound(0, 0, 10, 1);
+                        poke(HPOS0,0);
                     }
-
-                    color = 16 - ((pitch[i] + 1) / 16);
-                    poke(709, 16 - color);
-
-                    if(elapse[i]>1) Thread.sleep(60 * (elapse[i] - 1));
 
                     i += 1;
 
@@ -247,6 +449,7 @@ public class ArchonSongTest {
             }
         }
 
+        /*
         static final class Notes {
 
             public static char C3 = '\u00F3';
@@ -300,6 +503,7 @@ public class ArchonSongTest {
             public static char C7 = '\u000E';
             public static short S = '\u0000';
         }
+         */
     }
 }
 
