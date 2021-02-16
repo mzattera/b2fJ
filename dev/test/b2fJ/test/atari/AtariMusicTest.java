@@ -10,12 +10,11 @@ public class AtariMusicTest {
 
     	// Start the sound loop
 		SoundLoop soundLoop1 = (new SoundLoop((short)0,(short)8));
-		soundLoop1.start();
+		soundLoop1.run();
 
 		// Start the main thread
-		AtariMusicTest playerMissile = new AtariMusicTest();
-
-		playerMissile.run();
+		// AtariMusicTest playerMissile = new AtariMusicTest();
+		// playerMissile.run();
 
     }
 
@@ -183,7 +182,7 @@ public class AtariMusicTest {
                 short elapse2 = 0;
                 short pitch1,pitch2;
 
-                for(;;) {
+                while(i<song1.length) {
                 	if(elapse1==0) {
 						// Pause at the end of a note and before start th next
                 		Atari.sound(0,0,0,0);

@@ -58,15 +58,19 @@ void handle_uncaught_exception(Object *exception,
  */
 char int2nativeChar(int c)
 {
-
 	/* must swap upper / lower case letters */
 
 	/* Special chars; represented with graphical ATASCII chars */
-	if(c==10)
-	    return 155;
-	else if(c==9)
-	    return 127;
-
+	switch(c) {
+		case 0x0A:
+			return 155;
+			break;
+		case 0x07:
+			return 127;
+			break;
+	}
+	//if(car==0x0A) return 155;
+	//else if(car==0x07) return 127;
 	return c;
 }
 
