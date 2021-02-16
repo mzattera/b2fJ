@@ -1,9 +1,8 @@
 package b2fJ.test.atari;
 
-import static b2fj.memory.Memory.poke;
 import static java.lang.System.out;
 
-public class MidiMusicTest {
+public class MidiMusicTest2 {
 
     public static void main(String[] args) throws InterruptedException {
         //out.println(i);
@@ -16,179 +15,177 @@ public class MidiMusicTest {
 
     public static class SoundLoop {
 
+        static final int[] pitch = {0, 0};
         // A note is packed in 32 bit integer
         // Note + Time (3 digits) + voice = 1210023
         //  1210023 means 121 pitch, 002 time, voice 3
-        static final int[] segment1 = {
-                Notes.C$5+23,
-                Notes.F$3+24,
-                Notes.A$4+53,
-                Notes.F$4+73,
-                Notes.F$5+93,
-                Notes.D$3+94,
-                Notes.F5+123,
-                Notes.D$5+143,
-                Notes.C$5+163,
-                Notes.C$3+164,
-                Notes.F$5+203,
-                Notes.A$4+213,
-                Notes.C$5+233,
-                Notes.F3+234,
-                Notes.G$4+253,
-                Notes.D$3+274,
-                Notes.F3+294,
-                Notes.F$3+323
+        final int[] segment1 = {
+                57_002_3,
+               172_002_4,
+                68_005_3,
+                85_007_3,
+                42_009_3,
+               204_009_4,
+                45_012_3,
+                50_014_3,
+                57_016_3,
+               230_016_4,
+                42_020_3,
+                68021_3,
+                57023_3,
+                182023_4,
+                76025_3,
+                204027_4,
+                182029_4,
+                172030_4,
+                57032_3,
+                136032_4,
+                57034_3,
+                2300344,
+                570363,
+                1360364,
+                570383,
+                1720384,
+                680393,
+                1360394,
+                760413,
+                2300414,
+                850433,
+                1360434,
+                1720454,
+                420463,
+                1280464,
+                420483,
+                2040484,
+                420503,
+                1280504,
+                370523,
+                1720524,
+                420543,
+                1280544,
+                450553,
+                2040554,
+                500573,
+                1280574,
+                570593,
+                1720594,
+                680613,
+                1360614,
+                2300634,
+                680643,
+                1360644,
+                420663,
+                1720664,
+                1360684,
+                680703,
+                2300704,
+                1360724,
+                570733,
+                1820734,
+                760753,
+                1530754,
+                2300774,
+                1530794,
+                2040814,
+                1530824,
+                1820844,
+                1530864,
+                1720884,
+                680893,
+                1360894,
+                680913,
+                2300914,
+                640933,
+                1360934,
+                570953,
+                1720954,
+                500973,
+                1360974,
+                450983,
+                2300984,
+                501003,
+                1361004,
+                1721024,
+                1281044,
+                2041064,
+                1281074,
+                1721094,
+                1281114,
+                2041134,
+                1281154,
+                641163,
+                1721164,
+                641183,
+                1281184,
+                571203,
+                2041204,
+                501223,
+                1281224,
+                1721244,
+                451253,
+                1281254,
+                421273,
+                2041274,
+                451293,
+                1281294,
+                1531314,
+                1141324,
+                2301344,
+                1141364,
+                1531384,
+                1141404,
+                571413,
+                2301414,
+                1141434,
+                421453,
+                1721454,
+                1361474,
+                2301494,
+                1361504,
+                451523,
+                1721524,
+                1361544,
+                501563,
+                2301564,
+                571583,
+                1361584,
+                451593,
+                1721594,
+                1281614,
+                501633,
+                2041634,
+                1281654,
+                1721674,
+                1281684,
+                501703,
+                2041704,
+                1281724,
+                571743,
+                1821744,
+                1281754,
+                371773,
+                2301774,
+                1281794,
+                421813,
+                1821814,
+                1281834,
+                451843,
+                2301844,
+                1281864,
+                421883,
+                1721884,
+                1361904,
+                2301924,
+                1361934,
+                1721954,
+                1361974,
+                2301994,
+                1362014
+                //422023,
+                //1722024,
+                //422043,
+                //1362044
         };
-        
-        // Note + Time + voice
-        static final int[] segment2 = {
-                Notes.C$5+323,
-                Notes.A$3+324,
-                Notes.C$5+343,
-                Notes.C$3+344,
-                Notes.C$5+363,
-                Notes.A$3+364,
-                Notes.C$5+383,
-                Notes.F$3+384,
-                Notes.A$4+393,
-                Notes.A$3+394,
-                Notes.G$4+413,
-                Notes.C$3+414,
-                Notes.F$4+433,
-                Notes.A$3+434,
-                Notes.F$3+454,
-                Notes.F$5+463,
-                Notes.B3+464,
-                Notes.F$5+483,
-                Notes.D$3+484,
-                Notes.F$5+503,
-                Notes.B3+504,
-                Notes.G$5+523,
-                Notes.F$3+524,
-                Notes.F$5+543,
-                Notes.B3+544,
-                Notes.F5+553,
-                Notes.D$3+554,
-                Notes.D$5+573,
-                Notes.B3+574,
-                Notes.C$5+593,
-                Notes.F$3+594,
-                Notes.A$4+613,
-                Notes.A$3+614,
-                Notes.C$3+634,
-                Notes.A$4+643,
-                Notes.A$3+644,
-                Notes.F$5+663,
-                Notes.F$3+664,
-                Notes.A$3+684,
-                Notes.A$4+703,
-                Notes.C$3+704,
-                Notes.A$3+724,
-                Notes.C$5+733,
-                Notes.F3+734,
-                Notes.G$4+753,
-                Notes.G$3+754,
-                Notes.C$3+774,
-                Notes.G$3+794,
-                Notes.D$3+814,
-                Notes.G$3+824,
-                Notes.F3+844,
-                Notes.G$3+864,
-                Notes.F$3+884,
-                Notes.A$4+893,
-                Notes.A$3+894,
-                Notes.A$4+913,
-                Notes.C$3+914,
-                Notes.B4+933,
-                Notes.A$3+934,
-                Notes.C$5+953,
-                Notes.F$3+954,
-                Notes.D$5+973,
-                Notes.A$3+974,
-                Notes.F5+983,
-                Notes.C$3+984,
-                Notes.D$5+1003,
-                Notes.A$3+1004,
-                Notes.F$3+1024,
-                Notes.B3+1044,
-                Notes.D$3+1064,
-                Notes.B3+1074,
-                Notes.F$3+1094,
-                Notes.B3+1114,
-                Notes.D$3+1134,
-                Notes.B3+1154,
-                Notes.B4+1163,
-                Notes.F$3+1164,
-                Notes.B4+1183,
-                Notes.B3+1184,
-                Notes.C$5+1203,
-                Notes.D$3+1204,
-                Notes.D$5+1223,
-                Notes.B3+1224,
-                Notes.F$3+1244,
-                Notes.F5+1253,
-                Notes.B3+1254,
-                Notes.F$5+1273,
-                Notes.D$3+1274,
-                Notes.F5+1293,
-                Notes.B3+1294,
-                Notes.G$3+1314,
-                Notes.C$4+1324,
-                Notes.C$3+1344,
-                Notes.C$4+1364,
-                Notes.G$3+1384,
-                Notes.C$4+1404,
-                Notes.C$5+1413,
-                Notes.C$3+1414,
-                Notes.C$4+1434,
-                Notes.F$5+1453,
-                Notes.F$3+1454,
-                Notes.A$3+1474,
-                Notes.C$3+1494,
-                Notes.A$3+1504,
-                Notes.F5+1523,
-                Notes.F$3+1524,
-                Notes.A$3+1544,
-                Notes.D$5+1563,
-                Notes.C$3+1564,
-                Notes.C$5+1583,
-                Notes.A$3+1584,
-                Notes.F5+1593,
-                Notes.F$3+1594,
-                Notes.B3+1614,
-                Notes.D$5+1633,
-                Notes.D$3+1634,
-                Notes.B3+1654,
-                Notes.F$3+1674
-        };
-
-        static final int[] segment3 = {
-                Notes.F$3+8404,
-                Notes.F3+8424,
-                Notes.G$4+8443,
-                Notes.B3+8444,
-                Notes.D$4+8463,
-                Notes.C$3+8464,
-                Notes.F4+8473,
-                Notes.B3+8474,
-                Notes.F$4+8493,
-                Notes.F$3+8494,
-                Notes.A$3+8514,
-                Notes.C$3+8534,
-                Notes.A$3+8554
-        };
-
-        static final int[] segment4 = {
-                Notes.F$4+8493,
-                Notes.F$3+8491,
-                Notes.A$3+8512,
-                Notes.C$3+8634,
-                Notes.A$3+8654
-        };
-
-
-
-        static final int[] pitch = {0, 0, 0, 0};
         final short volume;
 
         SoundLoop(short volume) {
@@ -196,22 +193,10 @@ public class MidiMusicTest {
             this.volume = volume;
 
         }
-/*
-        public void printSong() {
-            final Song song=new Song();
-            int s=0,i=0;
-            for (s = 0; s < song.sections.length; s++) {
-                    int[] segment = song.sections[s].segment;
-                    out.println("Segment:"+s);
-                    for (i = 0; i < segment.length; i++) {
-                        out.println(segment[i]);
-                    }
-            }
-        }
-*/
-        public void run() throws InterruptedException {
 
-            final Song song=new Song();
+        public void run() {
+
+            final Song song = new Song();
 
             out.println("Creating song");
 
@@ -225,7 +210,7 @@ public class MidiMusicTest {
             int note = 0;
             int voice = 0;
             int time = 0;
-            int noteTime =0;
+            int noteTime = 0;
 
             for (t = 0; t < song.sections.length; t++) {
                 //out.println();
@@ -244,38 +229,35 @@ public class MidiMusicTest {
 
                     if (noteTime == time) {
                         note = song1[i];
-                        noteTime = (note / 10) % 1000;
+                        noteTime = ((note / 10) % 1000);
                     }
 
                     while (i < song1.length) {
 
                         // Pause at the end of a note and before start th next
-                        // Atari.chorusSound(pitch1, 10, 1);
                         //Thread.sleep(1);
 
                         while (time == noteTime) {
 
-                            pitch1 = (int) (note / Notes.FACTOR);
-                            voice = note % 10;
-                            //Atari.sound(voice - 1, 0, 0, 0);
+                            pitch1 = (note / 10000);
+                            voice = (note % 10) - 3;
+                            Atari.sound(voice, 0, 0, 0);
                             if (pitch1 > 0) {
-                                if (pitch1 > 0) {
-                                    pitch[voice - 1] = pitch1;
-                                }
+                                pitch[voice] = pitch1;
                             } else {
-                                pitch[voice - 1] = 0;
+                                pitch[voice] = 0;
                             }
 
                             i += 1;
                             if (i < song1.length) {
                                 note = song1[i];
-                                noteTime = (note / 10) % 1000;
+                                noteTime = ((note / 10) % 1000);
                             } else {
                                 noteTime = 0; // Force play notes and exit
                             }
                             // If we get all time info, play the sounds for this time
                             if (time != noteTime) {
-                                Atari.multiSound(pitch, 10, 6);
+                                Atari.multiSound(pitch, 10, 8);
                                 //if(time%10==0) out.println(time);
                             }
                         }
@@ -285,68 +267,12 @@ public class MidiMusicTest {
                     }
                     if (pitch[0] > 0) Atari.sound(0, 0, 10, 6);
                     if (pitch[1] > 0) Atari.sound(1, 0, 10, 6);
-                    if (pitch[2] > 0) Atari.sound(2, 0, 10, 6);
-                    if (pitch[3] > 0) Atari.sound(3, 0, 10, 6);
+                    //if (pitch[2] > 0) Atari.sound(2, 0, 10, 6);
+                    //if (pitch[3] > 0) Atari.sound(3, 0, 10, 6);
                 }
 
             }
 
-        }
-
-        static final class Notes {
-
-            static final char FACTOR = '\u2710'; // 10000 decimal
-
-            public static int C3 = '\u00F3' * FACTOR;
-            public static int C$3 = '\u00E6' * FACTOR;
-            public static int D3 = '\u00D9' * FACTOR;
-            public static int D$3 = '\u00CC' * FACTOR;
-            public static int E3 = '\u00C1' * FACTOR;
-            public static int F3 = '\u00B6' * FACTOR;
-            public static int F$3 = '\u00AC' * FACTOR;
-            public static int G3 = '\u00A2' * FACTOR;
-            public static int G$3 = '\u0099' * FACTOR;
-            public static int A3 = '\u0090' * FACTOR;
-            public static int A$3 = '\u0088' * FACTOR;
-            public static int B3 = '\u0080' * FACTOR;
-            public static int C4 = '\u0079' * FACTOR;
-            public static int C$4 = '\u0072' * FACTOR;
-            public static int D4 = '\u006C' * FACTOR;
-            public static int D$4 = '\u0066' * FACTOR;
-            public static int E4 = '\u0060' * FACTOR;
-            public static int F4 = '\u005B' * FACTOR;
-            public static int F$4 = '\u0055' * FACTOR;
-            public static int G4 = '\u0051' * FACTOR;
-            public static int G$4 = '\u004C' * FACTOR;
-            public static int A4 = '\u0048' * FACTOR;
-            public static int A$4 = '\u0044' * FACTOR;
-            public static int B4 = '\u0040' * FACTOR;
-            public static int C5 = '\u003C' * FACTOR;
-            public static int C$5 = '\u0039' * FACTOR;
-            public static int D5 = '\u0035' * FACTOR;
-            public static int D$5 = '\u0032' * FACTOR;
-            public static int E5 = '\u002F' * FACTOR;
-            public static int F5 = '\u002D' * FACTOR;
-            public static int F$5 = '\u002A' * FACTOR;
-            public static int G5 = '\u0028' * FACTOR;
-            public static int G$5 = '\u0025' * FACTOR;
-            public static int A5 = '\u0023' * FACTOR;
-            public static int A$5 = '\u0021' * FACTOR;
-            public static int B5 = '\u001F' * FACTOR;
-            public static int C6 = '\u001E' * FACTOR;
-            public static int C$6 = '\u001C' * FACTOR;
-            public static int D6 = '\u001A' * FACTOR;
-            public static int D$6 = '\u0019' * FACTOR;
-            public static int E6 = '\u0017' * FACTOR;
-            public static int F6 = '\u0016' * FACTOR;
-            public static int F$6 = '\u0015' * FACTOR;
-            public static int G6 = '\u0013' * FACTOR;
-            public static int G$6 = '\u0012' * FACTOR;
-            public static int A6 = '\u0011' * FACTOR;
-            public static int A$6 = '\u0010' * FACTOR;
-            public static int B6 = '\u000F' * FACTOR;
-            public static int C7 = '\u000E' * FACTOR;
-            public static int S = '\u0000';
         }
 
         class Section {
@@ -364,14 +290,11 @@ public class MidiMusicTest {
         }
 
         class Song {
-            Section[] sections = new Section[5];
+            Section[] sections = new Section[2];
 
             Song() {
                 sections[0] = new Section(1, segment1);
-                sections[1] = new Section(1, segment2);
-                sections[2] = new Section(1, segment1);
-                sections[3] = new Section(2, segment3);
-                sections[4] = new Section(3, segment4);
+                sections[1] = new Section(1, segment1);
             }
         }
     }

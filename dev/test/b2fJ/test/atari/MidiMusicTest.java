@@ -14,42 +14,11 @@ public class MidiMusicTest {
 
     }
 
-    private static class Atari {
-
-        static final int[] AUDF = {'\uD200', '\uD202', '\uD204', '\uD206'};
-        static final int[] AUDC = {'\uD201', '\uD203', '\uD205', '\uD207'};
-
-        static boolean emulator = false;
-        static char dv = 0;
-        static char i = 0;
-
-        static {
-            // Initialize 8-bit sound
-            poke(53768, 0);
-        }
-
-        static void sound(int voice, int pitch, int distortion, int volume) {
-            poke(AUDF[voice], pitch);
-            poke(AUDC[voice], (16 * distortion) + volume);
-        }
-
-        static void multiSound(int[] pitch, int distortion, int volume) {
-            dv = (char)(16 * distortion + volume);
-            for(i=2;i<pitch.length;i++) {
-                if(pitch[i]>0) poke(AUDF[i],pitch[i]);
-            }
-            for(i=2;i<pitch.length;i++) {
-                if(pitch[i]>0) poke(AUDC[i],dv);
-            }
-        }
-
-    }
-
     public static class SoundLoop {
 
         // A note is packed in 32 bit integer
         // Note + Time (3 digits) + voice = 1210023
-        // means 121 pitch, 002 time, voice 3
+        //  1210023 means 121 pitch, 002 time, voice 3
         static final int[] segment1 = {
                 Notes.C$5+23,
                 Notes.F$3+24,
@@ -288,7 +257,7 @@ public class MidiMusicTest {
 
                             pitch1 = (int) (note / Notes.FACTOR);
                             voice = note % 10;
-                            Atari.sound(voice - 1, 0, 0, 0);
+                            //Atari.sound(voice - 1, 0, 0, 0);
                             if (pitch1 > 0) {
                                 if (pitch1 > 0) {
                                     pitch[voice - 1] = pitch1;
@@ -311,7 +280,7 @@ public class MidiMusicTest {
                             }
                         }
 
-                        Thread.sleep(1);
+                        ///Thread.sleep(1);
                         time++;
                     }
                     if (pitch[0] > 0) Atari.sound(0, 0, 10, 6);
