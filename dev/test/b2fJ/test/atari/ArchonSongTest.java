@@ -372,8 +372,9 @@ public class ArchonSongTest {
 
                     if (i >= song1.length) {
                         i = 0;
+                        poke(HPOS0,120);
                     }
-
+                    // Handle control codes in song data
                     if (pitch[i] > 0xFA) {
                         if (pitch[i] == 0xFF) { // Jump (position)
                             i = parameter[i];
