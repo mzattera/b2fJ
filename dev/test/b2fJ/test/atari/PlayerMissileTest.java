@@ -23,17 +23,16 @@ public class PlayerMissileTest {
     PlayerMissileTest() {
 
         PlayerMissile.initClass();
-        player[0] = new PlayerMissile(0, 24, 64, 2);
-        player[1] = new PlayerMissile(1, 32, 32, 3);
-        player[2] = new PlayerMissile(2, 218, 72, -4);
-        player[3] = new PlayerMissile(3, 34, 48, 5);
+        player[0] = new PlayerMissile(0, 24, 64, 2, bitmap1);
+        player[1] = new PlayerMissile(1, 32, 32, 3, bitmap1);
+        player[2] = new PlayerMissile(2, 218, 72, -4, bitmap1);
+        player[3] = new PlayerMissile(3, 34, 48, 5, bitmap1);
 
         // Thread dedicated to animations and effects
         player[0].start();
         player[0].reactToCollitions = true;
 
         player[2].doDoubleWidth();
-
 
     }
 
@@ -61,23 +60,6 @@ public class PlayerMissileTest {
 
     }
 
-    private static class Atari {
-
-        static final int[] AUDF = {0xD200, 0xD202, 0xD204, 0xD206};
-        static final int[] AUDC = {0xD201, 0xD203, 0xD205, 0xD207};
-
-        static {
-            // Initialize 8-bit sound
-            poke(53768, 0);
-        }
-
-        static void sound(int voice, int pitch, int distortion, int volume) {
-            poke(AUDF[voice], pitch);
-            poke(AUDC[voice], (16 * distortion) + volume);
-        }
-
-    }
-
     public static class PlayerMissile extends Thread {
 
         static final int SIZEP[] = {53256, 53257, 53258, 53259};
@@ -96,7 +78,7 @@ public class PlayerMissileTest {
         private int x, y, speed = 0;
         private int index = 0;
 
-        PlayerMissile(int index, int x, int y, int speed) {
+        PlayerMissile(int index, int x, int y, int speed, short[] bitmap) {
             this.x = x;
             this.y = y;
             this.speed = speed;
@@ -208,10 +190,10 @@ public class PlayerMissileTest {
                 if (hasCollisionRecord()) {
                     int originalColor = peek(COLRP[index]);
                     for (int j = 4; j < 10; j++) {
-                        Atari.sound(2, 180 + j, 12, j);
+                        AtariSound.sound(2, 180 + j, 12, j);
                         poke(COLRP[index], originalColor + j);
                     }
-                    Atari.sound(2, 0, 0, 0);
+                    AtariSound.sound(2, 0, 0, 0);
                     drawNoise();
                     drawBitmap();
                     poke(COLRP[index], originalColor);

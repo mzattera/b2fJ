@@ -2,7 +2,7 @@ package b2fJ.test.atari;
 
 import static b2fj.memory.Memory.poke;
 
-class Atari {
+class AtariSound {
 
     static final int[] AUDF = {0xD200, 0xD202, 0xD204, 0xD206};
     static final int[] AUDC = {0xD201, 0xD203, 0xD205, 0xD207};
@@ -16,6 +16,15 @@ class Atari {
         poke(53768, 0);
     }
 
+    /**
+     *
+     * https://www.atarimagazines.com/v1n4/somesoundadvice.html
+     *
+     * @param voice
+     * @param pitch
+     * @param distortion
+     * @param volume
+     */
     static void sound(int voice, int pitch, int distortion, int volume) {
         poke(AUDF[voice], pitch);
         poke(AUDC[voice], (16 * distortion) + volume);
@@ -29,14 +38,14 @@ class Atari {
         poke(AUDC[1], dv);
     }
 
-    static void multiSound(int[] pitch, int distortion, int volume) {
+    static void multiSound(short[] pitch, int distortion, int volume) {
         dv = (char)(16 * distortion + volume);
         int length=pitch.length;
         for(i=0;i<length;i++) {
-            if(pitch[i]>0) poke(AUDF[i],pitch[i]);
+            poke(AUDF[i],pitch[i]);
         }
         for(i=0;i<length;i++) {
-            if(pitch[i]>0) poke(AUDC[i],dv);
+            poke(AUDC[i],dv);
         }
     }
 }

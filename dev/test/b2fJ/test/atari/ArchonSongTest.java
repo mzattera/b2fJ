@@ -100,13 +100,13 @@ public class ArchonSongTest {
                     }
 
                     if (pitch[i] > 0) {
-                        Atari.doubleSound(pitch[i], pitch[i] + 1, 10, volume);
+                        AtariSound.doubleSound(pitch[i], pitch[i] + 1, 10, volume);
 
                         if (parameter[i] > 1) {
                             poke(HPOS0,64+ (120-pitch[i]/2));
                             poke(COL0, 32 + (pitch[i] / 15));
                             Thread.sleep(60 * (parameter[i] - 1));
-                            Atari.doubleSound(pitch[i], pitch[i] + 1, 10, 0);
+                            AtariSound.doubleSound(pitch[i], pitch[i] + 1, 10, 0);
                             color = 15 - ((pitch[i] + 1) / 15);
                             poke(710, 144+color);
                             poke(712, 144+color);
@@ -114,14 +114,14 @@ public class ArchonSongTest {
                         } else {
                             int color2 = 32 + (pitch[i] / 15);
                             poke(COL0, color2);
-                            Atari.doubleSound(pitch[i], pitch[i] + 1, 10, 2);
+                            AtariSound.doubleSound(pitch[i], pitch[i] + 1, 10, 2);
                             poke(COL0, color2+2);
                         }
 
                     } else {
                         poke(HPOS0,0);
                         Thread.sleep(60 * (parameter[i] - 1));
-                        Atari.doubleSound(0, 0, 10, 1);
+                        AtariSound.doubleSound(0, 0, 10, 1);
                     }
 
                     i += 1;
@@ -263,8 +263,7 @@ public class ArchonSongTest {
                 '\u6C01', // 122:
                 '\u6601', // 123:
                 '\u6002', // 124:
-                '\u5B03', // 125:
-                '\u0001', // 126: Silence, 2 ticks
+                '\u5B02', // 125:
                 '\u5520', // 127:
                 '\u0040'
         };

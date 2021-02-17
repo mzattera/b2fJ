@@ -188,7 +188,7 @@ public class MidiMusicTest {
 
 
 
-        static final int[] pitch = {0, 0, 0, 0};
+        static final short[] pitch = {0, 0, 0, 0};
         final short volume;
 
         SoundLoop(short volume) {
@@ -260,7 +260,7 @@ public class MidiMusicTest {
                             //Atari.sound(voice - 1, 0, 0, 0);
                             if (pitch1 > 0) {
                                 if (pitch1 > 0) {
-                                    pitch[voice - 1] = pitch1;
+                                    pitch[voice - 1] = (short)pitch1;
                                 }
                             } else {
                                 pitch[voice - 1] = 0;
@@ -275,7 +275,7 @@ public class MidiMusicTest {
                             }
                             // If we get all time info, play the sounds for this time
                             if (time != noteTime) {
-                                Atari.multiSound(pitch, 10, 6);
+                                AtariSound.multiSound(pitch, 10, 6);
                                 //if(time%10==0) out.println(time);
                             }
                         }
@@ -283,10 +283,10 @@ public class MidiMusicTest {
                         ///Thread.sleep(1);
                         time++;
                     }
-                    if (pitch[0] > 0) Atari.sound(0, 0, 10, 6);
-                    if (pitch[1] > 0) Atari.sound(1, 0, 10, 6);
-                    if (pitch[2] > 0) Atari.sound(2, 0, 10, 6);
-                    if (pitch[3] > 0) Atari.sound(3, 0, 10, 6);
+                    if (pitch[0] > 0) AtariSound.sound(0, 0, 10, 6);
+                    if (pitch[1] > 0) AtariSound.sound(1, 0, 10, 6);
+                    if (pitch[2] > 0) AtariSound.sound(2, 0, 10, 6);
+                    if (pitch[3] > 0) AtariSound.sound(3, 0, 10, 6);
                 }
 
             }
