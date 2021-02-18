@@ -13,7 +13,11 @@ class AtariSound {
 
     static {
         // Initialize 8-bit sound
-        poke(53768, 0);
+        try {
+           // poke(53768, 0);
+        } catch(Throwable e) {
+            ;
+        }
     }
 
     /**

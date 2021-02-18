@@ -4,15 +4,84 @@ import static b2fj.memory.Memory.peek;
 import static b2fj.memory.Memory.poke;
 import static java.lang.System.out;
 
-public class ArchonSongTest {
+public class ColorMusicPlayerTest {
 
     public static void main(String[] args) throws InterruptedException {
+
+        out.print("  B2FJ MUSIC PLAYER ");
+
+        loadDisplayListInterruptRoutine();
+        setupDisplayListInterrupt();
+        enableDisplayListInterrupt();
 
         // Start the sound loop
         SoundLoop soundLoop1 = (new SoundLoop((short) 8));
         soundLoop1.run();
 
+        Thread.sleep(5000);
+
     }
+
+    static int dataAddress = 0x0664; // A random, not used address in page 6
+    static int PAGE =6;
+    static int assemblyRoutineAddress= PAGE*256;
+
+    /**
+     * Small Interrupt Routine that is triggered every time that a row ia drawn on screen
+     * Details on:
+     * https://www.atariarchives.org/dere/chapt02.php
+     *
+     * 6502 assembly code:
+     *
+     * PHA ; Store accumulator register on stack
+     * STA $D40A  ; Wait for the beam complete his round
+     * LDA $D40B ; Load the current vertical counter
+     * ASL A ; Shift all bits to the right (Multiply * 2)
+     * CLC ; Clear the carry flag
+     * ADC $0664 ; Add the value from dataAddress (this allow move the color offset)
+     * STA $D018 ; Store the value in the color playfield register (background)
+     * PLA ; pull accumulator register from the stack, restoring it
+     * RTS ; return from the Display List Interrupt
+     */
+    private static char[] assemblyRoutine = {
+            // Assembled using Easy6502: https://skilldrick.github.io/easy6502/
+            '\u488d','\u0ad4','\uad0b','\ud40a', '\ueaea','\u186d','\u6406','\u8d18','\ud068','\u4000'
+};
+
+    public static void pokeCharArray(int address,char[] chars) {
+        int len = chars.length;
+        for (int i = 0; i < len; i += 1) {
+            int c = (int)(chars[i] & 0xFFFF);
+            int msb = (c >> 8);
+            int lsb = c - msb*256;
+            poke(address+i*2,msb);
+            poke(address+i*2+1,lsb);
+        }
+    }
+
+    private static void loadDisplayListInterruptRoutine() throws InterruptedException {
+        pokeCharArray(assemblyRoutineAddress,assemblyRoutine);
+    }
+
+    private static void enableDisplayListInterrupt() {
+        poke(512,0);
+        poke(513, PAGE); // Poke in interrupt vector
+        poke(54286, 192); // Enable DLI
+    }
+
+    /**
+     * Build the display list interrupt
+     * https://www.atariarchives.org/dere/chapt02.php
+     */
+    private static void setupDisplayListInterrupt() {
+        // Setup the display list to call the DLI  routine for every line
+        int displayListAddress=peek(560)+256*peek(561); //REM Find display list
+        poke(displayListAddress+9,0x07); // Blank line
+        for(int i=0;i<19;i++) {
+            poke(displayListAddress+i+10,128+15); // Insert interrupt instruction
+        }
+    }
+
 
     public static class SoundLoop {
 
@@ -33,7 +102,7 @@ public class ArchonSongTest {
             try {
 
                 // Set colors
-                poke(712, 144 );
+                //poke(712, 144 );
                 poke(710, 144 );
                 poke(709, 15 );
 
@@ -102,10 +171,13 @@ public class ArchonSongTest {
                     }
 
                     if (pitch[i] > 0) {
+
+                        poke(HPOS0,64+ (120-pitch[i]/2));
+
                         AtariSound.doubleSound(pitch[i], pitch[i] + 1, 10, volume);
 
                         if (parameter[i] > 1) {
-                            poke(HPOS0,64+ (120-pitch[i]/2));
+
                             poke(COL0, 32 + (pitch[i] / 15));
                             Thread.sleep(50 * (parameter[i] - 1));
                             AtariSound.doubleSound(pitch[i], pitch[i] + 1, 10, 0);
@@ -128,6 +200,7 @@ public class ArchonSongTest {
                     }
 
                     i++;
+                    poke(dataAddress,i);
 
                 }
             } catch (Exception e) {
