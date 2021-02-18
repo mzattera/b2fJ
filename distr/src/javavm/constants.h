@@ -1,6 +1,8 @@
 #ifndef _CONSTANTS_H
 #define _CONSTANTS_H
 
+#define null ((void *) 0)
+
 #define JNULL (0)
 
 #define T_REFERENCE 0

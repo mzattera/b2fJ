@@ -92,19 +92,25 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	Object *arr;
 	TWOBYTES i;
 
-	/* Maxi: We chcek first if there is already a String for this constant */
-	/* !!! NOTE !!! To have these values accessible form Java we should use get_word() and set_word() */
-	/* !!! NOTE !!! We don't do this for performance, as these values are useless from Java */
+#if GARBAGE_COLLECTOR == 0
+	/* Maxi: We chcek first if there is already a String for this constant
+	 * !!! NOTE !!! To have these values accessible form Java we should use get_word() and set_word()
+     * !!! NOTE !!! We don't do this for performance, as these values are useless from Java 
+	*/
 	String *sp = stringList;
 	while (sp != JNULL) {
 		if (sp->constantOffset == constantRecord->offset) return (Object*)sp;
-		sp = (String*)ref2obj(sp->next); /* leJos code uses word2ptr() instead of ref2ptr() in code for Thread */
+		sp = (String*)ref2obj(sp->next);
+	/* leJos code uses word2ptr() instead of ref2ptr() in code for Thread */
 	}
-
+#endif
 	ref = new_object_checked(JAVA_LANG_STRING, btAddr);
 	if (ref == JNULL)
 		return JNULL;
+	// Guard the partially created object against the GC
+	protectedRef[0] = ref;
 	arr = new_primitive_array(T_CHAR, constantRecord->constantSize);
+	protectedRef[0] = JNULL;
 	if (arr == JNULL)
 	{
 		deallocate(obj2ptr(ref), class_size(JAVA_LANG_STRING));
@@ -117,12 +123,12 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	{
 		jchar_array(arr)[i] = (JCHAR)get_constant_ptr(constantRecord)[i];
 	}
-
+#if GARBAGE_COLLECTOR == 0
 	sp = (String *)ref;
 	sp->next = obj2ref(stringList);
 	sp->constantOffset = constantRecord->offset;
 	stringList = sp;
-
+#endif
 	return ref;
 }
 

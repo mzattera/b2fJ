@@ -22,7 +22,7 @@ typedef int32_t		JINT;		/* Java int (32 bit signed) */
 typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
 typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
-#define __INLINED				/* Used to mark a method "inline" */
+#define __INLINED	/* Used to mark a method "inline" */
 
 /* To align with Java, the C structures we use must be packed. */
 #define __PACKED(DEC)		DEC
@@ -75,9 +75,20 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define FP_ARITHMETIC				0	/* Used to enable/disable floating point math */
 #define WIMPY_MATH					0	/* ??? leave this 0 */
 
-#define RECORD_REFERENCES			0	/* ??? leave this 1 */
+#define RECORD_REFERENCES			1	/* ??? leave this 1 */
 
-#define SAFE                        0	/* Slightly safer code (???) leave this 1 */
+#define SAFE                        1	/* Slightly safer code (???) leave this 1 */
+
+/**
+ * If not 0, use a garbage collector. It consumes about
+ * 1000 bytes of code and about 1800 bytes of working ram .
+ */
+#define GARBAGE_COLLECTOR                0
+
+/**
+ * Max number of VM objects that we need to protect, from the gc.
+ */
+#define MAX_VM_REFS                      8
 
 /* VM debug settings */
 
@@ -93,5 +104,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
+#define DEBUG_ALLOCATION   	0
+#define DEBUG_COLLECTOR   	0
 
 #endif // _PLATFORM_H_

@@ -14,12 +14,13 @@ typedef struct MemoryRegion_S {
 } MemoryRegion;
 
 
-extern byte typeSize[];
-
+extern const byte typeSize[];
+extern Object *protectedRef[];
 extern void memory_init (void);
 extern void memory_add_region (byte *region, byte *end);
 
 extern void free_array (Object *objectRef);
+extern Object *protectedRef[];
 extern void deallocate (TWOBYTES *ptr, TWOBYTES size);
 extern Object *new_object_checked (const byte classIndex, byte *btAddr);
 extern Object *new_object_for_class (const byte classIndex);
@@ -33,7 +34,7 @@ extern void zero_mem (TWOBYTES *ptr, TWOBYTES numWords);
 extern int getHeapSize(void);
 extern int getHeapFree(void);
 extern int getRegionAddress(void);
-
+extern void garbage_collect(void);
 
 #define HEADER_SIZE (sizeof(Object))
 // Size of object header in 2-byte words
