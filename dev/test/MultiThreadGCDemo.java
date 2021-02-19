@@ -9,17 +9,17 @@ import java.util.Random;
  * @author Massimiliano "Maxi" Zattera
  *
  */
-public class MultiThreadDemo extends Thread {
-	
+public class MultiThreadSerialGCDemo extends Thread {
+
 	private final static Random rnd = new Random(666);
 
 	private final String name;
-	
+
 	// must do this as strings are not garbage collected and wil cause out of memory
 	// private final String sleepMsg;
 	// private final String wakeUpMsg;
 
-	private MultiThreadDemo(String name) {
+	private MultiThreadSerialGCDemo(String name) {
 		this.name = name;
 		System.out.println(name + " created.");
 	}
@@ -43,10 +43,10 @@ public class MultiThreadDemo extends Thread {
 
 	public static void main(String[] args) throws Exception {
 		String[] names = {"Inky", "Blinky", "Pinky", "Clyde"};
-		MultiThreadDemo[] t = new MultiThreadDemo[names.length];
+		MultiThreadSerialGCDemo[] t = new MultiThreadSerialGCDemo[names.length];
 		
 		for (int i = 0; i < names.length; ++i) {
-			t[i] = new MultiThreadDemo(names[i]);
+			t[i] = new MultiThreadSerialGCDemo(names[i]);
 		}
 		for (int i = 0; i < t.length; ++i) {
 			t[i].start();
