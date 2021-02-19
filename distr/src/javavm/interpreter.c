@@ -108,9 +108,13 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 	if (ref == JNULL)
 		return JNULL;
 	// Guard the partially created object against the GC
+#if GARBAGE_COLLECTOR	
 	protectedRef[0] = ref;
+#endif
 	arr = new_primitive_array(T_CHAR, constantRecord->constantSize);
+#if GARBAGE_COLLECTOR
 	protectedRef[0] = JNULL;
+#endif
 	if (arr == JNULL)
 	{
 		deallocate(obj2ptr(ref), class_size(JAVA_LANG_STRING));

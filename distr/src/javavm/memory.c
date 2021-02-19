@@ -41,10 +41,7 @@ const byte typeSize[] = {
   1, // 8 == T_BYTE
   2, // 9 == T_SHORT
   4, // 10 == T_INT
-  8,  // 11 == T_LONG
-  0, // 12
-  0, // 13
-  4, // 14 Used for multidimensional arrays
+  8  // 11 == T_LONG
 };
 
 /**
@@ -61,7 +58,9 @@ static TWOBYTES memory_free;    /* total number of free words in heap */
 
 extern void deallocate(TWOBYTES *ptr, TWOBYTES size);
 extern TWOBYTES *allocate(TWOBYTES size);
+#if GARBAGE_COLLECTOR
 Object *protectedRef[MAX_VM_REFS];
+#endif GARBAGE_COLLECTOR
 
 /**
  * @param numWords Number of 2-byte words used in allocating the object.
@@ -72,9 +71,6 @@ Object *protectedRef[MAX_VM_REFS];
 #if GARBAGE_COLLECTOR
 static void set_reference( TWOBYTES* ptr);
 static void clr_reference( TWOBYTES* ptr);
-#else
-static __INLINED void set_reference( TWOBYTES* ptr) {}
-static __INLINED void clr_reference( TWOBYTES* ptr) {}
 #endif
 
  /**
@@ -340,10 +336,11 @@ Object *new_multi_array(byte elemType, byte totalDimensions,
 	ref = new_primitive_array(T_REFERENCE, *numElemPtr);
 	if (ref == JNULL)
 		return JNULL;
+#if GARBAGE_COLLECTOR
 	// Make sure we protect each level from the gc. Once we have returned
 	// the ref it will be protected by the level above.
 	protectedRef[totalDimensions] = ref;
-  
+ #endif
 	while ((*numElemPtr)--)
 	{
 #if WIMPY_MATH
@@ -359,8 +356,9 @@ Object *new_multi_array(byte elemType, byte totalDimensions,
 
 #endif // WIMPY_MATH
 	}
+#if GARBAGE_COLLECTOR
     protectedRef[totalDimensions] = JNULL;
-
+#endif
 	return ref;
 }
 
@@ -603,10 +601,10 @@ static TWOBYTES *try_allocate(TWOBYTES size)
 #if SEGMENTED_HEAP
 	MemoryRegion *region;
 #endif
-
+#if MEMORY_ALIGNMENT>1
   // Align memory to boundary appropriate for system  
   size = (size + (MEMORY_ALIGNMENT-1)) & ~(MEMORY_ALIGNMENT-1);
-
+#endif
 #if DEBUG_MEMORY
 	printf("Allocate %d - free %d\n", size, memory_free - size);
 #endif
@@ -626,9 +624,10 @@ static TWOBYTES *try_allocate(TWOBYTES size)
 				TWOBYTES s = (blockHeader & IS_ARRAY_MASK)
 					? get_array_size((Object *)ptr)
 					: get_object_size((Object *)ptr);
-
-        		// Round up according to alignment
+#if MEMORY_ALIGMENT>1
+        		// Round up according to alignment (needed for ARM32)
         		s = (s + (MEMORY_ALIGNMENT-1)) & ~(MEMORY_ALIGNMENT-1);
+#endif
 				ptr += s;
 			}
 			else
@@ -674,9 +673,10 @@ static TWOBYTES *try_allocate(TWOBYTES size)
 					}
 					memory_free -= size;
 					
+#if GARBAGE_COLLECTOR
 					/* set the corresponding bit of the reference map */
                     set_reference( ptr);
-					
+#endif					
 					return ptr;
 				} else {
 					/* continue searching */
@@ -721,11 +721,14 @@ TWOBYTES *allocate (TWOBYTES size)
  */
 void deallocate(TWOBYTES *p, TWOBYTES size)
 {
+#if GARBAGE_COLLECTOR
   /* clear the corresponding bit of the reference map */
   clr_reference( p);
-
-  // Align memory to boundary appropriate for system  
+#endif
+#if MEMORY_ALEGNMENT > 1
+  // Align memory to boundary appropriate for system (ex. ARM needs to be 2 word aligned, and ARM64 4 words)
   size = (size + (MEMORY_ALIGNMENT-1)) & ~(MEMORY_ALIGNMENT-1);
+#endif
 
 #if ASSERTIONS_ENABLED
 	assert(size <= (FREE_BLOCK_SIZE_MASK >> FREE_BLOCK_SIZE_SHIFT), MEMORY3);
@@ -1113,7 +1116,9 @@ static void sweep_heap_objects( void)
         size = (blockHeader & IS_ARRAY_MASK) ? get_array_size ((Object *) ptr)
                                              : get_object_size ((Object *) ptr);
         // Round up according to alignment
+#if MEMORY_ALIGNMENT>1
         size = (size + (MEMORY_ALIGNMENT-1)) & ~(MEMORY_ALIGNMENT-1);
+#endif
         sweep_object( (Object*) ptr, size);
         blockHeader = *ptr;
       }
@@ -1132,14 +1137,7 @@ static void sweep_heap_objects( void)
       }
       else
           fptr = null;
-//#if DEBUG_COLLECTOR
-//	if(size==0) {
-//		printf("Error!!");
-//char c=' ';
-//		getc(stdin);
-//exit(1);
-//	}
-//#endif      	
+
       ptr += size;
 
     }
@@ -1177,6 +1175,8 @@ void garbage_collect( void)
 {
 
 #if DEBUG_COLLECTOR
+	printf("Heap Size:%5d\n",getHeapSize());
+	printf("Initial Free:%5d\n",getHeapFree());
 	printf("mark_exception_objects\n");
 #endif
 
@@ -1202,6 +1202,7 @@ void garbage_collect( void)
 
 #if DEBUG_COLLECTOR
 	printf("garbage_collect completed\n");
+	printf("Final Free:%5d\n",getHeapFree());
 #endif
 
 }

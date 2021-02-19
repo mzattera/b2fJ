@@ -104,7 +104,6 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
-#define DEBUG_ALLOCATION   	0
-#define DEBUG_COLLECTOR   	0
+#define DEBUG_COLLECTOR   	1
 
 #endif // _PLATFORM_H_
