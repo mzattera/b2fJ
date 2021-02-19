@@ -48,19 +48,19 @@ public class ColorMusicPlayerTest {
             '\u488d','\u0ad4','\uad0b','\ud40a', '\ueaea','\u186d','\u6406','\u8d18','\ud068','\u4000'
 };
 
-    public static void pokeCharArray(int address,char[] chars) {
-        int len = chars.length;
+    public static void arraycopy(char[] source,int target) {
+        int len = source.length;
         for (int i = 0; i < len; i += 1) {
-            int c = (int)(chars[i] & 0xFFFF);
+            int c = (int)(source[i] & 0xFFFF);
             int msb = (c >> 8);
             int lsb = c - msb*256;
-            poke(address+i*2,msb);
-            poke(address+i*2+1,lsb);
+            poke(target+i*2,msb);
+            poke(target+i*2+1,lsb);
         }
     }
 
     private static void loadDisplayListInterruptRoutine() throws InterruptedException {
-        pokeCharArray(assemblyRoutineAddress,assemblyRoutine);
+        arraycopy(assemblyRoutine,assemblyRoutineAddress);
     }
 
     private static void enableDisplayListInterrupt() {

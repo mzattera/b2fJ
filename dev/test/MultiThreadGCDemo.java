@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Massimiliano "Maxi" Zattera
  *
  */
-public class MultiThreadSerialGCDemo extends Thread {
+public class MultiThreadGCDemo extends Thread {
 
 	private final static Random rnd = new Random(666);
 
@@ -19,7 +19,7 @@ public class MultiThreadSerialGCDemo extends Thread {
 	// private final String sleepMsg;
 	// private final String wakeUpMsg;
 
-	private MultiThreadSerialGCDemo(String name) {
+	private MultiThreadGCDemo(String name) {
 		this.name = name;
 		System.out.println(name + " created.");
 	}
@@ -43,10 +43,10 @@ public class MultiThreadSerialGCDemo extends Thread {
 
 	public static void main(String[] args) throws Exception {
 		String[] names = {"Inky", "Blinky", "Pinky", "Clyde"};
-		MultiThreadSerialGCDemo[] t = new MultiThreadSerialGCDemo[names.length];
+		MultiThreadGCDemo[] t = new MultiThreadGCDemo[names.length];
 		
 		for (int i = 0; i < names.length; ++i) {
-			t[i] = new MultiThreadSerialGCDemo(names[i]);
+			t[i] = new MultiThreadGCDemo(names[i]);
 		}
 		for (int i = 0; i < t.length; ++i) {
 			t[i].start();

@@ -15,18 +15,18 @@ public class GarbageCollectorTest {
 			this.y=y;
 		}
 
-		@Override
-		public String toString() {
-			return "Point[" +
-					"x=" + x +
-					", y=" + y +
-					']';
+		public void print() {
+			out.print('(');
+			out.print(x);
+			out.print(',');
+			out.print(y);
+			out.println(')');
 		}
 	}
 
 	private void run() {
-		final String helloWorld = new String("Hello don't worry " );
-		final String about = new String("about RAM! " );
+		final String helloWorld = "Hello";
+		final String about = "about RAM!";
 
 		int x=0;
 
@@ -36,12 +36,12 @@ public class GarbageCollectorTest {
 		pointQueue.push(new Point(10,20));
 
 		while (true) {
-			Integer integer = new Integer(x);
+			int integer =x;
 			String output=helloWorld+about+"->"+String.valueOf(x);
 			out.println(output);
 
 			// Peek the a point from the queue and print it
-			out.println(pointQueue.pop());
+			((Point)pointQueue.pop()).print();
 
 			// Push a new point
 			pointQueue.push(new Point(x,x));
