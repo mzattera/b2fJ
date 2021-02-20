@@ -83,7 +83,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
  * If not 0, use a garbage collector. It consumes about
  * 1000 bytes of code and about 1800 bytes of working ram .
  */
-#define GARBAGE_COLLECTOR                1
+#define GARBAGE_COLLECTOR                0
 
 /**
  * Max number of VM objects that we need to protect, from the gc.
@@ -104,6 +104,6 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 #define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
-#define DEBUG_COLLECTOR   	1
+#define DEBUG_COLLECTOR   	0
 
 #endif // _PLATFORM_H_
