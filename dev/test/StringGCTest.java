@@ -14,6 +14,9 @@ public class StringGCTest {
 				String output=helloWorld+" "+about+" "+String.valueOf(i);
 				out.println(output);
 				i++;
+				if(i % 2==0) {
+					System.gc();
+				}
 			}
 		} catch(Throwable e) {
 			out.println('*');

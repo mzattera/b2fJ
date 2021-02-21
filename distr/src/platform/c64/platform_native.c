@@ -107,6 +107,21 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 			}
 		}		
 		return true;
+    case putBytesToStdout0_4_1BII_5V:
+		{
+			Object *obj = word2ptr(paramBase[0]);
+			if (obj != NULL) {
+				byte *pA = (((byte *) obj) + HEADER_SIZE);
+				int length = get_array_length(obj);
+				int off = paramBase[1];
+				int len = paramBase[2];
+				int i = 0;
+				for (i = off; (i < off + len) && (i<length) ; i++) {
+					putc(int2nativeChar((int)pA[i]), stdout);		
+				}
+			}
+		}
+		return true;
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
 		return true;

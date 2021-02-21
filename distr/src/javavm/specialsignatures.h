@@ -39,4 +39,7 @@
 #define peek_4I_5I 32
 #define poke_4II_5V 33
 #define dump0_4Ljava_3lang_3Object_2_5V 34
+#define gc_4_5V 35
+#define arraycopy_4Ljava_3lang_3Object_2ILjava_3lang_3Object_2II_5V 36
+#define putBytesToStdout0_4_1BII_5V 37
 #endif // _SPECIALSIGNATURES_H

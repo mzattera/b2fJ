@@ -27,6 +27,7 @@ extern Object *new_object_for_class (const byte classIndex);
 extern Object *new_primitive_array (const byte primitiveType, STACKWORD length);
 extern Object *reallocate_array(Object *obj, STACKWORD newlen);
 extern Object *new_multi_array (byte elemType, byte totalDimensions, byte reqDimensions, STACKWORD *numElemPtr);
+extern void arraycopy(Object *src, int srcOff, Object *dst, int dstOff, int len);
 extern void make_word (byte *ptr, byte aSize, STACKWORD *aWordPtr);
 extern void store_word (byte *ptr, byte aSize, STACKWORD aWord);
 extern STACKWORD get_word(byte *ptr, byte aSize);

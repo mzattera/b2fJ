@@ -138,6 +138,31 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		}
 	}
 	return;
+  case gc_4_5V:
+    garbage_collect();
+    return;
+  case arraycopy_4Ljava_3lang_3Object_2ILjava_3lang_3Object_2II_5V:
+    {
+      Object *p1 = word2ptr(paramBase[0]);
+      Object *p2 = word2ptr(paramBase[2]);
+      arraycopy(p1, paramBase[1], p2, paramBase[3], paramBase[4]);
+    }
+    return;	
+  case putBytesToStdout0_4_1BII_5V:
+	{
+		Object *obj = word2ptr(paramBase[0]);
+		if (obj != NULL) {
+			byte *pA = (((byte *) obj) + HEADER_SIZE);
+			int length = get_array_length(obj);
+			int off = paramBase[1];
+			int len = paramBase[2];
+			int i = 0;
+			for (i = off; (i < off + len) && (i<length) ; i++) {
+				putc((int)pA[i],stdout);		
+			}
+		}
+	}
+	return;
 #if DEBUG_JAVA
 	case dump0_4Ljava_3lang_3Object_2_5V:
 	{
