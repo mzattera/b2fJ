@@ -1,10 +1,6 @@
-package b2fJ.test.atari;
+package b2fJ.test;
 
-import b2fj.io.ConsoleOutputStream;
 import b2fj.lang.TinyString;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 
 import static java.lang.System.out;
@@ -17,17 +13,16 @@ public class Iterate {
     static final TinyString hello$ = new TinyString("Hello World! Times:");
     static final TinyString msgfree$ =new TinyString(" Free:");
 
+    private static int freeMemory() {
+        return (int) System.getRuntime().freeMemory();
+    }
+
     /**
      * Iterate using a byte array backed TinyString
      * appending an string and an integer without generate garbage
-     * @param args
-     * @throws InterruptedException
-     * @throws IOException
      */
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        out.println(freeMemory()); // This leaves garbage
-        System.gc();
         out.println(freeMemory()); // This leaves garbage
         System.gc();
 
@@ -41,7 +36,4 @@ public class Iterate {
         }
     }
 
-    private static int freeMemory() {
-        return (int) System.getRuntime().freeMemory();
-    }
 }
