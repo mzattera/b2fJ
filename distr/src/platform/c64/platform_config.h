@@ -60,7 +60,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	4
+	#define INITIAL_STACK_FRAMES	2
 	#define INITIAL_STACK_SIZE		10
 #endif
 
@@ -77,7 +77,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 #define RECORD_REFERENCES			1	/* ??? leave this 1 */
 
-#define SAFE                        1	/* Slightly safer code (???) leave this 1 */
+#define SAFE                        0	/* Slightly safer code (???) leave this 1 */
 
 /**
  * If not 0, use a garbage collector. It consumes about

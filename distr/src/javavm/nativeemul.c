@@ -119,25 +119,40 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
 		push_word(paramBase[0]);
 		return;
 	case putCharToStdout0_4I_5V:
-		putc((int)paramBase[0], stdout);
+		putc(int2nativeChar((int)paramBase[0]), stdout);
 		return;
 	case getCharFromStdin0_4_5I:
-		push_word(getc(stdin));
+		push_word(int2nativeChar(getc(stdin)));
 		return;
 	case putStringToStdout0_4Ljava_3lang_3String_2_5V:
-	{
-		String* s = (String*)word2obj(paramBase[0]);
-		if ((s != NULL) && (s->characters)) {
-			Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
-			JCHAR *pA = jchar_array(obj);
-			int length = get_array_length(obj);
-			int i = 0;
-			for (; i < length; ++i) {
-				putc((int)pA[i], stdout);
+		{
+			String* s = (String*)word2obj(paramBase[0]);
+			if ((s != NULL) && (s->characters)) {
+				Object *obj = word2obj(get_word((byte*)(&(s->characters)), 4));
+				JCHAR *pA = jchar_array(obj);
+				int length = get_array_length(obj);
+				int i = 0;
+				for (; i < length; ++i) {
+					putc(int2nativeChar((int)pA[i]), stdout);
+				}
 			}
 		}
-	}
-	return;
+		return;
+    case putBytesToStdout0_4_1BII_5V:
+		{
+			Object *obj = word2ptr(paramBase[0]);
+			if (obj != NULL) {
+				byte *pA = (((byte *) obj) + HEADER_SIZE);
+				int length = get_array_length(obj);
+				int off = paramBase[1];
+				int len = paramBase[2];
+				int i = 0;
+				for (i = off; (i < off + len) && (i<length) ; i++) {
+					putc(int2nativeChar((int)pA[i]), stdout);		
+				}
+			}
+		}
+		return;	
   case gc_4_5V:
     garbage_collect();
     return;
@@ -148,21 +163,6 @@ void dispatch_native(TWOBYTES signature, STACKWORD *paramBase)
       arraycopy(p1, paramBase[1], p2, paramBase[3], paramBase[4]);
     }
     return;	
-  case putBytesToStdout0_4_1BII_5V:
-	{
-		Object *obj = word2ptr(paramBase[0]);
-		if (obj != NULL) {
-			byte *pA = (((byte *) obj) + HEADER_SIZE);
-			int length = get_array_length(obj);
-			int off = paramBase[1];
-			int len = paramBase[2];
-			int i = 0;
-			for (i = off; (i < off + len) && (i<length) ; i++) {
-				putc((int)pA[i],stdout);		
-			}
-		}
-	}
-	return;
 #if DEBUG_JAVA
 	case dump0_4Ljava_3lang_3Object_2_5V:
 	{

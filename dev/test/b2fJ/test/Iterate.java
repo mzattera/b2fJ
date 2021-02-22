@@ -28,11 +28,14 @@ public class Iterate {
 
         for (int i = 0; i < 50000; i++) {
             message$.clear();
-            free$.setValue(freeMemory());
-            message$.append(hello$).append(value$.setValue(i)).append(msgfree$).append(free$);
+            free$.set(freeMemory());
+            message$.append(hello$)
+                    .append(value$.set(i))
+                    .append(msgfree$)
+                    .append(free$);
             out.write(message$.getBytes());
-            out.write('\n'); // Not generate garbage
-            // out.println(); // Generate garbage
+            // out.write('\n'); // Not generate garbage
+            out.println();
         }
     }
 

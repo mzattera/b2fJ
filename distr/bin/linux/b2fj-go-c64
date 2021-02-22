@@ -1,17 +1,17 @@
-  GNU nano 4.8                                                              /home/eahumada/Projects/GitHub/eahumada/b2fJ/distr/bin/linux/b2fjl.sh                                                                         
 #!/bin/bash
 
-exit_on_error() {
-    exit_code=$1
-    last_command=${@:2}
-    if [ $exit_code -ne 0 ]; then
-        >&2 echo "\"${last_command}\" command failed with exit code ${exit_code}."
-        exit $exit_code
-    fi
+abort()
+{
+    echo >&2 '
+*** ABORTED ***
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
 }
 
-# enable !! command completion
-set -o history -o histexpand
+trap 'abort' 0
+
+set -e
 
 echo
 echo ===== b2fj .class to C =====
@@ -26,13 +26,12 @@ CURRENT_DIR=`pwd`
 echo "  b2fJ Home: $B2FJ_HOME"
 
 b2fj-compiler $1.java
-exit_on_error $? !!
 b2fj-linker $1
-exit_on_error $? !!
 b2fj-native-c64
-exit_on_error $? !!
 x64sc b2fj.prg
 
-echo ============================
-echo DONE.
+trap : 0
 
+echo >&2 '
+*** DONE *** 
+'

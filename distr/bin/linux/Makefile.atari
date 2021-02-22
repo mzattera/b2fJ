@@ -1,7 +1,7 @@
-LEJOS_HOME=../..
+B2FJ_HOME=../..
 CURRENT_DIR=$(shell pwd)
-VMSRC=$(LEJOS_HOME)/src/javavm
-PLATFORMSRC=$(LEJOS_HOME)/src/platform/atari
+VMSRC=$(B2FJ_HOME)/src/javavm
+PLATFORMSRC=$(B2FJ_HOME)/src/platform/atari
 BIN_TARGET=$(CURRENT_DIR)
 
 CC=cl65
@@ -9,7 +9,7 @@ LD=cl65
 TARGET=atarixl
 CONFIG=atarixl-xex-b2fj
 
-CC-FLAGS=-t ${TARGET} -C ${CONFIG}.cfg -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -Osi --codesize 100 -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
+CC-FLAGS=-t ${TARGET} -C ${CONFIG}.cfg -I $(B2FJ_HOME)/src/javavm -I $(PLATFORMSRC) -I $(B2FJ_HOME)/src/util -Osi --codesize 100 -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
 LD-FLAGS=-D__SYSTEM_CHECK__=1 -C ${CONFIG}.cfg
 
 VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \

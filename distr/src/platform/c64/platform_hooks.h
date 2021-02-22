@@ -38,6 +38,11 @@ extern void handle_uncaught_exception(Object *exception,
 */
 extern bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase); 
 
+/**
+ * Converts a Java char into corresponding platform-dependent char.
+ */
+extern char int2nativeChar(int c);
+
 /* Returns current time in millis */
 /* extern FOURBYTES get_sys_time(void); */
 #define get_sys_time() ((FOURBYTES)(clock() * 1000 / CLOCKS_PER_SEC))

@@ -73,10 +73,12 @@ public class Game {
         char c;
         out.print(">");
         do {
-            c = (char)System.in.read();
-            if (c == 0x0D || c == '\n' || c == 0x9B)
-                break;
-            buffer[i++]=(byte)c;
+                c = (char)(System.in.read());
+                if (c == 0x0D || c == '\n' || c == 0x9B || c==32)
+                    break;
+                //out.println(c);
+                //out.println((int)(c & 0xFFFF));
+                buffer[i++] = (byte) c;
         } while (c != -1 && i<buffer.length-1);
         buffer[i]=0x00;
         return buffer;

@@ -1,4 +1,3 @@
-  GNU nano 4.8                                                              /home/eahumada/Projects/GitHub/eahumada/b2fJ/distr/bin/linux/b2fjl.sh                                                                         
 #!/bin/bash
 
 exit_on_error() {

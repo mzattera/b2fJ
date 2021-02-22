@@ -27,3 +27,4 @@ dev/test/b2fJ/test/c64/b2fJ.prg
 # Macosx files
 .DS_Store
 **/.DS_Store
+distr/lib/classes_out.jar

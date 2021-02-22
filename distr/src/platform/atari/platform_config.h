@@ -83,7 +83,7 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
  * If not 0, use a garbage collector. It consumes about
  * 1000 bytes of code and about 1800 bytes of working ram .
  */
-#define GARBAGE_COLLECTOR                0
+#define GARBAGE_COLLECTOR                1
 
 /**
  * Max number of VM objects that we need to protect, from the gc.
