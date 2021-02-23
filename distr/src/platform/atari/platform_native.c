@@ -58,9 +58,7 @@ void handle_uncaught_exception(Object *exception,
  */
 char int2nativeChar(int c)
 {
-	/* must swap upper / lower case letters */
-
-	/* Special chars; represented with graphical ATASCII chars */
+	// Special chars; represented with graphical ATASCII chars 
 	switch(c) {
 		case 0x0A:
 			return 155;
@@ -69,8 +67,6 @@ char int2nativeChar(int c)
 			return 127;
 			break;
 	}
-	//if(car==0x0A) return 155;
-	//else if(car==0x07) return 127;
 	return c;
 }
 
@@ -78,6 +74,7 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	switch (signature)
 	{
+	/*
 	case putCharToStdout0_4I_5V:
 		putc(int2nativeChar((int)paramBase[0]), stdout);
 		return true;
@@ -96,6 +93,22 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 			}
 		}
 		return true;
+    case putBytesToStdout0_4_1BII_5V:
+		{
+			Object *obj = word2ptr(paramBase[0]);
+			if (obj != NULL) {
+				byte *pA = (((byte *) obj) + HEADER_SIZE);
+				int length = get_array_length(obj);
+				int off = paramBase[1];
+				int len = paramBase[2];
+				int i = 0;
+				for (i = off; (i < off + len) && (i<length) ; i++) {
+					putc(int2nativeChar((int)pA[i]), stdout);		
+				}
+			}
+		}
+		return true;
+	*/		
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
 		return true;

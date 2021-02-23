@@ -1,7 +1,7 @@
-LEJOS_HOME=../..
+B2FJ_HOME=../..
 CURRENT_DIR=$(shell pwd)
-VMSRC=$(LEJOS_HOME)/src/javavm
-PLATFORMSRC=$(LEJOS_HOME)/src/platform/linux
+VMSRC=$(B2FJ_HOME)/src/javavm
+PLATFORMSRC=$(B2FJ_HOME)/src/platform/linux
 BIN_TARGET=.
 
 LD=ld
@@ -11,7 +11,7 @@ CC=gcc
 # No -O2 option below because gcc 2.95.2 crashes!
 #CFLAGS=-I../vmsrc -I. -Wall -Wno-unused -DDEBUG_BYTECODE=1
 
-CFLAGS=-I$(LEJOS_HOME)/src/javavm -I$(PLATFORMSRC) -m32 -g3 -ggdb3 # -Wall -Wno-unused -DDEBUG_METHODS=1 -DDEBUG_BYTECODE=1
+CFLAGS=-I$(B2FJ_HOME)/src/javavm -I$(PLATFORMSRC) -m32 -g3 -ggdb3 # -Wall -Wno-unused -DDEBUG_METHODS=1 -DDEBUG_BYTECODE=1
 
 VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \
 	   memory.o nativeemul.o  \

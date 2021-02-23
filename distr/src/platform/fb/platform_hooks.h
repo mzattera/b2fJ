@@ -38,6 +38,8 @@ extern void handle_uncaught_exception(Object *exception,
 */
 #define dispatch_platform_native(signature, paramBase)	false
 
+#define int2nativeChar(c)  c
+
 /* Returns current time in millis */
 /* extern FOURBYTES get_sys_time(void); */
 #define get_sys_time() ((FOURBYTES)(clock() * 1000 / CLOCKS_PER_SEC))

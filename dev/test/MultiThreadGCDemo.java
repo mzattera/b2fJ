@@ -5,7 +5,9 @@ import java.util.Random;
 
 /**
  * Shows an example of multi-threading.
- * 
+ *
+ * This test requires GC active.
+ *
  * @author Massimiliano "Maxi" Zattera
  *
  */

@@ -1,14 +1,14 @@
-LEJOS_HOME=../../
+B2FJ_HOME=../../
 CURRENT_DIR=$(shell pwd)
-VMSRC=$(LEJOS_HOME)/src/javavm
-PLATFORMSRC=$(LEJOS_HOME)/src/platform/c64
+VMSRC=$(B2FJ_HOME)/src/javavm
+PLATFORMSRC=$(B2FJ_HOME)/src/platform/c64
 BIN_TARGET=$(CURRENT_DIR)
 
 LD=ld65
 
 CC=cl65
 
-CC_FLAGS=-t c64 -I $(LEJOS_HOME)/src/javavm -I $(PLATFORMSRC) -I $(LEJOS_HOME)/src/util -Oi -W -unused-param,-unused-var
+CC_FLAGS=-t c64 -I $(B2FJ_HOME)/src/javavm -I $(PLATFORMSRC) -I $(B2FJ_HOME)/src/util -Oi -W -unused-param,-unused-var
 LD_FLAGS=-t c64
 
 VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \

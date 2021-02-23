@@ -73,4 +73,9 @@ poke(II)V
 # b2fj.util.Debug
 dump0(Ljava/lang/Object;)V
 
+#java.lang.System
+gc()V
+arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
+# ConsoleOutputStream
+putBytesToStdout0([BII)V

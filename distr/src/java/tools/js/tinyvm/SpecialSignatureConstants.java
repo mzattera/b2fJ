@@ -39,6 +39,9 @@ public interface SpecialSignatureConstants {
     "putStringToStdout0(Ljava/lang/String;)V",
     "peek(I)I",
     "poke(II)V",
-    "dump0(Ljava/lang/Object;)V"
+    "dump0(Ljava/lang/Object;)V",
+    "gc()V",
+    "arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V",
+    "putBytesToStdout0([BII)V"
   };
 }
