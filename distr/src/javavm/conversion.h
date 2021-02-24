@@ -10,8 +10,8 @@
 #include "platform_config.h"
 #include "types.h"
 
-#define ptr2word(PTR_)		((STACKWORD)(PTR_))
-#define word2ptr(WRD_)		((void *)(WRD_))
+#define ptr2word(PTR_)		((STACKWORD)(map(PTR_)))
+#define word2ptr(WRD_)		((void *)(unmap(WRD_)))
 
 #define byte2jint(BYTE_)    ((JINT) (int8_t) (BYTE_))
 #define word2jint(WORD_)    ((JINT) (WORD_))

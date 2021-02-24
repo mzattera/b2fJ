@@ -34,7 +34,7 @@ extern STACKWORD get_word(byte *ptr, byte aSize);
 extern void zero_mem (TWOBYTES *ptr, TWOBYTES numWords);
 extern int getHeapSize(void);
 extern int getHeapFree(void);
-extern int getRegionAddress(void);
+extern NATIVEWORD getRegionAddress(void);
 extern void garbage_collect(void);
 
 #define HEADER_SIZE (sizeof(Object))

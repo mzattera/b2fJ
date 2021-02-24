@@ -36,12 +36,13 @@ extern void handle_uncaught_exception(Object *exception,
 * Dispatches a native method.
 * Return false to use the default implementation (common across all platforms) for a method.
 */
-extern bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase); 
+/* extern bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase); */
+#define dispatch_platform_native(signature, paramBase)	false
 
 /**
  * Converts a Java char into corresponding platform-dependent char.
  */
-extern char int2nativeChar(int c);
+#define int2nativeChar(c)  c
 
 /* Returns current time in millis */
 /* extern FOURBYTES get_sys_time(void); */
@@ -50,7 +51,7 @@ extern char int2nativeChar(int c);
 /* Returns size of maximum free memory heap block available (in TWOBYTES words) */
 /* If your platform has no way to provide this, return MAX_HEAP_SIZE */
 /* extern size_t get_max_block_size(void); */
-#define get_max_block_size() (_heapmaxavail() / sizeof(TWOBYTES))
+#define get_max_block_size() MAX_HEAP_SIZE
 
 /* Called before Java heap is initialized, in case the platform needs to reserve some memory */
 /* static __INLINED void memory_init_hook() */
@@ -69,7 +70,14 @@ extern char int2nativeChar(int c);
 /* static __INLINED void switch_thread_hook() */
 #define switch_thread_hook()	;
 
-#define map(x)     (x)
-#define unmap(x)   (x)
+/*
+ Address translation mapping support
+ Allow translate big pointers to 32-bit references
+ */
+#define map(x) _map(x)
+#define unmap(x) _unmap(x)
+
+extern STACKWORD _map(void* x);
+extern void* _unmap(STACKWORD x);
 
 #endif // _PLATFORM_HOOKS_H

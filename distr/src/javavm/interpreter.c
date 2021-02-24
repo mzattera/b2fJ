@@ -95,12 +95,14 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 #if GARBAGE_COLLECTOR == 0
 	/* Maxi: We chcek first if there is already a String for this constant
 	 * !!! NOTE !!! To have these values accessible form Java we should use get_word() and set_word()
-     * !!! NOTE !!! We don't do this for performance, as these values are useless from Java 
+     * !!! NOTE !!! We don't do this for performance, as these values are useless from Java
+     * Edu: The constant reuse don't play well with Garbage Collector.
 	*/
 	String *sp = stringList;
 	while (sp != JNULL) {
-		if (sp->constantOffset == constantRecord->offset) return (Object*)sp;
-		sp = (String*)ref2obj(sp->next);
+		if (sp->constantOffset == constantRecord->offset)
+            return (Object*)sp;
+		sp = (String*)ref2ptr(sp->next);
 	/* leJos code uses word2ptr() instead of ref2ptr() in code for Thread */
 	}
 #endif
@@ -128,7 +130,7 @@ static __INLINED Object *create_string(ConstantRecord *constantRecord,
 		jchar_array(arr)[i] = (JCHAR)get_constant_ptr(constantRecord)[i];
 	}
 #if GARBAGE_COLLECTOR == 0
-	sp = (String *)ref;
+	sp = (String *)(ref);
 	sp->next = obj2ref(stringList);
 	sp->constantOffset = constantRecord->offset;
 	stringList = sp;
