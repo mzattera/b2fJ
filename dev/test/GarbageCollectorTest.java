@@ -26,7 +26,7 @@ public class GarbageCollectorTest {
 
 	private void run() {
 		final String helloWorld = "Hello";
-		final String about = "about RAM!";
+		final String about = " GC !";
 
 		int x=0;
 
@@ -37,7 +37,7 @@ public class GarbageCollectorTest {
 
 		while (true) {
 			int integer =x;
-			String output=helloWorld+about+"->"+String.valueOf(x);
+			String output=helloWorld+about+"-> Iteration: "+String.valueOf(x);
 			out.println(output);
 
 			// Peek the a point from the queue and print it

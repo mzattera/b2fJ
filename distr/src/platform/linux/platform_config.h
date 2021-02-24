@@ -24,6 +24,7 @@ typedef int16_t		JSHORT;		/* Java short (16 bit signed) */
 typedef int32_t		JINT;		/* Java int (32 bit signed) */
 typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
 typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
+typedef FOURBYTES   NATIVEWORD; /* 4 bytes (unsigned) */
 
 #define __INLINED				/* Used to mark a method "inline" */
 

@@ -16,7 +16,7 @@
 #include "platform_hooks.h"
 #include "specialsignatures.h"
 #include "stack.h"
-#include "trace.h"
+// #include "trace.h"
 
 
 /* Called before engine() is started and Java program executed */

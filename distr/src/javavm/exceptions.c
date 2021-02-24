@@ -53,7 +53,7 @@ void init_exceptions()
 }
 
 /**
- * @return false iff all threads are dead.
+ * @exception the exception to throw.
  */
 void throw_exception (Object *exception)
 {

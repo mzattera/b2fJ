@@ -8,6 +8,9 @@
 
 #include <stddef.h>
 #include <stdint.h>
+// #include <stdio.h>
+// #include <string.h>
+#include <stdlib.h>
 
 /***********************************************************************************************************
  * Compiler specific settings.
@@ -21,12 +24,12 @@ typedef int16_t		JSHORT;		/* Java short (16 bit signed) */
 typedef int32_t		JINT;		/* Java int (32 bit signed) */
 typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
 typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
-typedef TWOBYTES    NATIVEWORD; /* 8 bytes (unsigned integer equivalent to (void*)) */
+typedef uint64_t    NATIVEWORD; /* 8 bytes (unsigned) */
 
-#define __INLINED				/* Used to mark a method "inline" */
+#define __INLINED	inline		/* Used to mark a method "inline" */
 
 /* To align with Java, the C structures we use must be packed. */
-#define __PACKED(DEC)		DEC
+#define __PACKED(DEC)  DEC __attribute__((packed))
 
 #define __TWOBYTE_BITFIELD	uint16_t	/* A 16 bits bitfield */
 
@@ -34,8 +37,9 @@ typedef TWOBYTES    NATIVEWORD; /* 8 bytes (unsigned integer equivalent to (void
 * Platform specific settings.
 ***********************************************************************************************************/
 
+#ifndef LITTLE_ENDIAN
 #define LITTLE_ENDIAN	1	/* Is the platform little endian? */
-
+#endif
 
 /***********************************************************************************************************
 * VM settings.
@@ -61,30 +65,30 @@ typedef TWOBYTES    NATIVEWORD; /* 8 bytes (unsigned integer equivalent to (void
 	*/
 	#define INITIAL_STACK_SIZE		70
 #else
-	#define INITIAL_STACK_FRAMES	2
+	#define INITIAL_STACK_FRAMES	4
 	#define INITIAL_STACK_SIZE		10
 #endif
 
 /* If not 0, threads in the DEAD state are  removed from the circular list. Recommended. */
-#define REMOVE_DEAD_THREADS			1	
+#define REMOVE_DEAD_THREADS			1
 
 /* Set to non-zero if we want the scheduler to perform priority inversion avoidance (???) */
 #define PI_AVOIDANCE				1
 
-#define TICKS_PER_TIME_SLICE		16	/* After this number of instructions, switch thread */
+#define TICKS_PER_TIME_SLICE		140	/* After this number of instructions, switch thread */
 
 #define FP_ARITHMETIC				0	/* Used to enable/disable floating point math */
 #define WIMPY_MATH					0	/* ??? leave this 0 */
 
 #define RECORD_REFERENCES			1	/* ??? leave this 1 */
 
-#define SAFE                        0	/* Slightly safer code (???) leave this 1 */
+#define SAFE                        1	/* Slightly safer code (???) leave this 1 */
 
 /**
  * If not 0, use a garbage collector. It consumes about
- * 1000 bytes of flash and about 1800 bytes of ram.
+ * 1000 bytes of code and about 1800 bytes of working ram .
  */
-#define GARBAGE_COLLECTOR                0
+#define GARBAGE_COLLECTOR                1
 
 /**
  * Max number of VM objects that we need to protect, from the gc.
@@ -105,6 +109,6 @@ typedef TWOBYTES    NATIVEWORD; /* 8 bytes (unsigned integer equivalent to (void
 #define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
-#define DEBUG_COLLECTOR   	0
+#define DEBUG_COLLECTOR     0
 
 #endif // _PLATFORM_H_
