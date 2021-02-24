@@ -29,7 +29,7 @@ void engine_start_hook()
 void exit_tool(char* exitMessage, int exitCode)
 {
 	if (exitMessage)
-		printf(exitMessage);
+		printf("%s",exitMessage);
 	//if (exitCode) {
 		printf("Press any key...");
 		getchar();
