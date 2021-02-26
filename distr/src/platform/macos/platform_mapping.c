@@ -10,14 +10,20 @@
  *
  * Another solution is have 2 tables to translate the values.
  *
- * This translation mapping should work with x86-64bit macos and linux
+ * This translation mapping should work with x86-64bit windows, macos and linux
  *
  */
 
 STACKWORD _map(void* x) {
     if(x==NULL) return (STACKWORD)0x0;
     NATIVEWORD offset = getRegionAddress();
-    return (STACKWORD)(x-offset);
+    STACKWORD word = (STACKWORD)(x-offset);
+#if DEBUG_MAPPING
+    if(word>(STACKWORD)0xFFFF) {
+        printf("\nInvalid reference=%0xd obj=%p\n",word,x);
+    }
+#endif
+    return word;
 }
 
 void* _unmap(STACKWORD x) {

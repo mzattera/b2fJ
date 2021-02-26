@@ -1068,9 +1068,30 @@ static void mark_reference_fields( Object* obj)
 
           if( ! (classIndex == JAVA_LANG_THREAD && i == 0))
           {
-            Object* robj = (Object*) word2obj(get_word( statePtr, 4));
-            if( robj != NULL)
-              mark_object( robj);
+            STACKWORD word=get_word(statePtr, 4);
+
+#if DEBUG_MAPPING
+              if(word>(NATIVEWORD)0xFFFF) {
+                  printf("\nInvalid reference beyond than heap limits, please debug check obj=%p 0x%0xd",obj,word);
+                  word=0x0000;
+              }
+#endif
+              
+            Object* robj = (Object*) word2obj(word);
+              
+#if DEBUG_COLLECTOR
+              // Aparently we found an uninitialized reference field
+              // where the value pointed by statePtr has an incorrect value under some circumstances
+              if(word!=NULL && !is_reference((void*)robj)) {
+              printf("\nInvalid reference beyond the heap limits, please debug check obj=%p 0x%0xd robj=%p\n",obj,word,robj);
+              robj=null;
+            }
+#endif
+
+            if( robj != NULL && is_reference((void*)robj)) {
+                mark_object( robj);
+            }
+            
           }
         }
 
@@ -1103,8 +1124,9 @@ static void mark_object( Object *obj)
       while( refarr < refarrend)
       {
         Object* obj = (Object*) ref2obj((*refarr ++));
-        if( obj != NULL)
-          mark_object( obj);
+          if( obj != NULL) {
+              mark_object( obj);
+          }
       }
     }
   }

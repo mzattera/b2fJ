@@ -15,13 +15,13 @@
                value = "lonp+8">
             </PersistentString>
             <PersistentString
-               value = "pc">
+               value = "*stackTop">
             </PersistentString>
             <PersistentString
-               value = "*(fbase1)">
+               value = "fieldType">
             </PersistentString>
             <PersistentString
-               value = "fieldRecord">
+               value = "(UINTPTR*)fbase1">
             </PersistentString>
             <PersistentString
                value = "pc[0]">
@@ -30,13 +30,13 @@
                value = "(long*)tempBytePtr">
             </PersistentString>
             <PersistentString
-               value = "*stackTop">
+               value = "pc">
             </PersistentString>
             <PersistentString
-               value = "fieldType">
+               value = "*(fbase1)">
             </PersistentString>
             <PersistentString
-               value = "(UINTPTR*)fbase1">
+               value = "fieldRecord">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -58,13 +58,13 @@
          contextName = "GLOBAL">
          <PersistentStrings>
             <PersistentString
+               value = "stackTop+1">
+            </PersistentString>
+            <PersistentString
                value = "(stackTop)">
             </PersistentString>
             <PersistentString
                value = "stackTop+2">
-            </PersistentString>
-            <PersistentString
-               value = "stackTop+1">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -250,9 +250,38 @@
       </ContextState>
       <ContextState
          contextName = "mark_reference_fields:memory.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "_unmap(get_word( statePtr, 4))">
+            </PersistentString>
+            <PersistentString
+               value = "sizeof(Object)">
+            </PersistentString>
+            <PersistentString
+               value = "(STACKWORD*)statePtr">
+            </PersistentString>
+            <PersistentString
+               value = "region-&gt;end">
+            </PersistentString>
+            <PersistentString
+               value = "(void*)(0x0000631000e8b6ae)">
+            </PersistentString>
+            <PersistentString
+               value = "max_heap_size_bytes">
+            </PersistentString>
+            <PersistentString
+               value = " ((HEADER_SIZE + 1) / 2)">
+            </PersistentString>
+            <PersistentString
+               value = "word">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "run:tvmemul.c">
+      </ContextState>
+      <ContextState
+         contextName = "push_word:stack.h">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
