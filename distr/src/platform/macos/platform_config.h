@@ -109,7 +109,7 @@ typedef uint64_t    NATIVEWORD; /* 8 bytes (unsigned) */
 #define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
-#define DEBUG_COLLECTOR     0
+#define DEBUG_COLLECTOR     1
 #define DEBUG_MAPPING       0
 
 #endif // _PLATFORM_H_

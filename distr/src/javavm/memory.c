@@ -1082,7 +1082,7 @@ static void mark_reference_fields( Object* obj)
 #if DEBUG_COLLECTOR
               // Aparently we found an uninitialized reference field
               // where the value pointed by statePtr has an incorrect value under some circumstances
-              if(word!=NULL && !is_reference((void*)robj)) {
+              if((word!=NULL) && (!is_reference((void*)robj))) {
               printf("\nInvalid reference beyond the heap limits, please debug check obj=%p 0x%0xd robj=%p\n",obj,word,robj);
               robj=null;
             }

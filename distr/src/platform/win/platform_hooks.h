@@ -70,4 +70,7 @@ extern void handle_uncaught_exception(Object *exception,
 /* static __INLINED void switch_thread_hook() */
 #define switch_thread_hook()	;
 
+#define map(x)      (x)
+#define unmap(x)    (x)
+
 #endif // _PLATFORM_HOOKS_H

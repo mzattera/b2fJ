@@ -80,6 +80,17 @@ typedef FOURBYTES   NATIVEWORD; /* 8 bytes (unsigned) */
 
 #define SAFE                        1	/* Slightly safer code (???) leave this 1 */
 
+/**
+ * If not 0, use a garbage collector. It consumes about
+ * 1000 bytes of code and about 1800 bytes of working ram .
+ */
+#define GARBAGE_COLLECTOR                1
+
+ /**
+  * Max number of VM objects that we need to protect, from the gc.
+  */
+#define MAX_VM_REFS                      8
+
 /* VM debug settings */
 
 #define ASSERTIONS_ENABLED	0	/* If false, disables all assertions */
@@ -94,5 +105,7 @@ typedef FOURBYTES   NATIVEWORD; /* 8 bytes (unsigned) */
 #define DEBUG_EXCEPTIONS	0
 #define DEBUG_MONITOR		0
 #define DEBUG_JAVA			0
+#define DEBUG_COLLECTOR     0
+#define DEBUG_MAPPING       0
 
 #endif // _PLATFORM_CONFIG_H_
