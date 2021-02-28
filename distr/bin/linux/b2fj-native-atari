@@ -1,5 +1,14 @@
 #!/bin/bash
-set -e
+abort()
+{
+    echo >&2 '
+*** ABORTED ***
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+trap 'abort' 0
 
 echo
 echo ===== b2fj .class to C =====
@@ -23,5 +32,8 @@ rm *.o
 
 if [ ! -f "$CURRENT_DIR/b2fj.xex" ]; then mv b2fj.xex "$CURRENT_DIR"; fi;
 
-echo ============================
-echo DONE.
+trap : 0
+
+echo >&2 '
+*** DONE *** 
+'

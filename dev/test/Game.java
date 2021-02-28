@@ -370,7 +370,9 @@ public class Game {
             public Place makeChoice(Place previousPlace) throws IOException {
                 out.println(MSG_LINE_SEPARATOR);
                 out.println("You encounter a goblin!\n");
-                out.println("1: Fight");
+                out.print("Your Weapon: ");
+                out.println(theWeapons[playerWeapon]);
+                out.println("\n1: Fight");
                 out.println("2: Run");
 
                 choice = nextInt();

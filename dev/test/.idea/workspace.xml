@@ -5,31 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c726d3ec-ee0a-4ed8-a2b9-0c4892f1ca90" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../XCODE/b2fj.xcodeproj/project.xcworkspace/xcuserdata/eahumada.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../XCODE/b2fj.xcodeproj/project.xcworkspace/xcuserdata/eahumada.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b2fJ/test/Iterate.java" beforeDir="false" afterPath="$PROJECT_DIR$/b2fJ/test/Iterate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.atari" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.atari" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.c64" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.c64" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.linux" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/Makefile.linux" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-atari" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-atari" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-c64" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-c64" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-linux" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-go-linux" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-native-c64" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/bin/linux/b2fj-native-c64" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/lib/classes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/lib/classes.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../distr/lib/jtools.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/lib/jtools.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/java/classes/b2fj/lang/TinyString.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/java/classes/b2fj/lang/TinyString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/javavm/java_code.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/javavm/java_code.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/javavm/nativeemul.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/javavm/nativeemul.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_hooks.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_hooks.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_native.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/atari/platform_native.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_hooks.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_hooks.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_native.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/c64/platform_native.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/fb/platform_hooks.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/fb/platform_hooks.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/linux/platform_hooks.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/linux/platform_hooks.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../distr/src/platform/win/platform_hooks.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../distr/src/platform/win/platform_hooks.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +66,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Go Atari">
+  <component name="RunManager" selected="Application.Go C64">
     <configuration name="Go Atari" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="B2FJ - JDK8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -229,7 +207,7 @@
       <screen x="0" y="23" width="1920" height="1019" />
     </state>
     <state width="418" height="466" key="DebuggerActiveHint/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613900900638" />
-    <state width="1878" height="268" key="GridCell.Tab.0.bottom" timestamp="1613966824162">
+    <state width="1878" height="256" key="GridCell.Tab.0.bottom" timestamp="1614298263849">
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state width="1238" height="124" key="GridCell.Tab.0.bottom/0.23.1280.659/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.659" timestamp="1613418397994" />
@@ -240,6 +218,7 @@
     <state width="1238" height="125" key="GridCell.Tab.0.bottom/0.23.1280.697/4480.229.1536.899/1280.-491.3200.1777@0.23.1280.697" timestamp="1613372884475" />
     <state width="1238" height="125" key="GridCell.Tab.0.bottom/0.23.1280.697/4480.229.1536.937/1280.-491.3200.1739@0.23.1280.697" timestamp="1613377317959" />
     <state width="1878" height="151" key="GridCell.Tab.0.bottom/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@0.23.1920.1019" timestamp="1613828265986" />
+    <state width="1878" height="256" key="GridCell.Tab.0.bottom/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263849" />
     <state width="1450" height="255" key="GridCell.Tab.0.bottom/0.23.1920.1019/5120.229.1536.937/1920.-491.3200.1777@0.23.1920.1019" timestamp="1613436313440" />
     <state width="1878" height="151" key="GridCell.Tab.0.bottom/0.23.1920.1057/1920.23.1920.1057/-1536.180.1536.899@0.23.1920.1057" timestamp="1613782871582" />
     <state width="1878" height="342" key="GridCell.Tab.0.bottom/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903204" />
@@ -256,8 +235,8 @@
     <state width="1878" height="255" key="GridCell.Tab.0.bottom/1920.-491.3200.1777/0.23.1920.1057/5120.229.1536.899@0.23.1920.1057" timestamp="1613537253620" />
     <state width="1878" height="268" key="GridCell.Tab.0.bottom/1920.23.1920.1057/-1536.180.1536.899/0.23.1920.1057@0.23.1920.1057" timestamp="1613831485702" />
     <state width="1878" height="268" key="GridCell.Tab.0.bottom/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613913805786" />
-    <state width="1878" height="268" key="GridCell.Tab.0.bottom/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1613966824162" />
-    <state width="1878" height="268" key="GridCell.Tab.0.center" timestamp="1613966824161">
+    <state width="1878" height="256" key="GridCell.Tab.0.bottom/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1614101431535" />
+    <state width="1878" height="256" key="GridCell.Tab.0.center" timestamp="1614298263848">
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state width="1238" height="124" key="GridCell.Tab.0.center/0.23.1280.659/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.659" timestamp="1613418397993" />
@@ -268,6 +247,7 @@
     <state width="1238" height="125" key="GridCell.Tab.0.center/0.23.1280.697/4480.229.1536.899/1280.-491.3200.1777@0.23.1280.697" timestamp="1613372884474" />
     <state width="1238" height="125" key="GridCell.Tab.0.center/0.23.1280.697/4480.229.1536.937/1280.-491.3200.1739@0.23.1280.697" timestamp="1613377317958" />
     <state width="1878" height="151" key="GridCell.Tab.0.center/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@0.23.1920.1019" timestamp="1613828265986" />
+    <state width="1878" height="256" key="GridCell.Tab.0.center/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263848" />
     <state width="1450" height="255" key="GridCell.Tab.0.center/0.23.1920.1019/5120.229.1536.937/1920.-491.3200.1777@0.23.1920.1019" timestamp="1613436313439" />
     <state width="1878" height="151" key="GridCell.Tab.0.center/0.23.1920.1057/1920.23.1920.1057/-1536.180.1536.899@0.23.1920.1057" timestamp="1613782871582" />
     <state width="1878" height="342" key="GridCell.Tab.0.center/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903203" />
@@ -284,8 +264,8 @@
     <state width="1878" height="255" key="GridCell.Tab.0.center/1920.-491.3200.1777/0.23.1920.1057/5120.229.1536.899@0.23.1920.1057" timestamp="1613537253620" />
     <state width="1878" height="268" key="GridCell.Tab.0.center/1920.23.1920.1057/-1536.180.1536.899/0.23.1920.1057@0.23.1920.1057" timestamp="1613831485701" />
     <state width="1878" height="268" key="GridCell.Tab.0.center/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613913805785" />
-    <state width="1878" height="268" key="GridCell.Tab.0.center/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1613966824161" />
-    <state width="1878" height="268" key="GridCell.Tab.0.left" timestamp="1613966824161">
+    <state width="1878" height="256" key="GridCell.Tab.0.center/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1614101431535" />
+    <state width="1878" height="256" key="GridCell.Tab.0.left" timestamp="1614298263848">
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state width="1238" height="124" key="GridCell.Tab.0.left/0.23.1280.659/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.659" timestamp="1613418397992" />
@@ -296,6 +276,7 @@
     <state width="1238" height="125" key="GridCell.Tab.0.left/0.23.1280.697/4480.229.1536.899/1280.-491.3200.1777@0.23.1280.697" timestamp="1613372884474" />
     <state width="1238" height="125" key="GridCell.Tab.0.left/0.23.1280.697/4480.229.1536.937/1280.-491.3200.1739@0.23.1280.697" timestamp="1613377317958" />
     <state width="1878" height="151" key="GridCell.Tab.0.left/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@0.23.1920.1019" timestamp="1613828265985" />
+    <state width="1878" height="256" key="GridCell.Tab.0.left/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263848" />
     <state width="1450" height="255" key="GridCell.Tab.0.left/0.23.1920.1019/5120.229.1536.937/1920.-491.3200.1777@0.23.1920.1019" timestamp="1613436313439" />
     <state width="1878" height="151" key="GridCell.Tab.0.left/0.23.1920.1057/1920.23.1920.1057/-1536.180.1536.899@0.23.1920.1057" timestamp="1613782871582" />
     <state width="1878" height="342" key="GridCell.Tab.0.left/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903202" />
@@ -312,8 +293,8 @@
     <state width="1878" height="255" key="GridCell.Tab.0.left/1920.-491.3200.1777/0.23.1920.1057/5120.229.1536.899@0.23.1920.1057" timestamp="1613537253619" />
     <state width="1878" height="268" key="GridCell.Tab.0.left/1920.23.1920.1057/-1536.180.1536.899/0.23.1920.1057@0.23.1920.1057" timestamp="1613831485700" />
     <state width="1878" height="268" key="GridCell.Tab.0.left/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613913805785" />
-    <state width="1878" height="268" key="GridCell.Tab.0.left/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1613966824161" />
-    <state width="1878" height="268" key="GridCell.Tab.0.right" timestamp="1613966824161">
+    <state width="1878" height="256" key="GridCell.Tab.0.left/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1614101431534" />
+    <state width="1878" height="256" key="GridCell.Tab.0.right" timestamp="1614298263849">
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state width="1238" height="124" key="GridCell.Tab.0.right/0.23.1280.659/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.659" timestamp="1613418397993" />
@@ -324,6 +305,7 @@
     <state width="1238" height="125" key="GridCell.Tab.0.right/0.23.1280.697/4480.229.1536.899/1280.-491.3200.1777@0.23.1280.697" timestamp="1613372884475" />
     <state width="1238" height="125" key="GridCell.Tab.0.right/0.23.1280.697/4480.229.1536.937/1280.-491.3200.1739@0.23.1280.697" timestamp="1613377317958" />
     <state width="1878" height="151" key="GridCell.Tab.0.right/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@0.23.1920.1019" timestamp="1613828265986" />
+    <state width="1878" height="256" key="GridCell.Tab.0.right/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263849" />
     <state width="1450" height="255" key="GridCell.Tab.0.right/0.23.1920.1019/5120.229.1536.937/1920.-491.3200.1777@0.23.1920.1019" timestamp="1613436313439" />
     <state width="1878" height="151" key="GridCell.Tab.0.right/0.23.1920.1057/1920.23.1920.1057/-1536.180.1536.899@0.23.1920.1057" timestamp="1613782871582" />
     <state width="1878" height="342" key="GridCell.Tab.0.right/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903203" />
@@ -340,34 +322,38 @@
     <state width="1878" height="255" key="GridCell.Tab.0.right/1920.-491.3200.1777/0.23.1920.1057/5120.229.1536.899@0.23.1920.1057" timestamp="1613537253620" />
     <state width="1878" height="268" key="GridCell.Tab.0.right/1920.23.1920.1057/-1536.180.1536.899/0.23.1920.1057@0.23.1920.1057" timestamp="1613831485701" />
     <state width="1878" height="268" key="GridCell.Tab.0.right/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613913805785" />
-    <state width="1878" height="268" key="GridCell.Tab.0.right/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1613966824161" />
-    <state width="1878" height="342" key="GridCell.Tab.1.bottom" timestamp="1613902055456">
-      <screen x="0" y="23" width="1920" height="1019" />
+    <state width="1878" height="256" key="GridCell.Tab.0.right/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1614101431535" />
+    <state width="1878" height="342" key="GridCell.Tab.1.bottom" timestamp="1614298263793">
+      <screen x="1920" y="23" width="1920" height="1057" />
     </state>
+    <state width="1878" height="342" key="GridCell.Tab.1.bottom/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263793" />
     <state width="1878" height="342" key="GridCell.Tab.1.bottom/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903205" />
     <state width="1878" height="342" key="GridCell.Tab.1.bottom/1920.-491.1920.1057/0.23.1920.1019/3840.229.1536.937@0.23.1920.1019" timestamp="1613747714792" />
     <state width="1878" height="342" key="GridCell.Tab.1.bottom/1920.-491.3200.1739/0.23.1920.1057/5120.229.1536.937@0.23.1920.1057" timestamp="1613604789060" />
     <state width="1878" height="342" key="GridCell.Tab.1.bottom/1920.-491.3200.1777/0.23.1920.1019/5120.229.1536.937@0.23.1920.1019" timestamp="1613604304377" />
     <state width="1878" height="342" key="GridCell.Tab.1.bottom/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613902055456" />
-    <state width="1878" height="342" key="GridCell.Tab.1.center" timestamp="1613902055456">
-      <screen x="0" y="23" width="1920" height="1019" />
+    <state width="1878" height="342" key="GridCell.Tab.1.center" timestamp="1614298263792">
+      <screen x="1920" y="23" width="1920" height="1057" />
     </state>
+    <state width="1878" height="342" key="GridCell.Tab.1.center/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263792" />
     <state width="1878" height="342" key="GridCell.Tab.1.center/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903204" />
     <state width="1878" height="342" key="GridCell.Tab.1.center/1920.-491.1920.1057/0.23.1920.1019/3840.229.1536.937@0.23.1920.1019" timestamp="1613747714791" />
     <state width="1878" height="342" key="GridCell.Tab.1.center/1920.-491.3200.1739/0.23.1920.1057/5120.229.1536.937@0.23.1920.1057" timestamp="1613604789059" />
     <state width="1878" height="342" key="GridCell.Tab.1.center/1920.-491.3200.1777/0.23.1920.1019/5120.229.1536.937@0.23.1920.1019" timestamp="1613604304376" />
     <state width="1878" height="342" key="GridCell.Tab.1.center/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613902055456" />
-    <state width="1878" height="342" key="GridCell.Tab.1.left" timestamp="1613902055455">
-      <screen x="0" y="23" width="1920" height="1019" />
+    <state width="1878" height="342" key="GridCell.Tab.1.left" timestamp="1614298263791">
+      <screen x="1920" y="23" width="1920" height="1057" />
     </state>
+    <state width="1878" height="342" key="GridCell.Tab.1.left/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263791" />
     <state width="1878" height="342" key="GridCell.Tab.1.left/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903204" />
     <state width="1878" height="342" key="GridCell.Tab.1.left/1920.-491.1920.1057/0.23.1920.1019/3840.229.1536.937@0.23.1920.1019" timestamp="1613747714791" />
     <state width="1878" height="342" key="GridCell.Tab.1.left/1920.-491.3200.1739/0.23.1920.1057/5120.229.1536.937@0.23.1920.1057" timestamp="1613604789059" />
     <state width="1878" height="342" key="GridCell.Tab.1.left/1920.-491.3200.1777/0.23.1920.1019/5120.229.1536.937@0.23.1920.1019" timestamp="1613604304376" />
     <state width="1878" height="342" key="GridCell.Tab.1.left/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613902055455" />
-    <state width="1878" height="342" key="GridCell.Tab.1.right" timestamp="1613902055456">
-      <screen x="0" y="23" width="1920" height="1019" />
+    <state width="1878" height="342" key="GridCell.Tab.1.right" timestamp="1614298263792">
+      <screen x="1920" y="23" width="1920" height="1057" />
     </state>
+    <state width="1878" height="342" key="GridCell.Tab.1.right/0.23.1920.1019/1920.23.1920.1057/-1536.180.1536.937@1920.23.1920.1057" timestamp="1614298263792" />
     <state width="1878" height="342" key="GridCell.Tab.1.right/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613200903205" />
     <state width="1878" height="342" key="GridCell.Tab.1.right/1920.-491.1920.1057/0.23.1920.1019/3840.229.1536.937@0.23.1920.1019" timestamp="1613747714792" />
     <state width="1878" height="342" key="GridCell.Tab.1.right/1920.-491.3200.1739/0.23.1920.1057/5120.229.1536.937@0.23.1920.1057" timestamp="1613604789059" />
@@ -386,8 +372,8 @@
       <screen x="0" y="23" width="1920" height="1019" />
     </state>
     <state width="553" height="1019" key="com.intellij.byteCodeViewer.ShowByteCodeAction/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613848695576" />
-    <state x="392" y="390" key="com.intellij.ide.util.TipDialog" timestamp="1613830222905">
-      <screen x="0" y="23" width="1920" height="1019" />
+    <state x="2312" y="404" key="com.intellij.ide.util.TipDialog" timestamp="1614362930471">
+      <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state x="261" y="261" key="com.intellij.ide.util.TipDialog/0.23.1280.660/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.660" timestamp="1613413505164" />
     <state x="261" y="262" key="com.intellij.ide.util.TipDialog/0.23.1280.662/4480.229.1536.937/1280.-491.3200.1777@0.23.1280.662" timestamp="1613309628846" />
@@ -395,6 +381,7 @@
     <state x="2573" y="150" key="com.intellij.ide.util.TipDialog/0.23.1920.1019/5120.229.1536.937/1920.-491.3200.1777@1920.-491.3200.1777" timestamp="1613256377654" />
     <state x="2573" y="136" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/5120.229.1536.937/1920.-491.3200.1739@1920.-491.3200.1739" timestamp="1613211930112" />
     <state x="392" y="390" key="com.intellij.ide.util.TipDialog/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@0.23.1920.1019" timestamp="1613830222905" />
+    <state x="2312" y="404" key="com.intellij.ide.util.TipDialog/1920.23.1920.1057/-1536.180.1536.937/0.23.1920.1019@1920.23.1920.1057" timestamp="1614362930471" />
     <state x="575" y="169" key="com.intellij.tools.ToolSelectDialog.dimensionServiceKey" timestamp="1613321714193">
       <screen x="0" y="23" width="1280" height="661" />
     </state>
@@ -433,11 +420,6 @@
           <url>file://$PROJECT_DIR$/src/PlayerMissileTest.java</url>
           <line>336</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/b2fJ/test/atari/MidiMusicTest.java</url>
-          <line>206</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../../distr/lib/classes.jar!/java/io/OutputStream.class</url>

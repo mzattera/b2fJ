@@ -1,13 +1,17 @@
 #!/bin/bash
 
-exit_on_error() {
-    exit_code=$1
-    last_command=${@:2}
-    if [ $exit_code -ne 0 ]; then
-        >&2 echo "\"${last_command}\" command failed with exit code ${exit_code}."
-        exit $exit_code
-    fi
+set -e
+
+abort()
+{
+    echo >&2 '
+*** ABORTED ***
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
 }
+
+trap 'abort' 0
 
 # enable !! command completion
 set -o history -o histexpand
@@ -27,10 +31,13 @@ echo "  b2fJ Home: $B2FJ_HOME"
 cd "$B2FJ_HOME"/bin/linux
 make -f Makefile.c64 clean
 make -f Makefile.c64 all
-exit_on_error $? !!
 rm *.o
 
 mv b2fj.prg "$CURRENT_DIR"
 
-echo ============================
-echo DONE.
+
+trap : 0
+
+echo >&2 '
+*** DONE *** 
+'

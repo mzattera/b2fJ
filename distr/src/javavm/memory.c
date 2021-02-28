@@ -22,6 +22,7 @@ static bool memoryInitialized = false;
 
 // Heap memory needs to be aligned to 4 bytes on ARM
 // Value is in 2-byte units and must be a power of 2
+// Should be 2 for ARM-32, 4 for ARM-64
 #define MEMORY_ALIGNMENT 1
 
 #define NULL_OFFSET 0xFFFF
@@ -60,7 +61,7 @@ extern void deallocate(TWOBYTES *ptr, TWOBYTES size);
 extern TWOBYTES *allocate(TWOBYTES size);
 #if GARBAGE_COLLECTOR
 Object *protectedRef[MAX_VM_REFS];
-#endif GARBAGE_COLLECTOR
+#endif
 
 /**
  * @param numWords Number of 2-byte words used in allocating the object.
@@ -565,7 +566,7 @@ void memory_add_region(byte *start, byte *end)
 #endif
 
 	/* word align upwards */
-	region = (MemoryRegion *)(((unsigned int)start + 1) & ~1);
+	region = (MemoryRegion *)(((NATIVEWORD)start + 1) & ~1);
 
 #if SEGMENTED_HEAP
 	/* initialize region header */
@@ -574,7 +575,7 @@ void memory_add_region(byte *start, byte *end)
 	/* add to list */
 	memory_regions = region;
 #endif
-  region->end = (TWOBYTES *) ((unsigned int)end & ~1); /* 16-bit align
+  region->end = (TWOBYTES *) ((NATIVEWORD)end & ~1); /* 16-bit align
  downwards */
 #if GARBAGE_COLLECTOR
   {
@@ -788,12 +789,12 @@ int getHeapFree() {
 	return ((int)memory_free) << 1;
 }
 
-int getRegionAddress()
+NATIVEWORD getRegionAddress()
 {
 #if SEGMENTED_HEAP
-	return 0xf002;
+	return (NATIVEWORD)memory_regions->region;
 #else
-	return (int)region;
+	return (NATIVEWORD)region;
 #endif
 }
 
@@ -855,7 +856,7 @@ static void set_reference( TWOBYTES* ptr)
     if( ptr >= regBottom && ptr < regTop)
     {
 #endif
-      int refIndex = ((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2);
+      int refIndex = (int)(((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2));
 
       ((byte*) region->end)[ refIndex >> 3] |= 1 << (refIndex & 7);
 
@@ -878,7 +879,7 @@ static void clr_reference( TWOBYTES* ptr)
     if( ptr >= regBottom && ptr < regTop)
     {
 #endif
-      int refIndex = ((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2);
+      int refIndex = (int)(((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2));
 
       ((byte*) region->end)[ refIndex >> 3] &= ~ (1 << (refIndex & 7));
 
@@ -906,7 +907,7 @@ static boolean is_reference( TWOBYTES* ptr)
       if( ((int)ptr & ((MEMORY_ALIGNMENT * 2) - 1)) == 0)
       {
         /* Now we can safely check the corresponding bit in the reference bitmap. */
-        int refIndex = ((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2);
+        int refIndex = (int)(((byte*) ptr - (byte*)&(region->contents)) / (MEMORY_ALIGNMENT * 2));
 
         return (((byte*) region->end)[ refIndex >> 3] & (1 << (refIndex & 7))) != 0;
       }
@@ -939,7 +940,7 @@ static void mark_static_objects( void)
 
     if( fieldType == T_REFERENCE)
     {
-      Object* obj = (Object*) get_word( staticState, 4);
+      Object* obj = (Object*) word2obj(get_word( staticState, 4));
       if( obj != NULL)
         mark_object( obj);
     }
@@ -975,11 +976,11 @@ static void mark_local_objects()
       byte arraySize;
 
       mark_object( (Object*) th);
-      mark_object( (Object*) th->stackArray);
-      mark_object( (Object*) th->stackFrameArray);
+      mark_object( (Object*) ref2obj(th->stackArray));
+      mark_object( (Object*) ref2obj(th->stackFrameArray));
 
       if( th->waitingOn != 0)
-        mark_object( (Object*) th->waitingOn);
+        mark_object( (Object*) ref2obj(th->waitingOn));
 
       arraySize = th->stackFrameArraySize;
       if( arraySize != 0)
@@ -1067,9 +1068,30 @@ static void mark_reference_fields( Object* obj)
 
           if( ! (classIndex == JAVA_LANG_THREAD && i == 0))
           {
-            Object* robj = (Object*) get_word( statePtr, 4);
-            if( robj != NULL)
-              mark_object( robj);
+            STACKWORD word=get_word(statePtr, 4);
+
+#if DEBUG_MAPPING
+              if(word>(NATIVEWORD)0xFFFF) {
+                  printf("\nInvalid reference beyond than heap limits, please debug check obj=%p 0x%0xd",obj,word);
+                  word=0x0000;
+              }
+#endif
+              
+            Object* robj = (Object*) word2obj(word);
+              
+#if DEBUG_COLLECTOR
+              // Aparently we found an uninitialized reference field
+              // where the value pointed by statePtr has an incorrect value under some circumstances
+              if((word!=NULL) && (!is_reference((void*)robj))) {
+              printf("\nInvalid reference beyond the heap limits, please debug check obj=%p 0x%0xd robj=%p\n",obj,word,robj);
+              robj=null;
+            }
+#endif
+
+            if( robj != NULL && is_reference((void*)robj)) {
+                mark_object( robj);
+            }
+            
           }
         }
 
@@ -1101,9 +1123,10 @@ static void mark_object( Object *obj)
       
       while( refarr < refarrend)
       {
-        Object* obj = (Object*) (*refarr ++);
-        if( obj != NULL)
-          mark_object( obj);
+        Object* obj = (Object*) ref2obj((*refarr ++));
+          if( obj != NULL) {
+              mark_object( obj);
+          }
       }
     }
   }

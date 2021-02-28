@@ -3,7 +3,7 @@
 * Native methods specific to a platform.
 */
 
-#include <malloc.h>
+//#include <malloc.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,9 +29,9 @@ void engine_start_hook()
 void exit_tool(char* exitMessage, int exitCode)
 {
 	if (exitMessage)
-		printf("%s",exitMessage);
+        printf("%s", exitMessage);
 	//if (exitCode) {
-		printf("Press any key...");
+		printf("Press enter..");
 		getchar();
 	//}
 	exit(exitCode);
@@ -54,7 +54,7 @@ void handle_uncaught_exception(Object *exception,
 	printf("--  Root method sig.  : %u\n", (unsigned)rootMethod->signatureId);
 	printf("--  Bytecode offset   : %u\n", (unsigned)pc -
 		(int)get_code_ptr(methodRecord));
-	printf("Press any key...");
+	printf("Press enter...");
 	getchar();
 }
 
@@ -67,3 +67,4 @@ void assert_hook(bool aCond, int aCode)
 	printf("Assertion violation: %d", aCode);
 	exit_tool(NULL, aCode);
 }
+

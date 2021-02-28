@@ -24,6 +24,7 @@ typedef int16_t		JSHORT;		/* Java short (16 bit signed) */
 typedef int32_t		JINT;		/* Java int (32 bit signed) */
 typedef uint16_t	TWOBYTES;	/* 2 bytes (unsigned) */
 typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
+typedef FOURBYTES   NATIVEWORD; /* 4 bytes (unsigned) */
 
 #define __INLINED				/* Used to mark a method "inline" */
 
@@ -88,14 +89,14 @@ typedef uint32_t	FOURBYTES;	/* 4 bytes (unsigned) */
 
 #define ASSERTIONS_ENABLED	0	/* If false, disables all assertions */
 
-#define DEBUG_STARTUP     	1
+#define DEBUG_STARTUP     	0
 #define DEBUG_MEMORY      	0
 #define DEBUG_THREADS     	0
 #define DEBUG_METHODS     	0
 #define DEBUG_BYTECODE    	0
 #define DEBUG_FIELDS      	0
 #define DEBUG_OBJECTS     	0
-#define DEBUG_EXCEPTIONS  	1
+#define DEBUG_EXCEPTIONS  	0
 #define DEBUG_MONITOR     	0
 #define DEBUG_JAVA     		0
 
