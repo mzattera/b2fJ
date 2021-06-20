@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "memory_init:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "engine:op_objects.hc">
+         <PersistentStrings>
+            <PersistentString
+               value = "pc[1]">
+            </PersistentString>
+            <PersistentString
+               value = "lonp+8">
+            </PersistentString>
+            <PersistentString
+               value = "*stackTop">
+            </PersistentString>
+            <PersistentString
+               value = "fieldType">
+            </PersistentString>
+            <PersistentString
+               value = "(UINTPTR*)fbase1">
+            </PersistentString>
+            <PersistentString
+               value = "pc[0]">
+            </PersistentString>
+            <PersistentString
+               value = "(long*)tempBytePtr">
+            </PersistentString>
+            <PersistentString
+               value = "pc">
+            </PersistentString>
+            <PersistentString
+               value = "*(fbase1)">
+            </PersistentString>
+            <PersistentString
+               value = "fieldRecord">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "dispatch_special_checked:language.c">
+      </ContextState>
+      <ContextState
+         contextName = "checkMyWord:stack.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "localsBase+2">
+            </PersistentString>
+            <PersistentString
+               value = "pc">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "stackTop+1">
+            </PersistentString>
+            <PersistentString
+               value = "(stackTop)">
+            </PersistentString>
+            <PersistentString
+               value = "stackTop+2">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "init_sp:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "dispatch_special:language.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "stack_array()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "push_ref:stack.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "init_sp_pv:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "engine:op_methods.hc">
+         <PersistentStrings>
+            <PersistentString
+               value = "*(pc-1)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "pop_word:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "init_thread:threads.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "0x008017f2c+0xFFFFFFFF">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "store_word:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "memcheck_allocate:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "engine:op_stack.hc">
+         <PersistentStrings>
+            <PersistentString
+               value = "(*stackTop)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "engine:op_other.hc">
+      </ContextState>
+      <ContextState
+         contextName = "engine:interpreter.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "pc[1]">
+            </PersistentString>
+            <PersistentString
+               value = "fieldRecord &amp; 0x0FFF">
+            </PersistentString>
+            <PersistentString
+               value = "wideWord">
+            </PersistentString>
+            <PersistentString
+               value = "pc">
+            </PersistentString>
+            <PersistentString
+               value = "sizeof(T_REFERENCE)">
+            </PersistentString>
+            <PersistentString
+               value = "(long*)base">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "make_word:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "is_gc_marked:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "set_top_ref:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "engine:op_locals.hc">
+         <PersistentStrings>
+            <PersistentString
+               value = "(long*)pc">
+            </PersistentString>
+            <PersistentString
+               value = "(*stackTop)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "enter_monitor:threads.c">
+      </ContextState>
+      <ContextState
+         contextName = "pop_ref:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "switch_thread:threads.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "threadQ[j]">
+            </PersistentString>
+            <PersistentString
+               value = "previousThread">
+            </PersistentString>
+            <PersistentString
+               value = "word2ptr(previousThread-&gt;nextThread)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "enqueue_thread:threads.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "((unsigned long)thread-&gt;nextThread)+(unsigned long)0xFFFFFFFF">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "memory_add_region:memory.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "region">
+            </PersistentString>
+            <PersistentString
+               value = "start">
+            </PersistentString>
+            <PersistentString
+               value = "end">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "try_allocate:memory.c">
+      </ContextState>
+      <ContextState
+         contextName = "set_local_ref:stack.h">
+      </ContextState>
+      <ContextState
+         contextName = "current_stackframe:threads.c">
+      </ContextState>
+      <ContextState
+         contextName = "dup:stack.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "stackTop-2">
+            </PersistentString>
+            <PersistentString
+               value = "stackTop+1">
+            </PersistentString>
+            <PersistentString
+               value = "stackTop-1">
+            </PersistentString>
+            <PersistentString
+               value = "stackTop+2">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "create_string:interpreter.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "(String*)ref">
+            </PersistentString>
+            <PersistentString
+               value = "sp">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "mark_reference_fields:memory.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "_unmap(get_word( statePtr, 4))">
+            </PersistentString>
+            <PersistentString
+               value = "sizeof(Object)">
+            </PersistentString>
+            <PersistentString
+               value = "(STACKWORD*)statePtr">
+            </PersistentString>
+            <PersistentString
+               value = "region-&gt;end">
+            </PersistentString>
+            <PersistentString
+               value = "(void*)(0x0000631000e8b6ae)">
+            </PersistentString>
+            <PersistentString
+               value = "max_heap_size_bytes">
+            </PersistentString>
+            <PersistentString
+               value = " ((HEADER_SIZE + 1) / 2)">
+            </PersistentString>
+            <PersistentString
+               value = "word">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "run:tvmemul.c">
+      </ContextState>
+      <ContextState
+         contextName = "push_word:stack.h">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

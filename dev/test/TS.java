@@ -24,7 +24,7 @@ public class TS {
         for (int i=0; i<s.length(); ++i)
         	System.out.write(s.charAt(i));
         
-        s = NULL;
+        s = null;
         System.out.println(s);        
         
 //        float v5 = 3.333333F;

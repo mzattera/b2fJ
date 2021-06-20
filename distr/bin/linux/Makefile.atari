@@ -1,0 +1,40 @@
+B2FJ_HOME=../..
+CURRENT_DIR=$(shell pwd)
+VMSRC=$(B2FJ_HOME)/src/javavm
+PLATFORMSRC=$(B2FJ_HOME)/src/platform/atari
+BIN_TARGET=$(CURRENT_DIR)
+
+CC=cl65
+LD=cl65
+TARGET=atarixl
+CONFIG=atarixl-xex-b2fj
+
+CC-FLAGS=-t ${TARGET} -C ${CONFIG}.cfg -I $(B2FJ_HOME)/src/javavm -I $(PLATFORMSRC) -I $(B2FJ_HOME)/src/util -Osi --codesize 100 -D__SYSTEM_CHECK__=1 -W -unused-param,-unused-var
+LD-FLAGS=-D__SYSTEM_CHECK__=1 -C ${CONFIG}.cfg
+
+VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \
+	   memory.o nativeemul.o  \
+           threads.o tvmemul.o
+
+IMAGE_TARGET=$(BIN_TARGET)/b2fj.xex
+
+default: programs
+
+programs: ${IMAGE_TARGET}
+
+platform_native.o: ${PLATFORMSRC}/platform_native.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/platform_native.o -c ${PLATFORMSRC}/platform_native.c
+
+main.o: ${PLATFORMSRC}/main.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/main.o -c ${PLATFORMSRC}/main.c
+
+%.o: $(VMSRC)/%.c
+	${CC} ${CC-FLAGS} -o $(BIN_TARGET)/$*.o -c $(VMSRC)/$*.c
+
+${IMAGE_TARGET}: ${VMEMUL_OBJ}
+	${LD} ${LD-FLAGS} -o ${IMAGE_TARGET} ${VMEMUL_OBJ} ${TARGET}.lib
+# ${CONFIG}.lib
+
+clean:
+	rm -rf ${VMSRC}/*.o *.o ${IMAGE_TARGET}
+

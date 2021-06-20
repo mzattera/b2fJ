@@ -53,7 +53,7 @@
 		destdir="${build.tmp}/classes" 
 		fork="yes" 
 		optimize="on" 
-		debug="on"
+		debug="off"
 		release="${b2fJ.java.version}"
 	/>
     <jar destfile="${lib}/classes.jar" basedir="${build.tmp}/classes" update="false"/>

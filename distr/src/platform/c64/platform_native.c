@@ -64,23 +64,32 @@ char int2nativeChar(int c)
 		return (c - 32);
 
 	/* Special chars; represented with graphical PETSCII chars */
-	if (c == 10) // New line
-		return 13;
-	if (c == 92) // backslash
-		return 191;
-	if (c == 95) // _
-		return 164;
-	if (c == 96) // `
-		return 173;
-	if (c == 123) // {
-		return 179;
-	if (c == 124) // |
-		return 221;
-	if (c == 125) // }
-		return 171;
-	if (c == 126) // ~
-		return 177;
-
+	switch(c) {
+		case 10: // New line
+			return 13;
+			break;
+		case 92: // backslash
+			return 191;
+			break;
+		case 95: // _
+			return 164;
+			break;
+		case 96: // `
+			return 173;
+			break;
+		case 123: // {
+			return 179;
+			break;
+		case 124: // |
+			return 221;
+			break;
+		case 125:  // }
+			return 171;
+			break;            
+		case 126:// ~
+			return 177;
+			break;  
+	}
 	return c;
 }
 
@@ -89,6 +98,7 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 {
 	switch (signature)
 	{
+		/*
 	case putCharToStdout0_4I_5V:
 		putc(int2nativeChar((int)paramBase[0]), stdout);
 		return true;
@@ -107,6 +117,22 @@ bool dispatch_platform_native(TWOBYTES signature, STACKWORD *paramBase)
 			}
 		}		
 		return true;
+    case putBytesToStdout0_4_1BII_5V:
+		{
+			Object *obj = word2ptr(paramBase[0]);
+			if (obj != NULL) {
+				byte *pA = (((byte *) obj) + HEADER_SIZE);
+				int length = get_array_length(obj);
+				int off = paramBase[1];
+				int len = paramBase[2];
+				int i = 0;
+				for (i = off; (i < off + len) && (i<length) ; i++) {
+					putc(int2nativeChar((int)pA[i]), stdout);		
+				}
+			}
+		}
+		return true;
+		*/
 	case peek_4I_5I:
 		push_word(*((byte*)word2ptr(paramBase[0])));
 		return true;

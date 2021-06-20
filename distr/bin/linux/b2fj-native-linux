@@ -1,0 +1,39 @@
+#!/bin/bash
+
+exit_on_error() {
+    exit_code=$1
+    last_command=${@:2}
+    if [ $exit_code -ne 0 ]; then
+        >&2 echo "\"${last_command}\" command failed with exit code ${exit_code}."
+        exit $exit_code
+    fi
+}
+
+# enable !! command completion
+set -o history -o histexpand
+
+echo
+echo ===== b2fj .class to C =====
+echo
+
+# home of the b2fj installation
+
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+CURRENT_DIR=`pwd`
+
+echo "  b2fJ Home: $B2FJ_HOME"
+
+cd "$B2FJ_HOME"/bin/linux
+make -f Makefile.linux clean
+make -f Makefile.linux
+exit_on_error $? !!
+mv b2fj "$CURRENT_DIR"
+
+rm *.o
+
+echo ============================
+echo DONE.
+
+
+

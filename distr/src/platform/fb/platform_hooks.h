@@ -38,6 +38,8 @@ extern void handle_uncaught_exception(Object *exception,
 */
 #define dispatch_platform_native(signature, paramBase)	false
 
+#define int2nativeChar(c)  c
+
 /* Returns current time in millis */
 /* extern FOURBYTES get_sys_time(void); */
 #define get_sys_time() ((FOURBYTES)(clock() * 1000 / CLOCKS_PER_SEC))
@@ -63,5 +65,8 @@ extern void handle_uncaught_exception(Object *exception,
 
 /* static __INLINED void switch_thread_hook() */
 #define switch_thread_hook()	;
+
+#define map(x) x
+#define unmap(x) x
 
 #endif // _PLATFORM_HOOKS_H

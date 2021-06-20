@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+
+abort()
+{
+    echo >&2 '
+*** ABORTED ***
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+echo
+echo ===== b2fj .class to C =====
+echo
+
+# home of the b2fj installation
+
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+CURRENT_DIR=`pwd`
+
+echo "  b2fJ Home: $B2FJ_HOME"
+
+b2fj-compiler $1.java
+b2fj-linker $1
+b2fj-native-linux
+mv b2fj $1
+./$1
+
+trap : 0
+
+echo >&2 '
+*** DONE *** 
+'

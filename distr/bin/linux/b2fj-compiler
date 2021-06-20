@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+
+abort()
+{
+    echo >&2 '
+***************
+*** ABORTED ***
+***************
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+trap 'abort' 0
+
+echo
+echo ===== b2fJ .java to .class =====
+echo
+
+# home of the b2fJ installation
+B2FJ_HOME="`dirname \"$0\"`"              # relative
+B2FJ_HOME="`( cd \"$B2FJ_HOME"/../.. && pwd )`"  # absolutized and normalized
+
+echo "Home: $B2FJ_HOME"
+
+# home of the jdk to use for compiling
+JC=javac
+echo "  Java CLASSPATH: $CLASSPATH"
+
+echo
+echo Launching compilaton:
+echo
+
+"$JC" -g:none -source 1.8 -target 1.8 -bootclasspath "$B2FJ_HOME/lib/classes.jar" -classpath ".:$CLASSPATH" "$@"
+
+
+trap : 0
+echo >&2 '
+*** DONE *** 
+'

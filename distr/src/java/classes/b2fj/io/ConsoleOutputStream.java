@@ -29,13 +29,19 @@ public class ConsoleOutputStream extends OutputStream {
 
 	private ConsoleOutputStream() {
 	}
-
 	/**
 	 * Writes a char using printf().
 	 * 
 	 * @param b
 	 */
 	private static native void putCharToStdout0(int b);
+
+	/**
+	 * Writes bytes to console.
+	 * 
+	 * @param b
+	 */
+	private static native void putBytesToStdout0(byte[] b, int off, int len);
 
 	/**
 	 * Writes the specified byte to this output stream. The general contract for
@@ -97,7 +103,7 @@ public class ConsoleOutputStream extends OutputStream {
 	 *                        stream is closed.
 	 */
 	public synchronized void write(byte b[], int off, int len) {
-		for (int i = off; i < off + len; putCharToStdout0(b[i++]))
-			;
+		//for (int i = off; i < off + len; putCharToStdout0(b[i++]));
+		putBytesToStdout0(b,off,len);
 	}
 }

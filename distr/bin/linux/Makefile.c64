@@ -1,0 +1,37 @@
+B2FJ_HOME=../../
+CURRENT_DIR=$(shell pwd)
+VMSRC=$(B2FJ_HOME)/src/javavm
+PLATFORMSRC=$(B2FJ_HOME)/src/platform/c64
+BIN_TARGET=$(CURRENT_DIR)
+
+LD=ld65
+
+CC=cl65
+
+CC_FLAGS=-t c64 -I $(B2FJ_HOME)/src/javavm -I $(PLATFORMSRC) -I $(B2FJ_HOME)/src/util -Oi -W -unused-param,-unused-var
+LD_FLAGS=-t c64
+
+VMEMUL_OBJ=platform_native.o interpreter.o exceptions.o language.o main.o \
+	   memory.o nativeemul.o  \
+           threads.o trace.o tvmemul.o
+
+IMAGE_TARGET=$(BIN_TARGET)/b2fj.prg
+
+default: all
+
+all: ${IMAGE_TARGET}
+
+platform_native.o: ${PLATFORMSRC}/platform_native.c
+	${CC} ${CC_FLAGS} -o $(BIN_TARGET)/platform_native.o -c ${PLATFORMSRC}/platform_native.c
+
+main.o: ${PLATFORMSRC}/main.c
+	${CC} ${CC_FLAGS} -o $(BIN_TARGET)/main.o -c ${PLATFORMSRC}/main.c
+
+%.o: $(VMSRC)/%.c
+	${CC} ${CC_FLAGS} -o $(BIN_TARGET)/$*.o -c $(VMSRC)/$*.c
+
+${IMAGE_TARGET}: ${VMEMUL_OBJ}
+	${LD} ${LD_FLAGS} -o ${IMAGE_TARGET} ${VMEMUL_OBJ} c64.lib
+
+clean:
+	rm -rf ${VMSRC}/*.o *.o $(BIN_TARGET)/emu-*.exe core ${DUMP_TARGET} ${VMEMUL_TARGET}
